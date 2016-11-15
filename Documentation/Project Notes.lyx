@@ -476,8 +476,142 @@ Collection of nodes with edge weights as grid driving distance (truck and
  only go north/south or east/west.)
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Subsection
+Packages
+\end_layout
 
+\begin_layout Itemize
+Age variable for two-day or regular packages.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Birthdate or mail dates.
+\end_layout
+
+\begin_layout Itemize
+Prevents late packages.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Style
+\end_layout
+
+\begin_layout Itemize
+Classes (method) and object names are initial capitalized (MyClass)
+\end_layout
+
+\begin_layout Itemize
+Class member variables are initial lowercase (myVar)
+\end_layout
+
+\begin_layout Itemize
+All variables, functions, methods, etc are camelCase.
+\end_layout
+
+\begin_layout Itemize
+Following Qt Doxygen style.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "Doxygen documentation"
+target "http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html"
+
+\end_inset
+
+
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Classes
+\end_layout
+
+\begin_layout Itemize
+Client class
+\end_layout
+
+\begin_layout Itemize
+Package class
+\end_layout
+
+\begin_layout Itemize
+Truck class
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Weight initialize
+\end_layout
+
+\begin_layout Itemize
+Trucks are contained in a vector
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Multiple trucks are passed to other class objects
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Map class
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Creates adjacency list of packages.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Routing class (algorithm)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Truck vector is passed to the algorithm
+\end_layout
+
+\begin_layout Itemize
+Map graph adjacency list is passed to the algorithm
+\end_layout
+
+\begin_layout Itemize
+Routing algorithm loads truck based on 
+\begin_inset Quotes eld
+\end_inset
+
+something
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Chapter
+Input Files
+\end_layout
+
+\begin_layout Standard
+Comma separated list of packages to deliver.
+\end_layout
+
+\begin_layout Itemize
+Each line includes the sender and receiver.
 \end_layout
 
 \end_body
