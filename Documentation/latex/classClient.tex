@@ -22,11 +22,11 @@ void \hyperlink{classClient_a8a035b3e170849283f8b130965c5fa75}{set\+Address} (co
 \begin{DoxyCompactList}\small\item\em Setter for address. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a291fb22c4fccb2a6b182c355078553ed}{get\+Address} () const 
 \begin{DoxyCompactList}\small\item\em Getter for address. \end{DoxyCompactList}\item 
-void \hyperlink{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}{send\+Package} (const \hyperlink{classPackage}{Package} \&pack)
+void \hyperlink{classClient_a2127f6355c6d4fe400f3dd314e1fabc8}{send\+Package} (\hyperlink{classPackage}{Package} $\ast$pack)
 \begin{DoxyCompactList}\small\item\em Add a sent package. \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aff47cd6d18feba4c43f7ff495d73f495}{get\+Sent\+Packages} () const 
 \begin{DoxyCompactList}\small\item\em Get sent packages. \end{DoxyCompactList}\item 
-void \hyperlink{classClient_a13897295cfe2b0d25b947b6ddf70e563}{receive\+Package} (const \hyperlink{classPackage}{Package} \&pack)
+void \hyperlink{classClient_a1726c784a1c19701a13e12333cf906e5}{receive\+Package} (\hyperlink{classPackage}{Package} $\ast$pack)
 \begin{DoxyCompactList}\small\item\em Add a received package. \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aae2dee02f0951f418941234103c275ef}{get\+Received\+Packages} () const 
 \begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -122,11 +122,11 @@ Vector of sent packages
 \end{DoxyReturn}
 \index{Client@{Client}!receive\+Package@{receive\+Package}}
 \index{receive\+Package@{receive\+Package}!Client@{Client}}
-\subsubsection[{\texorpdfstring{receive\+Package(const Package \&pack)}{receivePackage(const Package &pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::receive\+Package (
+\subsubsection[{\texorpdfstring{receive\+Package(\+Package $\ast$pack)}{receivePackage(Package *pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::receive\+Package (
 \begin{DoxyParamCaption}
-\item[{const {\bf Package} \&}]{pack}
+\item[{{\bf Package} $\ast$}]{pack}
 \end{DoxyParamCaption}
-)}\hypertarget{classClient_a13897295cfe2b0d25b947b6ddf70e563}{}\label{classClient_a13897295cfe2b0d25b947b6ddf70e563}
+)}\hypertarget{classClient_a1726c784a1c19701a13e12333cf906e5}{}\label{classClient_a1726c784a1c19701a13e12333cf906e5}
 
 
 Add a received package. 
@@ -138,11 +138,11 @@ Add a received package.
 \end{DoxyParams}
 \index{Client@{Client}!send\+Package@{send\+Package}}
 \index{send\+Package@{send\+Package}!Client@{Client}}
-\subsubsection[{\texorpdfstring{send\+Package(const Package \&pack)}{sendPackage(const Package &pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::send\+Package (
+\subsubsection[{\texorpdfstring{send\+Package(\+Package $\ast$pack)}{sendPackage(Package *pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::send\+Package (
 \begin{DoxyParamCaption}
-\item[{const {\bf Package} \&}]{pack}
+\item[{{\bf Package} $\ast$}]{pack}
 \end{DoxyParamCaption}
-)}\hypertarget{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}{}\label{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}
+)}\hypertarget{classClient_a2127f6355c6d4fe400f3dd314e1fabc8}{}\label{classClient_a2127f6355c6d4fe400f3dd314e1fabc8}
 
 
 Add a sent package. 

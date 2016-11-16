@@ -112,15 +112,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a291fb22c4fccb2a6b182c355078553ed"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#a291fb22c4fccb2a6b182c355078553ed">getAddress</a> () const </td></tr>
 <tr class="memdesc:a291fb22c4fccb2a6b182c355078553ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for address.  <a href="#a291fb22c4fccb2a6b182c355078553ed">More...</a><br /></td></tr>
 <tr class="separator:a291fb22c4fccb2a6b182c355078553ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c2013e38135e9b9c4f0562e6e4393b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#a7c2013e38135e9b9c4f0562e6e4393b9">sendPackage</a> (const <a class="el" href="classPackage.html">Package</a> &amp;pack)</td></tr>
-<tr class="memdesc:a7c2013e38135e9b9c4f0562e6e4393b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sent package.  <a href="#a7c2013e38135e9b9c4f0562e6e4393b9">More...</a><br /></td></tr>
-<tr class="separator:a7c2013e38135e9b9c4f0562e6e4393b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2127f6355c6d4fe400f3dd314e1fabc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#a2127f6355c6d4fe400f3dd314e1fabc8">sendPackage</a> (<a class="el" href="classPackage.html">Package</a> *pack)</td></tr>
+<tr class="memdesc:a2127f6355c6d4fe400f3dd314e1fabc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sent package.  <a href="#a2127f6355c6d4fe400f3dd314e1fabc8">More...</a><br /></td></tr>
+<tr class="separator:a2127f6355c6d4fe400f3dd314e1fabc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff47cd6d18feba4c43f7ff495d73f495"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classPackage.html">Package</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#aff47cd6d18feba4c43f7ff495d73f495">getSentPackages</a> () const </td></tr>
 <tr class="memdesc:aff47cd6d18feba4c43f7ff495d73f495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get sent packages.  <a href="#aff47cd6d18feba4c43f7ff495d73f495">More...</a><br /></td></tr>
 <tr class="separator:aff47cd6d18feba4c43f7ff495d73f495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13897295cfe2b0d25b947b6ddf70e563"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#a13897295cfe2b0d25b947b6ddf70e563">receivePackage</a> (const <a class="el" href="classPackage.html">Package</a> &amp;pack)</td></tr>
-<tr class="memdesc:a13897295cfe2b0d25b947b6ddf70e563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a received package.  <a href="#a13897295cfe2b0d25b947b6ddf70e563">More...</a><br /></td></tr>
-<tr class="separator:a13897295cfe2b0d25b947b6ddf70e563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1726c784a1c19701a13e12333cf906e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#a1726c784a1c19701a13e12333cf906e5">receivePackage</a> (<a class="el" href="classPackage.html">Package</a> *pack)</td></tr>
+<tr class="memdesc:a1726c784a1c19701a13e12333cf906e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a received package.  <a href="#a1726c784a1c19701a13e12333cf906e5">More...</a><br /></td></tr>
+<tr class="separator:a1726c784a1c19701a13e12333cf906e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae2dee02f0951f418941234103c275ef"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classPackage.html">Package</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClient.html#aae2dee02f0951f418941234103c275ef">getReceivedPackages</a> () const </td></tr>
 <tr class="memdesc:aae2dee02f0951f418941234103c275ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get received packages.  <a href="#aae2dee02f0951f418941234103c275ef">More...</a><br /></td></tr>
 <tr class="separator:aae2dee02f0951f418941234103c275ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,14 +239,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a13897295cfe2b0d25b947b6ddf70e563"></a>
+<a class="anchor" id="a1726c784a1c19701a13e12333cf906e5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Client::receivePackage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classPackage.html">Package</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classPackage.html">Package</a> *&#160;</td>
           <td class="paramname"><em>pack</em></td><td>)</td>
           <td></td>
         </tr>
@@ -263,14 +263,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7c2013e38135e9b9c4f0562e6e4393b9"></a>
+<a class="anchor" id="a2127f6355c6d4fe400f3dd314e1fabc8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void Client::sendPackage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classPackage.html">Package</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classPackage.html">Package</a> *&#160;</td>
           <td class="paramname"><em>pack</em></td><td>)</td>
           <td></td>
         </tr>
