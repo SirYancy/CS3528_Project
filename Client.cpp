@@ -80,7 +80,8 @@ vector<Package *> Client::getReceivedPackages() const
 //! Insertion Operator
 /*!
  \param output output stream
- \param client client object to output.
+ \param client client object to print
+ \return output stream
  */
 ostream& operator<<(ostream& output, const Client& client)
 {

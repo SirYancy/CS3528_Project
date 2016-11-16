@@ -21,6 +21,9 @@ Package::Package(
     : sender(s), receiver(r), priority(p)
 { 
     setWeight(w);
+    
+    s->sendPackage(this);
+    r->receivePackage(this);
 }
 
 //! Sender setter
@@ -96,4 +99,34 @@ Package::Priority Package::getPriority() const
     return priority;
 }
 
+//! Priority string getter
+/*!
+ * Priority is an enum and hence is actually an int. Here's a nice way to print the string value.
+ \return string of priority
+ */
+string Package::getPriorityString() const
+{
+    switch(priority)
+    {
+        case Package::REGULAR: return "Regular";
+        case Package::TWO_DAY: return "Two Day";
+        case Package::OVERNIGHT: return "Overnight";
+    }
+}
 
+//! Insertion Operator
+/*!
+ \param output output stream
+ \param package package object to print
+ \return output stream
+ */
+ostream& operator<<(ostream& output, const Package& pack)
+{
+    output << "Sender:" << endl
+        << *pack.sender << endl
+        << "Receiver:" << endl
+        << *pack.receiver << endl
+        << "Weight: " << pack.weight << endl
+        << "Priority: " << pack.getPriorityString() << endl;
+    return output;
+}

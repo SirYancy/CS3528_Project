@@ -28,8 +28,10 @@
 \indexentry{get\+Sender@{get\+Sender}!Package@{Package}|hyperpage}{9}
 \indexentry{Package@{Package}!get\+Weight@{get\+Weight}|hyperpage}{9}
 \indexentry{get\+Weight@{get\+Weight}!Package@{Package}|hyperpage}{9}
-\indexentry{Package@{Package}!set\+Priority@{set\+Priority}|hyperpage}{9}
-\indexentry{set\+Priority@{set\+Priority}!Package@{Package}|hyperpage}{9}
+\indexentry{Package@{Package}!priority\+To\+String@{priority\+To\+String}|hyperpage}{9}
+\indexentry{priority\+To\+String@{priority\+To\+String}!Package@{Package}|hyperpage}{9}
+\indexentry{Package@{Package}!set\+Priority@{set\+Priority}|hyperpage}{10}
+\indexentry{set\+Priority@{set\+Priority}!Package@{Package}|hyperpage}{10}
 \indexentry{Package@{Package}!set\+Receiver@{set\+Receiver}|hyperpage}{10}
 \indexentry{set\+Receiver@{set\+Receiver}!Package@{Package}|hyperpage}{10}
 \indexentry{Package@{Package}!set\+Sender@{set\+Sender}|hyperpage}{10}

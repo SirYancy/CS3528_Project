@@ -38,10 +38,13 @@
     \subitem {get\+Sender}, \hyperpage{9}
     \subitem {get\+Weight}, \hyperpage{9}
     \subitem {Package}, \hyperpage{8}
-    \subitem {set\+Priority}, \hyperpage{9}
+    \subitem {priority\+To\+String}, \hyperpage{9}
+    \subitem {set\+Priority}, \hyperpage{10}
     \subitem {set\+Receiver}, \hyperpage{10}
     \subitem {set\+Sender}, \hyperpage{10}
     \subitem {set\+Weight}, \hyperpage{10}
+  \item {priority\+To\+String}
+    \subitem {Package}, \hyperpage{9}
 
   \indexspace
 
@@ -57,7 +60,7 @@
   \item {set\+Name}
     \subitem {Client}, \hyperpage{7}
   \item {set\+Priority}
-    \subitem {Package}, \hyperpage{9}
+    \subitem {Package}, \hyperpage{10}
   \item {set\+Receiver}
     \subitem {Package}, \hyperpage{10}
   \item {set\+Sender}

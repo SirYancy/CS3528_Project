@@ -38,7 +38,15 @@ double \hyperlink{classPackage_a2da083a8cab4c978c22c49ac46226aee}{get\+Weight} (
 void \hyperlink{classPackage_afe16b4fbff0a050019ddf47978001464}{set\+Priority} (const Priority)
 \begin{DoxyCompactList}\small\item\em Priority setter. \end{DoxyCompactList}\item 
 Priority \hyperlink{classPackage_accf52df9d08053e7c1c126d747e6beb0}{get\+Priority} () const 
-\begin{DoxyCompactList}\small\item\em Priority getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Priority getter. \end{DoxyCompactList}\item 
+string \hyperlink{classPackage_a558ee366c96465aa18e070e29d495a97}{priority\+To\+String} () const 
+\begin{DoxyCompactList}\small\item\em Priority to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classPackage_a597c8930017d318dc99060084653366d}{operator$<$$<$} (std\+::ostream \&, const \hyperlink{classPackage}{Package} \&)\hypertarget{classPackage_a597c8930017d318dc99060084653366d}{}\label{classPackage_a597c8930017d318dc99060084653366d}
+
+\begin{DoxyCompactList}\small\item\em Insertion Operator Override. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -134,6 +142,22 @@ Weight getter.
 
 \begin{DoxyReturn}{Returns}
 \hyperlink{classPackage}{Package} weight 
+\end{DoxyReturn}
+\index{Package@{Package}!priority\+To\+String@{priority\+To\+String}}
+\index{priority\+To\+String@{priority\+To\+String}!Package@{Package}}
+\subsubsection[{\texorpdfstring{priority\+To\+String() const }{priorityToString() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Package\+::priority\+To\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_a558ee366c96465aa18e070e29d495a97}{}\label{classPackage_a558ee366c96465aa18e070e29d495a97}
+
+
+Priority to string. 
+
+Priority to String.
+
+Priority is an enum and hence is actually an int. Here\textquotesingle{}s a nice way to print the string value. \begin{DoxyReturn}{Returns}
+string of priority 
 \end{DoxyReturn}
 \index{Package@{Package}!set\+Priority@{set\+Priority}}
 \index{set\+Priority@{set\+Priority}!Package@{Package}}

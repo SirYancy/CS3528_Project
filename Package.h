@@ -12,6 +12,9 @@ class Client;
  * This Package class defines a package which was sent by a Client and received by a Client. Each package has a priority, a weight, and two clients (a sender and receiver).
  */
 class Package{
+    //! Insertion Operator Override
+    friend std::ostream& operator<<(std::ostream&, const Package&);
+
     public:
         enum Priority{
             REGULAR,
@@ -41,6 +44,8 @@ class Package{
         void setPriority(const Priority);
         //! Priority getter
         Priority getPriority() const;
+        //! Priority string getter
+        string getPriorityString() const;
 
     private:
         Client *sender;

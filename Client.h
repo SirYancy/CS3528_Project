@@ -12,10 +12,9 @@ class Package;
  * This client class defines a citizen of the town who can send and receive packages. Each person has a name, address, and vectors representing records of all packages sent and received.
  */
 class Client{
-    //! Ostream Operator override
+    //! Insertion Operator override
     friend std::ostream& operator<<(std::ostream&, const Client&);
         
-
     public:
         //! Client basic constructor
         /*!

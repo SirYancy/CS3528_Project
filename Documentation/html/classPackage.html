@@ -85,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classPackage-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Package Class Reference</div>  </div>
@@ -133,6 +134,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:accf52df9d08053e7c1c126d747e6beb0"><td class="memItemLeft" align="right" valign="top">Priority&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#accf52df9d08053e7c1c126d747e6beb0">getPriority</a> () const </td></tr>
 <tr class="memdesc:accf52df9d08053e7c1c126d747e6beb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority getter.  <a href="#accf52df9d08053e7c1c126d747e6beb0">More...</a><br /></td></tr>
 <tr class="separator:accf52df9d08053e7c1c126d747e6beb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a558ee366c96465aa18e070e29d495a97"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a558ee366c96465aa18e070e29d495a97">priorityToString</a> () const </td></tr>
+<tr class="memdesc:a558ee366c96465aa18e070e29d495a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority to string.  <a href="#a558ee366c96465aa18e070e29d495a97">More...</a><br /></td></tr>
+<tr class="separator:a558ee366c96465aa18e070e29d495a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a597c8930017d318dc99060084653366d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a597c8930017d318dc99060084653366d"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a597c8930017d318dc99060084653366d">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="classPackage.html">Package</a> &amp;)</td></tr>
+<tr class="memdesc:a597c8930017d318dc99060084653366d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insertion Operator Override. <br /></td></tr>
+<tr class="separator:a597c8930017d318dc99060084653366d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classPackage.html" title="Package class. ">Package</a> class. </p>
@@ -259,6 +270,25 @@ Public Member Functions</h2></td></tr>
 <p>Weight getter. </p>
 <p><a class="el" href="classPackage.html" title="Package class. ">Package</a> Weight getter.</p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classPackage.html" title="Package class. ">Package</a> weight </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a558ee366c96465aa18e070e29d495a97"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Package::priorityToString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Priority to string. </p>
+<p>Priority to String.</p>
+<p>Priority is an enum and hence is actually an int. Here's a nice way to print the string value. </p><dl class="section return"><dt>Returns</dt><dd>string of priority </dd></dl>
 
 </div>
 </div>
