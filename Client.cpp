@@ -47,7 +47,7 @@ string Client::getAddress() const{
 
 //! Add a sent package
 /*!
- \param pointer to package
+ \param pack pointer to package
  */
 void Client::sendPackage(Package *pack){
     sentPackages.push_back(pack);
@@ -62,7 +62,7 @@ vector<Package *> Client::getSentPackages() const{
 
 //! Add a received package
 /*!
- \param pointer to package
+ \param pack pointer to package
  */
 void Client::receivePackage(Package *pack){
     receivedPackages.push_back(pack);
