@@ -1,0 +1,214 @@
+\hypertarget{classPackage}{}\section{Package Class Reference}
+\label{classPackage}\index{Package@{Package}}
+
+
+\hyperlink{classPackage}{Package} class.  
+
+
+
+
+{\ttfamily \#include $<$Package.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Priority} \{ {\bfseries R\+E\+G\+U\+L\+AR}, 
+{\bfseries T\+W\+O\+\_\+\+D\+AY}, 
+{\bfseries O\+V\+E\+R\+N\+I\+G\+HT}
+ \}\hypertarget{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{}\label{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPackage_af450657156caeed9e52191dab9d81af9}{Package} (\hyperlink{classClient}{Client} \&s, \hyperlink{classClient}{Client} \&r, double w, Priority p)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classPackage_af9b48c577bb6045c2cbc97d09f76e973}{$\sim$\+Package} ()\hypertarget{classPackage_af9b48c577bb6045c2cbc97d09f76e973}{}\label{classPackage_af9b48c577bb6045c2cbc97d09f76e973}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \hyperlink{classPackage_aeb8cb5056e6ad6850147c7ad850e60d9}{set\+Sender} (const \hyperlink{classClient}{Client} \&s)
+\begin{DoxyCompactList}\small\item\em Sender setter. \end{DoxyCompactList}\item 
+\hyperlink{classClient}{Client} $\ast$ \hyperlink{classPackage_a1e603126edbbd5c82c676eb0e6805554}{get\+Sender} () const 
+\begin{DoxyCompactList}\small\item\em Sender getter. \end{DoxyCompactList}\item 
+void \hyperlink{classPackage_a94ad72f9e091e10b494ab0131be7998a}{set\+Receiver} (const \hyperlink{classClient}{Client} \&r)
+\begin{DoxyCompactList}\small\item\em Receiver setter. \end{DoxyCompactList}\item 
+\hyperlink{classClient}{Client} $\ast$ \hyperlink{classPackage_a02e9aee9f9e10b6b6ba124df61bd289d}{get\+Receiver} () const 
+\begin{DoxyCompactList}\small\item\em Receiver getter. \end{DoxyCompactList}\item 
+void \hyperlink{classPackage_ab5fc0c4ff15151713ff49f75caa81a13}{set\+Weight} (const double w)
+\begin{DoxyCompactList}\small\item\em Weight setter. \end{DoxyCompactList}\item 
+double \hyperlink{classPackage_a2da083a8cab4c978c22c49ac46226aee}{get\+Weight} () const 
+\begin{DoxyCompactList}\small\item\em Weight getter. \end{DoxyCompactList}\item 
+void \hyperlink{classPackage_a2a3ec22692ea9449aba6c4f53e826427}{set\+Priority} (const Priority p)
+\begin{DoxyCompactList}\small\item\em Priority setter. \end{DoxyCompactList}\item 
+Priority \hyperlink{classPackage_accf52df9d08053e7c1c126d747e6beb0}{get\+Priority} () const 
+\begin{DoxyCompactList}\small\item\em Priority getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classPackage}{Package} class. 
+
+This \hyperlink{classPackage}{Package} class defines a package which was sent by a \hyperlink{classClient}{Client} and received by a \hyperlink{classClient}{Client}. Each package has a priority, a weight, and two clients (a sender and receiver). 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Package@{Package}!Package@{Package}}
+\index{Package@{Package}!Package@{Package}}
+\subsubsection[{\texorpdfstring{Package(\+Client \&s, Client \&r, double w, Priority p)}{Package(Client &s, Client &r, double w, Priority p)}}]{\setlength{\rightskip}{0pt plus 5cm}Package\+::\+Package (
+\begin{DoxyParamCaption}
+\item[{{\bf Client} \&}]{s, }
+\item[{{\bf Client} \&}]{r, }
+\item[{double}]{w, }
+\item[{Priority}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{classPackage_af450657156caeed9e52191dab9d81af9}{}\label{classPackage_af450657156caeed9e52191dab9d81af9}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Sender \hyperlink{classClient}{Client} \\
+\hline
+{\em r} & Receiver \hyperlink{classClient}{Client} \\
+\hline
+{\em w} & \hyperlink{classPackage}{Package} weight \\
+\hline
+{\em p} & \hyperlink{classPackage}{Package} priority \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{Package@{Package}!get\+Priority@{get\+Priority}}
+\index{get\+Priority@{get\+Priority}!Package@{Package}}
+\subsubsection[{\texorpdfstring{get\+Priority() const }{getPriority() const }}]{\setlength{\rightskip}{0pt plus 5cm}Package\+::\+Priority Package\+::get\+Priority (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_accf52df9d08053e7c1c126d747e6beb0}{}\label{classPackage_accf52df9d08053e7c1c126d747e6beb0}
+
+
+Priority getter. 
+
+\hyperlink{classPackage}{Package} priority getter.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPackage}{Package} priority 
+\end{DoxyReturn}
+\index{Package@{Package}!get\+Receiver@{get\+Receiver}}
+\index{get\+Receiver@{get\+Receiver}!Package@{Package}}
+\subsubsection[{\texorpdfstring{get\+Receiver() const }{getReceiver() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Client} $\ast$ Package\+::get\+Receiver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_a02e9aee9f9e10b6b6ba124df61bd289d}{}\label{classPackage_a02e9aee9f9e10b6b6ba124df61bd289d}
+
+
+Receiver getter. 
+
+\begin{DoxyReturn}{Returns}
+pointer to receiver client 
+\end{DoxyReturn}
+\index{Package@{Package}!get\+Sender@{get\+Sender}}
+\index{get\+Sender@{get\+Sender}!Package@{Package}}
+\subsubsection[{\texorpdfstring{get\+Sender() const }{getSender() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Client} $\ast$ Package\+::get\+Sender (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_a1e603126edbbd5c82c676eb0e6805554}{}\label{classPackage_a1e603126edbbd5c82c676eb0e6805554}
+
+
+Sender getter. 
+
+\begin{DoxyReturn}{Returns}
+pointer to sender client 
+\end{DoxyReturn}
+\index{Package@{Package}!get\+Weight@{get\+Weight}}
+\index{get\+Weight@{get\+Weight}!Package@{Package}}
+\subsubsection[{\texorpdfstring{get\+Weight() const }{getWeight() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Package\+::get\+Weight (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_a2da083a8cab4c978c22c49ac46226aee}{}\label{classPackage_a2da083a8cab4c978c22c49ac46226aee}
+
+
+Weight getter. 
+
+\hyperlink{classPackage}{Package} Weight getter.
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPackage}{Package} weight 
+\end{DoxyReturn}
+\index{Package@{Package}!set\+Priority@{set\+Priority}}
+\index{set\+Priority@{set\+Priority}!Package@{Package}}
+\subsubsection[{\texorpdfstring{set\+Priority(const Priority p)}{setPriority(const Priority p)}}]{\setlength{\rightskip}{0pt plus 5cm}void Package\+::set\+Priority (
+\begin{DoxyParamCaption}
+\item[{const Priority}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{classPackage_a2a3ec22692ea9449aba6c4f53e826427}{}\label{classPackage_a2a3ec22692ea9449aba6c4f53e826427}
+
+
+Priority setter. 
+
+\hyperlink{classPackage}{Package} Priority setter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Priority enum \\
+\hline
+\end{DoxyParams}
+\index{Package@{Package}!set\+Receiver@{set\+Receiver}}
+\index{set\+Receiver@{set\+Receiver}!Package@{Package}}
+\subsubsection[{\texorpdfstring{set\+Receiver(const Client \&r)}{setReceiver(const Client &r)}}]{\setlength{\rightskip}{0pt plus 5cm}void Package\+::set\+Receiver (
+\begin{DoxyParamCaption}
+\item[{const {\bf Client} \&}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{classPackage_a94ad72f9e091e10b494ab0131be7998a}{}\label{classPackage_a94ad72f9e091e10b494ab0131be7998a}
+
+
+Receiver setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & pointer to receiver client \\
+\hline
+\end{DoxyParams}
+\index{Package@{Package}!set\+Sender@{set\+Sender}}
+\index{set\+Sender@{set\+Sender}!Package@{Package}}
+\subsubsection[{\texorpdfstring{set\+Sender(const Client \&s)}{setSender(const Client &s)}}]{\setlength{\rightskip}{0pt plus 5cm}void Package\+::set\+Sender (
+\begin{DoxyParamCaption}
+\item[{const {\bf Client} \&}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{classPackage_aeb8cb5056e6ad6850147c7ad850e60d9}{}\label{classPackage_aeb8cb5056e6ad6850147c7ad850e60d9}
+
+
+Sender setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & pointer to sender client \\
+\hline
+\end{DoxyParams}
+\index{Package@{Package}!set\+Weight@{set\+Weight}}
+\index{set\+Weight@{set\+Weight}!Package@{Package}}
+\subsubsection[{\texorpdfstring{set\+Weight(const double w)}{setWeight(const double w)}}]{\setlength{\rightskip}{0pt plus 5cm}void Package\+::set\+Weight (
+\begin{DoxyParamCaption}
+\item[{const double}]{w}
+\end{DoxyParamCaption}
+)}\hypertarget{classPackage_ab5fc0c4ff15151713ff49f75caa81a13}{}\label{classPackage_ab5fc0c4ff15151713ff49f75caa81a13}
+
+
+Weight setter. 
+
+\hyperlink{classPackage}{Package} weight setter.
+
+Throws error on negative weight. 
+\begin{DoxyParams}{Parameters}
+{\em w} & \hyperlink{classPackage}{Package} weight \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Package.\+h\item 
+Package.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,192 @@
+\hypertarget{classClient}{}\section{Client Class Reference}
+\label{classClient}\index{Client@{Client}}
+
+
+\hyperlink{classClient}{Client} class.  
+
+
+
+
+{\ttfamily \#include $<$Client.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}{Client} (const string \&, const string \&)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} basic constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{set\+Name} (const string \&)
+\begin{DoxyCompactList}\small\item\em Setter for name. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a28a677584ad4793b50b31c2e75039e2c}{get\+Name} () const 
+\begin{DoxyCompactList}\small\item\em Getter for name. \end{DoxyCompactList}\item 
+void \hyperlink{classClient_a8a035b3e170849283f8b130965c5fa75}{set\+Address} (const string \&)
+\begin{DoxyCompactList}\small\item\em Setter for address. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a291fb22c4fccb2a6b182c355078553ed}{get\+Address} () const 
+\begin{DoxyCompactList}\small\item\em Getter for address. \end{DoxyCompactList}\item 
+void \hyperlink{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}{send\+Package} (const \hyperlink{classPackage}{Package} \&pack)
+\begin{DoxyCompactList}\small\item\em Add a sent package. \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aff47cd6d18feba4c43f7ff495d73f495}{get\+Sent\+Packages} () const 
+\begin{DoxyCompactList}\small\item\em Get sent packages. \end{DoxyCompactList}\item 
+void \hyperlink{classClient_a13897295cfe2b0d25b947b6ddf70e563}{receive\+Package} (const \hyperlink{classPackage}{Package} \&pack)
+\begin{DoxyCompactList}\small\item\em Add a received package. \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aae2dee02f0951f418941234103c275ef}{get\+Received\+Packages} () const 
+\begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classClient}{Client} class. 
+
+This client class defines a citizen of the town who can send and receive packages. Each person has a name, address, and vectors representing records of all packages sent and received. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Client@{Client}!Client@{Client}}
+\index{Client@{Client}!Client@{Client}}
+\subsubsection[{\texorpdfstring{Client(const string \&, const string \&)}{Client(const string &, const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{name, }
+\item[{const string \&}]{address}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}{}\label{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}
+
+
+\hyperlink{classClient}{Client} basic constructor. 
+
+Constructor.
+
+Basic constructor takes strings for name and address.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \&name} & reference to client\textquotesingle{}s name \\
+\hline
+{\em \&address} & reference to client\textquotesingle{}s address \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{Client@{Client}!get\+Address@{get\+Address}}
+\index{get\+Address@{get\+Address}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Address() const }{getAddress() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Client\+::get\+Address (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classClient_a291fb22c4fccb2a6b182c355078553ed}{}\label{classClient_a291fb22c4fccb2a6b182c355078553ed}
+
+
+Getter for address. 
+
+\begin{DoxyReturn}{Returns}
+Street Address 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Name() const }{getName() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Client\+::get\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classClient_a28a677584ad4793b50b31c2e75039e2c}{}\label{classClient_a28a677584ad4793b50b31c2e75039e2c}
+
+
+Getter for name. 
+
+\begin{DoxyReturn}{Returns}
+name 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+Received\+Packages@{get\+Received\+Packages}}
+\index{get\+Received\+Packages@{get\+Received\+Packages}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Received\+Packages() const }{getReceivedPackages() const }}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Package} $\ast$ $>$ Client\+::get\+Received\+Packages (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classClient_aae2dee02f0951f418941234103c275ef}{}\label{classClient_aae2dee02f0951f418941234103c275ef}
+
+
+Get received packages. 
+
+\begin{DoxyReturn}{Returns}
+Vector of received packages 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+Sent\+Packages@{get\+Sent\+Packages}}
+\index{get\+Sent\+Packages@{get\+Sent\+Packages}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Sent\+Packages() const }{getSentPackages() const }}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf Package} $\ast$ $>$ Client\+::get\+Sent\+Packages (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classClient_aff47cd6d18feba4c43f7ff495d73f495}{}\label{classClient_aff47cd6d18feba4c43f7ff495d73f495}
+
+
+Get sent packages. 
+
+\begin{DoxyReturn}{Returns}
+Vector of sent packages 
+\end{DoxyReturn}
+\index{Client@{Client}!receive\+Package@{receive\+Package}}
+\index{receive\+Package@{receive\+Package}!Client@{Client}}
+\subsubsection[{\texorpdfstring{receive\+Package(const Package \&pack)}{receivePackage(const Package &pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::receive\+Package (
+\begin{DoxyParamCaption}
+\item[{const {\bf Package} \&}]{pack}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_a13897295cfe2b0d25b947b6ddf70e563}{}\label{classClient_a13897295cfe2b0d25b947b6ddf70e563}
+
+
+Add a received package. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & to package \\
+\hline
+\end{DoxyParams}
+\index{Client@{Client}!send\+Package@{send\+Package}}
+\index{send\+Package@{send\+Package}!Client@{Client}}
+\subsubsection[{\texorpdfstring{send\+Package(const Package \&pack)}{sendPackage(const Package &pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::send\+Package (
+\begin{DoxyParamCaption}
+\item[{const {\bf Package} \&}]{pack}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}{}\label{classClient_a7c2013e38135e9b9c4f0562e6e4393b9}
+
+
+Add a sent package. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & to package \\
+\hline
+\end{DoxyParams}
+\index{Client@{Client}!set\+Address@{set\+Address}}
+\index{set\+Address@{set\+Address}!Client@{Client}}
+\subsubsection[{\texorpdfstring{set\+Address(const string \&)}{setAddress(const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Address (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{a}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_a8a035b3e170849283f8b130965c5fa75}{}\label{classClient_a8a035b3e170849283f8b130965c5fa75}
+
+
+Setter for address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & reference to address string \\
+\hline
+\end{DoxyParams}
+\index{Client@{Client}!set\+Name@{set\+Name}}
+\index{set\+Name@{set\+Name}!Client@{Client}}
+\subsubsection[{\texorpdfstring{set\+Name(const string \&)}{setName(const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Name (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{}\label{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}
+
+
+Setter for name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & reference to name string \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Client.\+h\item 
+Client.\+cpp\end{DoxyCompactItemize}
