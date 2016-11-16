@@ -22,9 +22,6 @@ class Package{
         //! Constructor
         Package(Client*, Client*, const double, const Priority);
  
-        //! Destructor
-        ~Package();
-
         //! Sender setter
         void setSender(Client*);
         //! Sender getter

@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
 #include "Client.h"
 #include "Package.h"
 using namespace std;
@@ -71,6 +72,18 @@ void Client::receivePackage(Package *pack){
 /*!
  \return Vector of received packages
  */
-vector<Package *> Client::getReceivedPackages() const{
+vector<Package *> Client::getReceivedPackages() const
+{
     return receivedPackages;
+}
+
+//! Insertion Operator
+/*!
+ \param output output stream
+ \param client client object to output.
+ */
+ostream& operator<<(ostream& output, const Client& client)
+{
+    output << client.name << endl << client.address << endl;
+    return output;
 }

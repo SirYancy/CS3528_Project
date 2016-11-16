@@ -23,13 +23,6 @@ Package::Package(
     setWeight(w);
 }
 
-//! Destructor
-Package::~Package()
-{
-    delete sender;
-    delete receiver;
-}
-
 //! Sender setter
 /*!
  \param s pointer to sender client

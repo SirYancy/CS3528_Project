@@ -12,9 +12,9 @@ int main()
     Client* c1ptr = &c1;
     Client* c2ptr = &c2;
 
-    Package p1{c1ptr, c2ptr, 12.0, Package::REGULAR};
-    
-    cout << "Hello"<< endl;
+    Package p1{c1ptr, c2ptr, 10.2, Package::REGULAR};
+
+    cout << c1 << endl << c2;
 
     return 0;
 }

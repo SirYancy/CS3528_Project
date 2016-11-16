@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]]
+  ['package',['Package',['../classPackage.html',1,'Package'],['../classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2',1,'Package::Package()']]]
 ];
