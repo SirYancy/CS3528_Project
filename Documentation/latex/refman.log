@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.9.27)  16 NOV 2016 11:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.9.27)  16 NOV 2016 12:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1195,9 +1195,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 
  [3
 
-] [4
-
-]
+] [4]
 Package hyperref Info: Option `pageanchor' set `true' on input line 137.
 
 Chapter 1.
@@ -1212,6 +1210,7 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 6.29996pt on input line 140.
 (./md_README.tex) [1
+
 
 ] [2
 
@@ -1252,51 +1251,56 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 16.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 16.
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 54.
  [5]
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 56.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 54.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 56.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 54.
+(Font)              scaled to size 8.99994pt on input line 56.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 54.
+(hyperref)                removing `alignment tab' on input line 56.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 54.
+(hyperref)                removing `alignment tab' on input line 56.
 
 
-Underfull \hbox (badness 10000) detected at line 84
+Underfull \hbox (badness 10000) detected at line 86
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 98
+Underfull \hbox (badness 10000) detected at line 100
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 112
+Underfull \hbox (badness 10000) detected at line 114
 [][][]
  []
 
 [6]
-Underfull \hbox (badness 10000) detected at line 126
+Underfull \hbox (badness 10000) detected at line 128
 [][][]
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 167.
+(hyperref)                removing `alignment tab' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 183.
+(hyperref)                removing `alignment tab' on input line 185.
 
-) (./classPackage.tex [7] [8]
+[7]
+Underfull \hbox (badness 10000) detected at line 206
+[][][]
+ []
+
+) (./classPackage.tex [8]
 Underfull \hbox (badness 10000) detected at line 99
 [][][]
  []
@@ -1311,17 +1315,17 @@ Underfull \hbox (badness 10000) detected at line 127
 [][][]
  []
 
-
-Underfull \hbox (badness 10000) detected at line 143
+[9]
+Underfull \hbox (badness 10000) detected at line 141
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 159
+Underfull \hbox (badness 10000) detected at line 157
 [][][]
  []
 
-[9] [10]) [11] [12
+[10]) [11] [12
 
 ] (./refman.ind [13
 
@@ -1333,17 +1337,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 201965E0A1CDF3BC74F6D1CC37FB7305;7251.
+(rerunfilecheck)             Checksum: 219379596A005CCBF73621BBD485A226;7468.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
  ) 
 Here is how much of TeX's memory you used:
- 14890 strings out of 493029
- 211803 string characters out of 6136234
- 308903 words of memory out of 5000000
- 18092 multiletter control sequences out of 15000+600000
+ 14894 strings out of 493029
+ 211939 string characters out of 6136234
+ 307987 words of memory out of 5000000
+ 18094 multiletter control sequences out of 15000+600000
  59783 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,15n,92p,673b,634s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,15n,92p,673b,561s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist
@@ -1352,10 +1356,10 @@ urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 /uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (17 pages, 92492 bytes).
+Output written on refman.pdf (17 pages, 93581 bytes).
 PDF statistics:
- 439 PDF objects out of 1000 (max. 8388607)
- 398 compressed objects within 4 object streams
- 87 named destinations out of 1000 (max. 500000)
- 257 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 449 PDF objects out of 1000 (max. 8388607)
+ 407 compressed objects within 5 object streams
+ 89 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

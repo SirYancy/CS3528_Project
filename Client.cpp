@@ -77,6 +77,32 @@ vector<Package *> Client::getReceivedPackages() const
     return receivedPackages;
 }
 
+//! To String
+/*!
+ * Prints out client's name and address and also all packages associated with the client. Insertion operator only prints name and address.
+ \return string representation of client and all sent and received packages
+ */
+string Client::toString() const{
+    ostringstream output;
+    output << endl
+        << "Name: " << name << endl
+        << "Address: " << address << endl
+        << "Sent Packages:" << endl;
+    for(Package* p : sentPackages)
+    {
+        output << " Received by: " << p->getSender()->getName() << endl
+            << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
+    }
+    output << "Received Packages: " << endl;
+    for(Package* p : receivedPackages)
+    {
+        output << " Sent by: " << p->getReceiver()->getName() << endl
+            << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
+    }
+    return output.str();
+}
+
+
 //! Insertion Operator
 /*!
  \param output output stream

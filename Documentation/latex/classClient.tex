@@ -29,7 +29,9 @@ vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_af
 void \hyperlink{classClient_a1726c784a1c19701a13e12333cf906e5}{receive\+Package} (\hyperlink{classPackage}{Package} $\ast$pack)
 \begin{DoxyCompactList}\small\item\em Add a received package. \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aae2dee02f0951f418941234103c275ef}{get\+Received\+Packages} () const 
-\begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a994ff91075daf477725ca055874e3e22}{to\+String} () const 
+\begin{DoxyCompactList}\small\item\em To String. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -190,6 +192,20 @@ Setter for name.
 {\em n} & reference to name string \\
 \hline
 \end{DoxyParams}
+\index{Client@{Client}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!Client@{Client}}
+\subsubsection[{\texorpdfstring{to\+String() const }{toString() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Client\+::to\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classClient_a994ff91075daf477725ca055874e3e22}{}\label{classClient_a994ff91075daf477725ca055874e3e22}
+
+
+To String. 
+
+Prints out client\textquotesingle{}s name and address and also all packages associated with the client. Insertion operator only prints name and address. \begin{DoxyReturn}{Returns}
+string representation of client and all sent and received packages 
+\end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

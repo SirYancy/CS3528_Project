@@ -10,6 +10,7 @@
     \subitem {send\+Package}, \hyperpage{7}
     \subitem {set\+Address}, \hyperpage{7}
     \subitem {set\+Name}, \hyperpage{7}
+    \subitem {to\+String}, \hyperpage{7}
 
   \indexspace
 
@@ -18,6 +19,8 @@
   \item {get\+Name}
     \subitem {Client}, \hyperpage{6}
   \item {get\+Priority}
+    \subitem {Package}, \hyperpage{9}
+  \item {get\+Priority\+String}
     \subitem {Package}, \hyperpage{9}
   \item {get\+Received\+Packages}
     \subitem {Client}, \hyperpage{6}
@@ -28,23 +31,21 @@
   \item {get\+Sent\+Packages}
     \subitem {Client}, \hyperpage{6}
   \item {get\+Weight}
-    \subitem {Package}, \hyperpage{9}
+    \subitem {Package}, \hyperpage{10}
 
   \indexspace
 
   \item {Package}, \hyperpage{8}
     \subitem {get\+Priority}, \hyperpage{9}
+    \subitem {get\+Priority\+String}, \hyperpage{9}
     \subitem {get\+Receiver}, \hyperpage{9}
     \subitem {get\+Sender}, \hyperpage{9}
-    \subitem {get\+Weight}, \hyperpage{9}
-    \subitem {Package}, \hyperpage{8}
-    \subitem {priority\+To\+String}, \hyperpage{9}
+    \subitem {get\+Weight}, \hyperpage{10}
+    \subitem {Package}, \hyperpage{9}
     \subitem {set\+Priority}, \hyperpage{10}
     \subitem {set\+Receiver}, \hyperpage{10}
     \subitem {set\+Sender}, \hyperpage{10}
     \subitem {set\+Weight}, \hyperpage{10}
-  \item {priority\+To\+String}
-    \subitem {Package}, \hyperpage{9}
 
   \indexspace
 
@@ -67,5 +68,10 @@
     \subitem {Package}, \hyperpage{10}
   \item {set\+Weight}
     \subitem {Package}, \hyperpage{10}
+
+  \indexspace
+
+  \item {to\+String}
+    \subitem {Client}, \hyperpage{7}
 
 \end{theindex}

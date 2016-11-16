@@ -43,6 +43,9 @@ class Client{
         //! Get received packages
         vector<Package*> getReceivedPackages() const;
 
+        //! To String
+        string toString() const;
+
             private:
         //! Client name
         string name;

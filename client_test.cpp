@@ -15,6 +15,8 @@ int main()
     Package p1{c1ptr, c2ptr, 10.2, Package::TWO_DAY};
 
     cout << p1 << endl;
+    cout << c1.toString();
+    cout << c2.toString();
 
     return 0;
 }
