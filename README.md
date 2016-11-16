@@ -4,8 +4,10 @@ Final project for class CS3528
 * Eric Kuha
 * Chelsey Riewer
 * Robert Susmilch
+
 ## Basic Idea
 To create a utility application for a (UPS) style package delivery system which operates in one town.
+
 ## Requirements
 * Sort and order packages into truck
 * Determine packages that can be delivered on time
