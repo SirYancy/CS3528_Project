@@ -4,16 +4,18 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass scrreprt
+\textclass scrartcl
 \begin_preamble
-\KOMAoption{fontsize}{10pt}\recalctypearea
+\KOMAoption{fontsize}{12pt}\recalctypearea
+\usepackage[libertine]{newtxmath}
 \usepackage{fontspec}
 
 %\usepackage[osf,p,type1]{libertine}
-\defaultfontfeatures{Ligatures={Common,TeX},Numbers={Proportional, OldStyle, SlashedZero}, Contextuals = Swash, Fractions=On}% ,Scale=MatchLowercase} bug in current Biolinum
+\defaultfontfeatures{Ligatures={Common,TeX},Numbers={Proportional}, Contextuals = Swash, Fractions=Off}% ,Scale=MatchLowercase} bug in current Biolinum
 \setmainfont{Linux Libertine O}
 \setsansfont{Linux Biolinum O}
 \setmonofont[Numbers={Monospaced, Lining, SlashedZero}]{Linux Libertine Mono O}
+\usepackage[libertine]{newtxmath}
 
 %\setromanfont [Ligatures={Common,TeX}, Numbers={OldStyle}]{Linux Libertine O}
 %\setsansfont [Ligatures={Common}, BoldFont={Fontin Sans Bold}, ItalicFont={Fontin Sans Italic}]{Fontin Sans}
@@ -22,7 +24,7 @@
 %\setsansfont [Ligatures={Common}, BoldFont={Fontin Sans Bold}, ItalicFont={Fontin Sans Italic}]{Fontin Sans}
 %\setsansfont[Ligatures={Common,TeX}, Numbers={OldStyle}]{Linux Biolinum O}
 
-\usepackage{microtype}
+\usepackage[letterspace = 0, babel = true, protrusion = true, expansion = true]{microtype}
 %\usepackage{textcomp}
 %\usepackage{amsmath}
 %\usepackage{amssymb}
@@ -71,12 +73,12 @@
 \addtokomafont{captionlabel}{\bfseries}
 
 % Adjust the KOMA caption fonts smaller
-%\setkomafont{caption}{\small\itshape}
-\setkomafont{caption}{\small}
-\setkomafont{captionlabel}{\usekomafont{caption}}
+%\setkomafont{caption}{\itshape}
+%\setkomafont{caption}{\small}
+%\setkomafont{captionlabel}{\bfseries}
 \usepackage{subfig}
-%\captionsetup[subfloat]{font={footnotesize,it}}
-\captionsetup[subfloat]{font={footnotesize}}
+\captionsetup[subfloat]{font={it}}
+%\captionsetup[subfloat]{font={small}}
 
 
 % Note that tables should have the caption above the table.
@@ -91,7 +93,7 @@
 \let\endoriginaltable\endtable
 \renewenvironment{table}[1][ht]{%
 \originaltable[#1]
-\addfontfeatures{Numbers={Lining, Monospaced, SlashedZero}}
+\addfontfeatures{Numbers={Lining, Monospaced, }}%SlashedZero}}
  \centering}%
 {\endoriginaltable}
 
@@ -118,7 +120,7 @@
 
 % Force floats to appear in their respective sections, subsections, and subsubsections.
 %\usepackage[section,subsection,subsubsection]{extraplaceins}
-\usepackage[section,subsection]{extraplaceins}
+%\usepackage[section,subsection]{extraplaceins}
 
 %\makeatletter
 \if@twoside % commands below work only for twoside option of \documentclass
@@ -128,26 +130,17 @@
     \addtolength{\evensidemargin}{-2.0\textblockoffset}
 \fi
 %\makeatother
-\title{Disaster Recovery}
-\author{Robert Susmilch}
-\usepackage{scrlayer-scrpage}
-\pagestyle{scrheadings}
-%\makeatletter
-\let\papertitle\@title
-\let\paperauthor\@author
-\let\paperdate\@date
-%\makeatother
-\lehead[\papertitle]{\papertitle}
-\rehead[\paperauthor]{\paperauthor}
-\lohead[\paperauthor]{\paperauthor}
-\rohead[\papertitle]{\papertitle}
+
 
 \definecolor{green}{RGB}{0, 180, 0}
 %\definecolor{cyan}{RGB}{0, 180, 180}
-%\definecolor{blue}{RGB}{0,130,255}
-%\definecolor{yellow}{RGB}{211,211,0}
+\definecolor{blue}{RGB}{0,130,255}
+\definecolor{yellow}{RGB}{200,200,0}
 \definecolor{Black}{RGB}{0, 0, 0}
 \definecolor{Gray}{RGB}{150, 150, 150}
+\definecolor{teal}{RGB}{64, 128, 128}
+\definecolor{gray}{rgb}{0.95,0.95,0.95}
+\definecolor{muave}{rgb}{0.58,0,0.82}
 
 \usepackage{framed}
 
@@ -161,27 +154,29 @@
   \medskip
 }
 %\newcommand{\hltt}[1]{\textcolor{blue}{#1}}
-%\usepackage{footnote}
-\setminted{breaklines,breakautoindent,autogobble,tabsize=2}
-\newminted[bash]{bash}{}
+\usepackage{footnote}
+\setminted{xleftmargin=7pt, linenos,resetmargins=true,numberblanklines=false, breaklines,breakautoindent,autogobble,tabsize=2}
+\newminted[python3]{python}{}
+\newminted[pycon]{pycon}{}
+\newminted[cpp]{cpp}{}
 
 % Use to include text files into a LaTeX file, such as source files
-\usepackage{fancyvrb}
+%\usepackage{fancyvrb}
 % redefine \VerbatimInput
-\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
-{fontsize=\footnotesize,
+%\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+%{fontsize=\footnotesize,
  %
- frame=lines,  % top and bottom rule only
- framesep=2em, % separation between frame and text
- rulecolor=\color{Gray},
+ %frame=lines,  % top and bottom rule only
+ %framesep=2em, % separation between frame and text
+ %rulecolor=\color{Gray},
 %
- label=\fbox{\color{Black}Passwords},
- labelposition=topline,
+ %label=\fbox{\color{Black}Passwords},
+ %labelposition=topline,
  %
  %commandchars=\|\(\), % escape character and argument delimiters for
                       % commands within the verbatim
- commentchar=*        % comment character
-}
+% commentchar=*        % comment character
+%}
 % Then we use
 %\VerbatimInput{yourFileInSameDirectory.txt}
 \usepackage{enumitem}
@@ -201,26 +196,105 @@
 \def\nompreamble{\addcontentsline{toc}{section}{\nomname}\markboth{\nomname}{\nomname}}
 %\DeclareUnicodeCharacter{21AA}{\hookarrow}
 
+\title{CS3528 Homework 5}
+\author{Robert Susmilch}
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+%\makeatletter
+\let\papertitle\@title
+\let\paperauthor\@author
+\let\paperdate\@date
+%\makeatother
+\lehead[\papertitle]{\papertitle}
+\rehead[\paperauthor]{\paperauthor}
+\lohead[\paperauthor]{\paperauthor}
+\rohead[\papertitle]{\papertitle}
+
 % Highlight nomenclature terms in some way.
-\newcommand{\term}[1]{\textcolor{green}{#1}}
+\newcommand{\term}[1]{\textcolor{blue}{#1}}
 %\newcommand{\term}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\tn}[1]{\term{\noun{#1}}}
+
+\renewcommand{\implies}{\rightarrow}
+\renewcommand{\iff}{\leftrightarrow}
+%\newcommand{\nequiv}{\not \equiv}
+\usepackage{listings}
+
+\lstdefinelanguage{ijvm}
+{morekeywords={BIPUSH, DUP, GOTO, IADD, IAND, IFEQ, IFLT, IF\_ICMPEQ, IINC, ILOAD, INVOKEVIRTUAL, IOR, IRETURN, ISTORE, ISUB, LDC\_W, NOP, POP, SWAP, WIDE, RD, WR, FETCH, if},
+sensitive = false,
+morecomment=[l]{//},
+emph={A, B, N, Z, MDR, PC, MBR, MBRU, SP, LV, CPP, TOS, OPC, MPC},
+emph={[2]H, MAR},
+emphstyle={\color{blue}},
+emphstyle={[2]\color{muave}}
+}
+
+\lstset{%
+numbers=left,
+numberstyle={\footnotesize},
+basicstyle={\ttfamily},
+breaklines=true,
+commentstyle={\color{teal}\textit},
+keywordstyle={\color{green}},
+rulecolor={\color{black}},
+backgroundcolor={\color{gray}},
+stringstyle={\color{muave}},
+frame=single,
+upquote=true}
+
+\newcommand{\ijvm}[1]{\lstinline[language=ijvm]{#1}}
+\usepackage[maxfloats=25]{morefloats}
+
+\setminted{breaklines,breakautoindent,autogobble,tabsize=2}
+\newminted[asm]{nasm}{}
+\newminted[html]{html}{}
+\newminted[java]{java}{}
+\newminted[bash]{bash}{}
+
+\newcommand{\iasm}[1]{\mintinline{nasm}{#1}}
+
+\renewcommand*\titlepagestyle{empty}
+
+\newcommand{\blankpage}{%
+\newpage%
+\thispagestyle{empty}%
+\mbox{}%
+\newpage%
+}
+
+\usepackage{mdframed}
+%\usepackage{tkz-graph}
+%\GraphInit[vstyle = Normal]
+%\tikzset{
+  %LabelStyle/.style = { rectangle, rounded corners, draw,
+  %                      minimum width = 2em, fill = yellow!50,
+  %                      text = red, font = \bfseries },
+%  VertexStyle/.append style = { inner sep=5pt,
+%                                font = \bfseries}}
+%  EdgeStyle/.append style = {->, bend left} }
+
+\usepackage{blkarray}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
 \end_preamble
-\options twoside, twocolumn, headsepline,DIV=15,BCOR=0in,index=totoc,toc=listofnumbered,toc=graduated,unicode=true
+\options headsepline,DIV=15,BCOR=0in,index=totoc,toc=listofnumbered,toc=graduated,unicode=true, twocolumn=false
 \use_default_options true
 \begin_modules
-callout
+theorems-ams
 \end_modules
 \maintain_unincluded_children false
-\language american
+\language english
 \language_package default
-\inputencoding utf8-plain
+\inputencoding utf8x
 \fontencoding global
 \font_roman "default" "default"
 \font_sans "default" "default"
 \font_typewriter "default" "default"
-\font_math "libertine-ntxm" "auto"
+\font_math "auto" "auto"
 \font_default_family default
-\use_non_tex_fonts false
+\use_non_tex_fonts true
 \font_sc false
 \font_osf false
 \font_sf_scale 100 100
@@ -230,32 +304,34 @@ callout
 \output_sync 0
 \bibtex_command default
 \index_command default
-\float_placement h
+\float_placement H
 \paperfontsize default
 \spacing single
 \use_hyperref true
+\pdf_title "CS3528 Homework 5"
+\pdf_author "Robert Susmilch"
+\pdf_subject "Computer Science"
 \pdf_bookmarks true
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
-\pdf_bookmarksopenlevel 3
-\pdf_breaklinks true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
 \pdf_pdfborder true
 \pdf_colorlinks false
 \pdf_backref page
 \pdf_pdfusetitle true
-\pdf_quoted_options "linkcolor=blue"
-\papersize letterpaper
+\papersize default
 \use_geometry false
-\use_package amsmath 0
-\use_package amssymb 0
-\use_package cancel 0
-\use_package esint 0
-\use_package mathdots 0
-\use_package mathtools 0
-\use_package mhchem 0
-\use_package stackrel 0
-\use_package stmaryrd 0
-\use_package undertilde 0
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
 \biblio_style plain
@@ -265,13 +341,12 @@ callout
 \suppress_date false
 \justification false
 \use_refstyle 1
-\boxbgcolor #ffacae
 \index Index
 \shortcut idx
 \color #008000
 \end_index
-\secnumdepth 2
-\tocdepth 5
+\secnumdepth 3
+\tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
 \quotes_language english
@@ -287,7 +362,7 @@ callout
 
 \begin_body
 
-\begin_layout Chapter
+\begin_layout Section
 Problem Overview
 \end_layout
 
@@ -310,11 +385,11 @@ Determine and deliver driving directions from currently location to driver
  for next address.
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Classes
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Package
 \end_layout
 
@@ -378,7 +453,7 @@ Regular
 \end_layout
 
 \end_deeper
-\begin_layout Section
+\begin_layout Subsection
 Clients
 \end_layout
 
@@ -404,7 +479,7 @@ Separate received package pointers
 \end_layout
 
 \end_deeper
-\begin_layout Chapter
+\begin_layout Subsection
 Trucks
 \end_layout
 
@@ -416,7 +491,7 @@ Trucks have a weight limit.
 Trucks, and drivers, have 8 hours to return to the warehouse after start.
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Subsection
 City
 \end_layout
 
@@ -455,7 +530,7 @@ Stops take 5 minutes.
 \end_layout
 
 \end_deeper
-\begin_layout Chapter
+\begin_layout Section
 Program Overview
 \end_layout
 
@@ -463,11 +538,11 @@ Program Overview
 Make file
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Structures
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Map
 \end_layout
 
@@ -476,7 +551,7 @@ Collection of nodes with edge weights as grid driving distance (truck and
  only go north/south or east/west.)
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Packages
 \end_layout
 
@@ -494,7 +569,7 @@ Prevents late packages.
 \end_layout
 
 \end_deeper
-\begin_layout Section
+\begin_layout Subsection
 Style
 \end_layout
 
@@ -511,8 +586,7 @@ All variables, functions, methods, etc are camelCase.
 \end_layout
 
 \begin_layout Itemize
-Following Qt Doxygen style.
- 
+Following Qt Doxygen style (see below.) 
 \begin_inset CommandInset href
 LatexCommand href
 name "Doxygen documentation"
@@ -534,7 +608,287 @@ http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={[GNU]C++},breaklines=true,showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+//!  A test class.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+/*!
+\end_layout
+
+\begin_layout Plain Layout
+  A more elaborate class description.
+\end_layout
+
+\begin_layout Plain Layout
+*/
+\end_layout
+
+\begin_layout Plain Layout
+class QTstyle_Test
+\end_layout
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\begin_layout Plain Layout
+  public:
+\end_layout
+
+\begin_layout Plain Layout
+    //! An enum.
+\end_layout
+
+\begin_layout Plain Layout
+    /*! More detailed enum description.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+    enum TEnum { 
+\end_layout
+
+\begin_layout Plain Layout
+                 TVal1, /*!< Enum value TVal1.
+ */  
+\end_layout
+
+\begin_layout Plain Layout
+                 TVal2, /*!< Enum value TVal2.
+ */  
+\end_layout
+
+\begin_layout Plain Layout
+                 TVal3  /*!< Enum value TVal3.
+ */  
+\end_layout
+
+\begin_layout Plain Layout
+               } 
+\end_layout
+
+\begin_layout Plain Layout
+         //! Enum pointer.
+\end_layout
+
+\begin_layout Plain Layout
+         /*! Details.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+         *enumPtr, 
+\end_layout
+
+\begin_layout Plain Layout
+         //! Enum variable.
+\end_layout
+
+\begin_layout Plain Layout
+         /*! Details.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+         enumVar;  
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    //! A constructor.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      A more elaborate description of the constructor.
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+    QTstyle_Test();
+\end_layout
+
+\begin_layout Plain Layout
+    //! A destructor.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      A more elaborate description of the destructor.
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+   ~QTstyle_Test();
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    //! A normal member taking two arguments and returning an integer value.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+param a an integer argument.
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+param s a constant character pointer.
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+return The test results
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+sa QTstyle_Test(), ~QTstyle_Test(), testMeToo() and publicVar()
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+    int testMe(int a,const char *s);
+\end_layout
+
+\begin_layout Plain Layout
+       
+\end_layout
+
+\begin_layout Plain Layout
+    //! A pure virtual member.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+sa testMe()
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+param c1 the first argument.
+\end_layout
+
+\begin_layout Plain Layout
+      
+\backslash
+param c2 the second argument.
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+    virtual void testMeToo(char c1,char c2) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+   
+\end_layout
+
+\begin_layout Plain Layout
+    //! A public variable.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      Details.
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+    int publicVar;
+\end_layout
+
+\begin_layout Plain Layout
+       
+\end_layout
+
+\begin_layout Plain Layout
+    //! A function variable.
+\end_layout
+
+\begin_layout Plain Layout
+    /*!
+\end_layout
+
+\begin_layout Plain Layout
+      Details.
+\end_layout
+
+\begin_layout Plain Layout
+    */
+\end_layout
+
+\begin_layout Plain Layout
+    int (*handler)(int a,int b);
+\end_layout
+
+\begin_layout Plain Layout
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsection
 Classes
 \end_layout
 
@@ -602,7 +956,7 @@ something
 \end_layout
 
 \end_deeper
-\begin_layout Chapter
+\begin_layout Subsection
 Input Files
 \end_layout
 
