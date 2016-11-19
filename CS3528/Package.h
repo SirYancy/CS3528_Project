@@ -16,6 +16,7 @@ class Package{
     friend std::ostream& operator<<(std::ostream&, const Package&);
 
     public:
+        //! Priority enum for package type
         enum Priority{
             REGULAR,
             TWO_DAY,
@@ -48,10 +49,10 @@ class Package{
         string getPriorityString() const;
 
     private:
-        Client *sender;
-        Client *receiver;
-        double weight;
-        Priority priority;
+        Client *sender;     //!< Pointer to sender client
+        Client *receiver;   //!< Pointer to receiver client
+        double weight;      //!< Weight of package in ounces
+        Priority priority;  //!< Priority enum of package
 };
 
 #endif //PACKAGE_H

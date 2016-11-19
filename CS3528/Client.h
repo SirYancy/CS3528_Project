@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <utility>
+
 using namespace std;
 
 class Package;
@@ -14,7 +16,7 @@ class Package;
 class Client{
     //! Insertion Operator override
     friend std::ostream& operator<<(std::ostream&, const Client&);
-        
+
     public:
         //! Client basic constructor
         /*!
@@ -51,6 +53,8 @@ class Client{
         string name;
         //! Client address
         string address;
+
+
         //! Vector of packages sent by this client
         vector<Package*> sentPackages;
         //! Vector of packages received by this client

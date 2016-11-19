@@ -32,6 +32,21 @@ vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aa
 \begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a994ff91075daf477725ca055874e3e22}{to\+String} () const 
 \begin{DoxyCompactList}\small\item\em To String. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{name}\hypertarget{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{}\label{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} name. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{address}\hypertarget{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{}\label{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} address. \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_a2b2adb035b1729e5914a2ff85e672c88}{sent\+Packages}\hypertarget{classClient_a2b2adb035b1729e5914a2ff85e672c88}{}\label{classClient_a2b2adb035b1729e5914a2ff85e672c88}
+
+\begin{DoxyCompactList}\small\item\em Vector of packages sent by this client. \end{DoxyCompactList}\item 
+vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}{received\+Packages}\hypertarget{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}{}\label{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}
+
+\begin{DoxyCompactList}\small\item\em Vector of packages received by this client. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -48,7 +63,7 @@ This client class defines a citizen of the town who can send and receive package
 \subsection{Constructor \& Destructor Documentation}
 \index{Client@{Client}!Client@{Client}}
 \index{Client@{Client}!Client@{Client}}
-\subsubsection[{\texorpdfstring{Client(const string \&, const string \&)}{Client(const string &, const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
+\subsubsection[{\texorpdfstring{Client(const string \&, const string \&)}{Client(const string \&, const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{name, }
 \item[{const string \&}]{address}
@@ -162,7 +177,7 @@ Add a sent package.
 \end{DoxyParams}
 \index{Client@{Client}!set\+Address@{set\+Address}}
 \index{set\+Address@{set\+Address}!Client@{Client}}
-\subsubsection[{\texorpdfstring{set\+Address(const string \&)}{setAddress(const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Address (
+\subsubsection[{\texorpdfstring{set\+Address(const string \&)}{setAddress(const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Address (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{a}
 \end{DoxyParamCaption}
@@ -178,7 +193,7 @@ Setter for address.
 \end{DoxyParams}
 \index{Client@{Client}!set\+Name@{set\+Name}}
 \index{set\+Name@{set\+Name}!Client@{Client}}
-\subsubsection[{\texorpdfstring{set\+Name(const string \&)}{setName(const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Name (
+\subsubsection[{\texorpdfstring{set\+Name(const string \&)}{setName(const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Name (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{n}
 \end{DoxyParamCaption}

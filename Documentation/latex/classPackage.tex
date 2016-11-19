@@ -9,19 +9,29 @@
 
 {\ttfamily \#include $<$Package.\+h$>$}
 
+
+
+Collaboration diagram for Package\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{classPackage__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
-enum {\bfseries Priority} \{ {\bfseries R\+E\+G\+U\+L\+AR}, 
+enum \hyperlink{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{Priority} \{ {\bfseries R\+E\+G\+U\+L\+AR}, 
 {\bfseries T\+W\+O\+\_\+\+D\+AY}, 
 {\bfseries O\+V\+E\+R\+N\+I\+G\+HT}
  \}\hypertarget{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{}\label{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}
-
+\begin{DoxyCompactList}\small\item\em Priority enum for package type. \end{DoxyCompactList}
 \end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classPackage_a64d987fe7cb1d583f2af4a38e544a6f2}{Package} (\hyperlink{classClient}{Client} $\ast$, \hyperlink{classClient}{Client} $\ast$, const double, const Priority)
+\hyperlink{classPackage_a64d987fe7cb1d583f2af4a38e544a6f2}{Package} (\hyperlink{classClient}{Client} $\ast$, \hyperlink{classClient}{Client} $\ast$, const double, const \hyperlink{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{Priority})
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 void \hyperlink{classPackage_a933801e98e91c1d540f9a47926bfc314}{set\+Sender} (\hyperlink{classClient}{Client} $\ast$)
 \begin{DoxyCompactList}\small\item\em Sender setter. \end{DoxyCompactList}\item 
@@ -35,12 +45,27 @@ void \hyperlink{classPackage_a0766f8a791e0b76d97671cb92d785496}{set\+Weight} (co
 \begin{DoxyCompactList}\small\item\em Weight setter. \end{DoxyCompactList}\item 
 double \hyperlink{classPackage_a2da083a8cab4c978c22c49ac46226aee}{get\+Weight} () const 
 \begin{DoxyCompactList}\small\item\em Weight getter. \end{DoxyCompactList}\item 
-void \hyperlink{classPackage_afe16b4fbff0a050019ddf47978001464}{set\+Priority} (const Priority)
+void \hyperlink{classPackage_afe16b4fbff0a050019ddf47978001464}{set\+Priority} (const \hyperlink{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{Priority})
 \begin{DoxyCompactList}\small\item\em Priority setter. \end{DoxyCompactList}\item 
-Priority \hyperlink{classPackage_accf52df9d08053e7c1c126d747e6beb0}{get\+Priority} () const 
+\hyperlink{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{Priority} \hyperlink{classPackage_accf52df9d08053e7c1c126d747e6beb0}{get\+Priority} () const 
 \begin{DoxyCompactList}\small\item\em Priority getter. \end{DoxyCompactList}\item 
 string \hyperlink{classPackage_aaf5a625d7851e24dd18bae23309c03d7}{get\+Priority\+String} () const 
 \begin{DoxyCompactList}\small\item\em Priority string getter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classClient}{Client} $\ast$ \hyperlink{classPackage_abacbedc4dee7b03adc395e6591a14fc2}{sender}\hypertarget{classPackage_abacbedc4dee7b03adc395e6591a14fc2}{}\label{classPackage_abacbedc4dee7b03adc395e6591a14fc2}
+
+\begin{DoxyCompactList}\small\item\em Pointer to sender client. \end{DoxyCompactList}\item 
+\hyperlink{classClient}{Client} $\ast$ \hyperlink{classPackage_a9331feb10443764e6992894866731eb8}{receiver}\hypertarget{classPackage_a9331feb10443764e6992894866731eb8}{}\label{classPackage_a9331feb10443764e6992894866731eb8}
+
+\begin{DoxyCompactList}\small\item\em Pointer to receiver client. \end{DoxyCompactList}\item 
+double \hyperlink{classPackage_a54c6c965d6f9b94d463d3786e35f8a76}{weight}\hypertarget{classPackage_a54c6c965d6f9b94d463d3786e35f8a76}{}\label{classPackage_a54c6c965d6f9b94d463d3786e35f8a76}
+
+\begin{DoxyCompactList}\small\item\em Weight of package in ounces. \end{DoxyCompactList}\item 
+\hyperlink{classPackage_ac96ebcf78f2d93898635a1275da0c0bd}{Priority} \hyperlink{classPackage_a4ba73df5afb3cdd936d297652ce9af99}{priority}\hypertarget{classPackage_a4ba73df5afb3cdd936d297652ce9af99}{}\label{classPackage_a4ba73df5afb3cdd936d297652ce9af99}
+
+\begin{DoxyCompactList}\small\item\em Priority enum of package. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -62,7 +87,7 @@ This \hyperlink{classPackage}{Package} class defines a package which was sent by
 \item[{{\bf Client} $\ast$}]{s, }
 \item[{{\bf Client} $\ast$}]{r, }
 \item[{const double}]{w, }
-\item[{const Priority}]{p}
+\item[{const {\bf Priority}}]{p}
 \end{DoxyParamCaption}
 )}\hypertarget{classPackage_a64d987fe7cb1d583f2af4a38e544a6f2}{}\label{classPackage_a64d987fe7cb1d583f2af4a38e544a6f2}
 
@@ -85,7 +110,7 @@ Constructor.
 \subsection{Member Function Documentation}
 \index{Package@{Package}!get\+Priority@{get\+Priority}}
 \index{get\+Priority@{get\+Priority}!Package@{Package}}
-\subsubsection[{\texorpdfstring{get\+Priority() const }{getPriority() const }}]{\setlength{\rightskip}{0pt plus 5cm}Package\+::\+Priority Package\+::get\+Priority (
+\subsubsection[{\texorpdfstring{get\+Priority() const }{getPriority() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Package\+::\+Priority} Package\+::get\+Priority (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
@@ -161,7 +186,7 @@ Weight getter.
 \index{set\+Priority@{set\+Priority}!Package@{Package}}
 \subsubsection[{\texorpdfstring{set\+Priority(const Priority)}{setPriority(const Priority)}}]{\setlength{\rightskip}{0pt plus 5cm}void Package\+::set\+Priority (
 \begin{DoxyParamCaption}
-\item[{const Priority}]{p}
+\item[{const {\bf Priority}}]{p}
 \end{DoxyParamCaption}
 )}\hypertarget{classPackage_afe16b4fbff0a050019ddf47978001464}{}\label{classPackage_afe16b4fbff0a050019ddf47978001464}
 

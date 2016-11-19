@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]]
+  ['operator_3c_3c',['operator&lt;&lt;',['../classClient.html#adeb74b47c51aa4da00d60e8ba153a4ed',1,'Client::operator&lt;&lt;()'],['../classPackage.html#a597c8930017d318dc99060084653366d',1,'Package::operator&lt;&lt;()']]]
 ];

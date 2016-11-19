@@ -38,7 +38,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -85,6 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classPackage-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -96,18 +96,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classPackage.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Package_8h_source.html">Package.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for Package:</div>
+<div class="dyncontent">
+<div class="center"><img src="classPackage__coll__graph.png" border="0" usemap="#Package_coll__map" alt="Collaboration graph"/></div>
+<map name="Package_coll__map" id="Package_coll__map">
+<area shape="rect" id="node2" href="classClient.html" title="Client class. " alt="" coords="14,5,70,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac96ebcf78f2d93898635a1275da0c0bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac96ebcf78f2d93898635a1275da0c0bd"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Priority</b> { <b>REGULAR</b>, 
+<tr class="memitem:ac96ebcf78f2d93898635a1275da0c0bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac96ebcf78f2d93898635a1275da0c0bd"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a> { <b>REGULAR</b>, 
 <b>TWO_DAY</b>, 
 <b>OVERNIGHT</b>
- }</td></tr>
+ }<tr class="memdesc:ac96ebcf78f2d93898635a1275da0c0bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority enum for package type. <br /></td></tr>
+</td></tr>
 <tr class="separator:ac96ebcf78f2d93898635a1275da0c0bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a64d987fe7cb1d583f2af4a38e544a6f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2">Package</a> (<a class="el" href="classClient.html">Client</a> *, <a class="el" href="classClient.html">Client</a> *, const double, const Priority)</td></tr>
+<tr class="memitem:a64d987fe7cb1d583f2af4a38e544a6f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2">Package</a> (<a class="el" href="classClient.html">Client</a> *, <a class="el" href="classClient.html">Client</a> *, const double, const <a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>)</td></tr>
 <tr class="memdesc:a64d987fe7cb1d583f2af4a38e544a6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a64d987fe7cb1d583f2af4a38e544a6f2">More...</a><br /></td></tr>
 <tr class="separator:a64d987fe7cb1d583f2af4a38e544a6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a933801e98e91c1d540f9a47926bfc314"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a933801e98e91c1d540f9a47926bfc314">setSender</a> (<a class="el" href="classClient.html">Client</a> *)</td></tr>
@@ -128,15 +137,34 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2da083a8cab4c978c22c49ac46226aee"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a2da083a8cab4c978c22c49ac46226aee">getWeight</a> () const </td></tr>
 <tr class="memdesc:a2da083a8cab4c978c22c49ac46226aee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weight getter.  <a href="#a2da083a8cab4c978c22c49ac46226aee">More...</a><br /></td></tr>
 <tr class="separator:a2da083a8cab4c978c22c49ac46226aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe16b4fbff0a050019ddf47978001464"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#afe16b4fbff0a050019ddf47978001464">setPriority</a> (const Priority)</td></tr>
+<tr class="memitem:afe16b4fbff0a050019ddf47978001464"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#afe16b4fbff0a050019ddf47978001464">setPriority</a> (const <a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>)</td></tr>
 <tr class="memdesc:afe16b4fbff0a050019ddf47978001464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority setter.  <a href="#afe16b4fbff0a050019ddf47978001464">More...</a><br /></td></tr>
 <tr class="separator:afe16b4fbff0a050019ddf47978001464"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accf52df9d08053e7c1c126d747e6beb0"><td class="memItemLeft" align="right" valign="top">Priority&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#accf52df9d08053e7c1c126d747e6beb0">getPriority</a> () const </td></tr>
+<tr class="memitem:accf52df9d08053e7c1c126d747e6beb0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#accf52df9d08053e7c1c126d747e6beb0">getPriority</a> () const </td></tr>
 <tr class="memdesc:accf52df9d08053e7c1c126d747e6beb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority getter.  <a href="#accf52df9d08053e7c1c126d747e6beb0">More...</a><br /></td></tr>
 <tr class="separator:accf52df9d08053e7c1c126d747e6beb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf5a625d7851e24dd18bae23309c03d7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#aaf5a625d7851e24dd18bae23309c03d7">getPriorityString</a> () const </td></tr>
 <tr class="memdesc:aaf5a625d7851e24dd18bae23309c03d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority string getter.  <a href="#aaf5a625d7851e24dd18bae23309c03d7">More...</a><br /></td></tr>
 <tr class="separator:aaf5a625d7851e24dd18bae23309c03d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:abacbedc4dee7b03adc395e6591a14fc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abacbedc4dee7b03adc395e6591a14fc2"></a>
+<a class="el" href="classClient.html">Client</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#abacbedc4dee7b03adc395e6591a14fc2">sender</a></td></tr>
+<tr class="memdesc:abacbedc4dee7b03adc395e6591a14fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to sender client. <br /></td></tr>
+<tr class="separator:abacbedc4dee7b03adc395e6591a14fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9331feb10443764e6992894866731eb8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9331feb10443764e6992894866731eb8"></a>
+<a class="el" href="classClient.html">Client</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a9331feb10443764e6992894866731eb8">receiver</a></td></tr>
+<tr class="memdesc:a9331feb10443764e6992894866731eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to receiver client. <br /></td></tr>
+<tr class="separator:a9331feb10443764e6992894866731eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54c6c965d6f9b94d463d3786e35f8a76"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54c6c965d6f9b94d463d3786e35f8a76"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a54c6c965d6f9b94d463d3786e35f8a76">weight</a></td></tr>
+<tr class="memdesc:a54c6c965d6f9b94d463d3786e35f8a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weight of package in ounces. <br /></td></tr>
+<tr class="separator:a54c6c965d6f9b94d463d3786e35f8a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ba73df5afb3cdd936d297652ce9af99"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ba73df5afb3cdd936d297652ce9af99"></a>
+<a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a4ba73df5afb3cdd936d297652ce9af99">priority</a></td></tr>
+<tr class="memdesc:a4ba73df5afb3cdd936d297652ce9af99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority enum of package. <br /></td></tr>
+<tr class="separator:a4ba73df5afb3cdd936d297652ce9af99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -174,7 +202,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Priority&#160;</td>
+          <td class="paramtype">const <a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>&#160;</td>
           <td class="paramname"><em>p</em>&#160;</td>
         </tr>
         <tr>
@@ -204,7 +232,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Package::Priority Package::getPriority </td>
+          <td class="memname"><a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Package::Priority</a> Package::getPriority </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -298,7 +326,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="
         <tr>
           <td class="memname">void Package::setPriority </td>
           <td>(</td>
-          <td class="paramtype">const Priority&#160;</td>
+          <td class="paramtype">const <a class="el" href="classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd">Priority</a>&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
         </tr>

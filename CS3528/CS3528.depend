@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1479590224 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+
+1479589905 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.h
+	<string>
+	<vector>
+
+1479590463 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.h
+	<string>
+	<vector>
+
+1479392721 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/client_test.cpp
+	<iostream>
+	<iomanip>
+	"Client.h"
+	"Package.h"
+
+1479392721 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.cpp
+	<string>
+	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+
