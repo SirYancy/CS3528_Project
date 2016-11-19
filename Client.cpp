@@ -90,13 +90,13 @@ string Client::toString() const{
         << "Sent Packages:" << endl;
     for(Package* p : sentPackages)
     {
-        output << " Received by: " << p->getSender()->getName() << endl
+        output << " Received by: " << p->getReceiver()->getName() << endl
             << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
     }
     output << "Received Packages: " << endl;
     for(Package* p : receivedPackages)
     {
-        output << " Sent by: " << p->getReceiver()->getName() << endl
+        output << " Sent by: " << p->getSender()->getName() << endl
             << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
     }
     return output.str();

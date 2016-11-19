@@ -46,7 +46,7 @@ class Client{
         //! To String
         string toString() const;
 
-            private:
+    private:
         //! Client name
         string name;
         //! Client address
