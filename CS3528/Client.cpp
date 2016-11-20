@@ -20,6 +20,9 @@ Client::Client(const string &nam, const string &add, const string &cit, const st
     city = trim_copy(cit);
     state = trim_copy(st);
     zip = trim_copy(z);
+
+    // Parse address into coordinates.
+    parseAddress();
 }
 
 //! Setter for name
@@ -103,17 +106,247 @@ string Client::toString() const{
     return output.str();
 }
 
-string Client::hashable() {
-    std::locale loc;
+void Client::parseAddress() {
+    // Stream to parse individual address chunks
+    stringstream parser(address);
 
-    string value;
+    // Address house/building number
+    int addressNum = 0;
 
-    for (unsigned int i = 0; i < name.length(); ++i) {
-        value += std::toupper(name.at(i), loc) ;
+    // Street number (12th, 1st, 106th)
+    int streetNum = 0;
+
+    // Avenue or street? Street = 1, Avenue = -1
+    int aveStreet = 0;
+    int temp = 0;
+
+    // Quadrant of city map. A negative number indicates South or West.
+    // (Cartesian coordinate signs)
+    int northSouth, eastWest;
+
+    // Parser temp output
+    string output;
+
+    parser >> output;
+
+    addressNum = stoi(output, nullptr, 10);
+
+    parser >> output;
+
+    output = strUpper(output);
+    if (output == "CENTRAL") {
+        // Central avenue runs North-South on X = 0
+        coordinates.first = 0;
+        // No east or west
+        eastWest = 0;
+
+        // No street number
+        streetNum = 0;
+    } else if (output == "MAIN") {
+        // Main runs East-West on Y = 0
+        coordinates.second = 0;
+        // No north or south
+        northSouth = 0;
+
+        // No street number
+        streetNum = 0;
+    } else {
+        // We are not on the axis, so need to know what block we're on
+        streetNum = stoi(output, nullptr, 10);
+
     }
 
-    value += coords.first + "," + coords.second;
-    return value;
+    // This will be an avenue or street.
+    parser >> output;
+    output = strUpper(output);
+
+    if (output.find("AVE") != string::npos) {
+        aveStreet = -1;
+    } else if (output.find("ST") != string::npos) {
+        aveStreet = 1;
+    }
+
+    // This should be a cardinal direction.
+    parser >> output;
+    output = strUpper(output);
+
+    if (output == "N") {
+        northSouth = 1;
+
+        coordinates.second = addressNum / 100;
+
+        // Which side of the middle of the block are we?
+        if ((addressNum % 100) > 50) {
+            coordinates.second += 1;
+        }
+
+    } else if (output == "NW") {
+        northSouth = 1;
+        eastWest = -1;
+
+        // We have a Northern STREET
+        if (aveStreet == 1) {
+            // Positive Y
+            coordinates.second = streetNum;
+
+            coordinates.first = addressNum / 100;
+
+            // Which side of the middle of the block are we?
+            if ((addressNum % 100) > 50) {
+                coordinates.first += 1;
+            }
+
+            // Negative X
+            coordinates.first *= -1;
+
+        } else if (aveStreet == -1) {
+            // We have a Western AVENUE
+
+            coordinates.first = streetNum * -1;
+
+            coordinates.second = addressNum / 100;
+
+            if ((addressNum % 100) > 50) {
+                coordinates.second += 1;
+            }
+
+        }
+
+    } else if (output == "W") {
+        eastWest = -1;
+
+        coordinates.first = addressNum / 100;
+
+        // Which side of the middle of the block are we?
+        if ((addressNum % 100) > 50) {
+            coordinates.first += 1;
+        }
+
+        // Negative X
+        coordinates.first *= -1;
+
+    } else if (output == "SW") {
+        eastWest = -1;
+        northSouth = -1;
+
+        // We have a Southern STREET
+        if (aveStreet == 1) {
+            // Negative Y
+            coordinates.second = streetNum * -1;
+
+            coordinates.first = addressNum / 100;
+
+            // Which side of the middle of the block are we?
+            if ((addressNum % 100) > 50) {
+                coordinates.first += 1;
+            }
+
+            // Negative X
+            coordinates.first *= -1;
+
+        } else if (aveStreet == -1) {
+            // We have a Western AVENUE
+            // Negative X
+            coordinates.first = streetNum * -1;
+
+            coordinates.second = addressNum / 100;
+
+            if ((addressNum % 100) > 50) {
+                coordinates.second += 1;
+            }
+
+            // Negative Y
+            coordinates.second *= -1;
+
+        }
+
+    } else if (output == "S") {
+        northSouth = -1;
+
+        coordinates.second = addressNum / 100;
+
+        // Which side of the middle of the block are we?
+        if ((addressNum % 100) > 50) {
+            coordinates.second += 1;
+        }
+
+        // Negative Y
+        coordinates.second *= -1;
+
+    } else if (output == "SE") {
+        northSouth = -1;
+        eastWest = 1;
+
+        // We have a Southern STREET
+        if (aveStreet == 1) {
+            // Positive Y
+            coordinates.second = streetNum * -1;
+
+            coordinates.first = addressNum / 100;
+
+            // Which side of the middle of the block are we?
+            if ((addressNum % 100) > 50) {
+                coordinates.first += 1;
+            }
+
+
+        } else if (aveStreet == -1) {
+            // We have a Eastern AVENUE
+
+            coordinates.first = streetNum;
+
+            coordinates.second = addressNum / 100;
+
+            if ((addressNum % 100) > 50) {
+                coordinates.second += 1;
+            }
+
+            // Negative Y
+            coordinates.second *= -1;
+
+        }
+
+    } else if (output == "E") {
+        eastWest = 1;
+
+        coordinates.first = addressNum / 100;
+
+        // Which side of the middle of the block are we?
+        if ((addressNum % 100) > 50) {
+            coordinates.first += 1;
+        }
+
+    } else if (output == "NE") {
+        northSouth = 1;
+        eastWest = 1;
+
+        // We have a Northern STREET
+        if (aveStreet == 1) {
+            // Positive Y
+            coordinates.second = streetNum;
+
+            coordinates.first = addressNum / 100;
+
+            // Which side of the middle of the block are we?
+            if ((addressNum % 100) > 50) {
+                coordinates.first += 1;
+            }
+
+        } else if (aveStreet == -1) {
+            // We have a Eastern AVENUE
+
+            coordinates.first = streetNum;
+
+            coordinates.second = addressNum / 100;
+
+            if ((addressNum % 100) > 50) {
+                coordinates.second += 1;
+            }
+
+        }
+    }
+
+
 }
 
 

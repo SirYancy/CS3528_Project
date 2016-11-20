@@ -49,13 +49,18 @@ class Package{
         string getPriorityString() const;
 
     private:
-        Client *sender;     //!< Pointer to sender client
-        Client *receiver;   //!< Pointer to receiver client
-        double weight;      //!< Weight of package in ounces
-        Priority priority;  //!< Priority enum of package
+        //! Pointer to sender client
+        Client *sender;
+        //! Pointer to receiver client
+        Client *receiver;
+        //! Weight of package in ounces
+        double weight;
+        //! Priority enum of package
+        Priority priority;
 
         //! Package delivered?
         bool Delivered = false;
+
 };
 
 #endif //PACKAGE_H

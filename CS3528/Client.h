@@ -72,11 +72,9 @@ class Client{
         //! To String
         string toString() const;
 
-        //! String translation function
-        /*! Function to create a string to be hashed for a hash map.
-         * \return A string to be passed to a hash map as a key.
-         */
-        string hashable();
+        void parseAddress();
+
+        pair<int, int> getCoords() {return coordinates;};
 
     private:
         //! Client name
@@ -101,7 +99,7 @@ class Client{
         vector<Package*> receivedPackages;
 
         //! Coordinate pair of address in the city.
-        pair<int, int> coords;
+        pair<int, int> coordinates;
 };
 
 #endif //CLIENT_H

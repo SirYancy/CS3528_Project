@@ -1,18 +1,23 @@
 # depslib dependency file v1.0
-1479599593 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.cpp
+1479673113 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.cpp
 	<string>
 	<vector>
 	<sstream>
 	<iostream>
 	"Client.h"
 	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
 
-1479600666 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.h
+1479673183 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.h
 	<string>
 	<vector>
 	<utility>
 
-1479598381 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.h
+1479664485 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.h
 	<string>
 	<vector>
 
@@ -31,4 +36,12 @@
 	<sstream>
 	"Package.h"
 	"Client.h"
+
+1479667942 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.cpp
+	"Utils.h"
+	<string>
+	<locale>
+
+1479667922 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.h
+	<string>
 

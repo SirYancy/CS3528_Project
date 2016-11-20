@@ -24,5 +24,10 @@ inline std::string trim_copy(
   return trim_left_copy( trim_right_copy( s, delimiters ), delimiters );
 }
 
+//! String translation function
+/*! Function to create a string to uppercase. Not internationally safe.
+ * \return A string that has been case folded to UPPER.
+ */
+std::string strUpper(const std::string& s);
 
 #endif // UTILS_H_INCLUDED
