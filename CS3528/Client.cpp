@@ -4,17 +4,23 @@
 #include <iostream>
 #include "Client.h"
 #include "Package.h"
+#include <algorithm>
+#include <locale>
+#include <cctype>
+#include <functional>
+#include "Utils.h"
+
 using namespace std;
 
-//! Constructor
-/*!
- \param &name reference to client's name
- \param &address reference to client's address
-*/
-Client::Client(
-        const string &name,
-        const string &address)
-    : name(name), address(address) {}
+Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z) {
+
+    // Trim whitespace
+    name = trim_copy(nam);
+    address = trim_copy(add);
+    city = trim_copy(cit);
+    state = trim_copy(st);
+    zip = trim_copy(z);
+}
 
 //! Setter for name
 /*!
@@ -23,27 +29,18 @@ Client::Client(
 void Client::setName(const string& n){
     name = n;
 }
-//! Getter for name
-/*!
- \return name
- */
-string Client::getName() const{
-    return name;
-}
 
 //! Setter for address
 /*!
  \param a reference to address string
  */
-void Client::setAddress(const string& a){
+void Client::setAddress(const string &a, const string &c, const string &s, const string &z){
+
     address = a;
-}
-//! Getter for address
-/*!
- \return Street Address
- */
-string Client::getAddress() const{
-    return address;
+    city = c;
+    state = s;
+    zip = z;
+
 }
 
 //! Add a sent package
@@ -84,22 +81,39 @@ vector<Package *> Client::getReceivedPackages() const
  */
 string Client::toString() const{
     ostringstream output;
-    output << endl
-        << "Name: " << name << endl
-        << "Address: " << address << endl
-        << "Sent Packages:" << endl;
+
+    output << endl;
+    output << "Client: " << name << endl;
+    output << address << endl;
+    output << city << ", " << state << " " << zip << endl;
+    output << endl << "Sent Packages:" << endl;
+
     for(Package* p : sentPackages)
     {
-        output << " Received by: " << p->getReceiver()->getName() << endl
-            << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
+        output  << " Received by: " << p->getReceiver()->getName() << endl
+                << "      Weight: " << p->getWeight() << endl
+                << "    Priority: " << p->getPriorityString() << endl;
     }
-    output << "Received Packages: " << endl;
+    output << endl << "Received Packages: " << endl;
     for(Package* p : receivedPackages)
     {
-        output << " Sent by: " << p->getSender()->getName() << endl
-            << "  Weight: " << p->getWeight() << " Priority: " << p->getPriorityString() << endl;
+        output  << " Sent by: " << p->getSender()->getName() << endl;
+        output  << "  Weight: " << p->getWeight() << endl << " Priority: " << p->getPriorityString() << endl;
     }
     return output.str();
+}
+
+string Client::hashable() {
+    std::locale loc;
+
+    string value;
+
+    for (unsigned int i = 0; i < name.length(); ++i) {
+        value += std::toupper(name.at(i), loc) ;
+    }
+
+    value += coords.first + "," + coords.second;
+    return value;
 }
 
 
@@ -111,6 +125,6 @@ string Client::toString() const{
  */
 ostream& operator<<(ostream& output, const Client& client)
 {
-    output << client.name << endl << client.address << endl;
+    output << client.name << endl << client.address << endl << client.city << ", " << client.state << " " << client.zip << endl;
     return output;
 }

@@ -20,23 +20,47 @@ class Client{
     public:
         //! Client basic constructor
         /*!
-         * Basic constructor takes strings for name and address.
+         * Basic constructor.
+         * \param name Name of client.
+         * \param address Street address for client.
+         * \param city City of client
+         * \param state State of client
+         * \param zip ZIP code of client. Note string usage for international packages.
          */
-        Client(const string&,
-                const string&);
+        Client(const string &name, const string &address, const string &city, const string &state, const string &zip);
 
         //! Setter for name
         void setName(const string&);
+
         //! Getter for name
-        string getName() const;
+        string getName() const {return name;};
 
         //! Setter for address
-        void setAddress(const string&);
+        /*! Updates address for client.
+         * \param address Street address for client.
+         * \param city City of client
+         * \param state State of client
+         * \param zip ZIP code of client. Note string usage for international packages.
+         */
+        void setAddress(const string &address, const string &city, const string &state, const string &zip);
+
         //! Getter for address
-        string getAddress() const;
+        /*! \return String of street address
+         */
+        string getAddress() const {return address;};
+
+        //! Getter for city
+        string getCity() const {return city;};
+
+        //! Getter for state
+        string getState() const {return state;};
+
+        //! Getter for zip
+        string getZip() const {return zip;};
 
         //! Add a sent package
         void sendPackage(Package *pack);
+
         //! Get sent packages
         vector<Package*> getSentPackages() const;
 
@@ -48,17 +72,36 @@ class Client{
         //! To String
         string toString() const;
 
+        //! String translation function
+        /*! Function to create a string to be hashed for a hash map.
+         * \return A string to be passed to a hash map as a key.
+         */
+        string hashable();
+
     private:
         //! Client name
-        string name;
-        //! Client address
-        string address;
+        string name = "";
+
+        //! Client street address
+        string address = "";
+
+        //! Client city
+        string city = "";
+
+        //! Client state
+        string state = "";
+
+        //! Client zip. Note as string due to possible upgrades to none numeric zips (eg, UK.)
+        string zip = "";
 
 
         //! Vector of packages sent by this client
         vector<Package*> sentPackages;
         //! Vector of packages received by this client
         vector<Package*> receivedPackages;
+
+        //! Coordinate pair of address in the city.
+        pair<int, int> coords;
 };
 
 #endif //CLIENT_H

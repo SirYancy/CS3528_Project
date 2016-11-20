@@ -25,7 +25,7 @@ class Package{
 
         //! Constructor
         Package(Client*, Client*, const double, const Priority);
- 
+
         //! Sender setter
         void setSender(Client*);
         //! Sender getter
@@ -53,6 +53,9 @@ class Package{
         Client *receiver;   //!< Pointer to receiver client
         double weight;      //!< Weight of package in ounces
         Priority priority;  //!< Priority enum of package
+
+        //! Package delivered?
+        bool Delivered = false;
 };
 
 #endif //PACKAGE_H
