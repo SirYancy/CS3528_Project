@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['weight',['weight',['../classPackage.html#a54c6c965d6f9b94d463d3786e35f8a76',1,'Package']]]
+  ['receivedpackages',['receivedPackages',['../classClient.html#ae0b61b806652c0dd46a5ef3e0308fb51',1,'Client']]],
+  ['receiver',['receiver',['../classPackage.html#a9331feb10443764e6992894866731eb8',1,'Package']]]
 ];

@@ -12,16 +12,27 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}{Client} (const string \&, const string \&)
+\hyperlink{classClient_a2581a22e25217aafda77c410ee67092c}{Client} (const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} basic constructor. \end{DoxyCompactList}\item 
-void \hyperlink{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{set\+Name} (const string \&)
+void \hyperlink{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{set\+Name} (const string \&)\hypertarget{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{}\label{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}
+
 \begin{DoxyCompactList}\small\item\em Setter for name. \end{DoxyCompactList}\item 
-string \hyperlink{classClient_a28a677584ad4793b50b31c2e75039e2c}{get\+Name} () const 
+string \hyperlink{classClient_a28a677584ad4793b50b31c2e75039e2c}{get\+Name} () const \hypertarget{classClient_a28a677584ad4793b50b31c2e75039e2c}{}\label{classClient_a28a677584ad4793b50b31c2e75039e2c}
+
 \begin{DoxyCompactList}\small\item\em Getter for name. \end{DoxyCompactList}\item 
-void \hyperlink{classClient_a8a035b3e170849283f8b130965c5fa75}{set\+Address} (const string \&)
+void \hyperlink{classClient_a69b7a62c15ec787ae86bb66ce4ad312a}{set\+Address} (const string \&add, const string \&cit, const string \&st, const string \&z)
 \begin{DoxyCompactList}\small\item\em Setter for address. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a291fb22c4fccb2a6b182c355078553ed}{get\+Address} () const 
 \begin{DoxyCompactList}\small\item\em Getter for address. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_ad92aa60043bd899cdad19b9ca6a77a2e}{get\+City} () const \hypertarget{classClient_ad92aa60043bd899cdad19b9ca6a77a2e}{}\label{classClient_ad92aa60043bd899cdad19b9ca6a77a2e}
+
+\begin{DoxyCompactList}\small\item\em Getter for city. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_adf5ae51b9e301019f229b6dd6893f550}{get\+State} () const \hypertarget{classClient_adf5ae51b9e301019f229b6dd6893f550}{}\label{classClient_adf5ae51b9e301019f229b6dd6893f550}
+
+\begin{DoxyCompactList}\small\item\em Getter for state. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a4595dcdc42fc6dfbf7b53a3dd495b4f1}{get\+Zip} () const \hypertarget{classClient_a4595dcdc42fc6dfbf7b53a3dd495b4f1}{}\label{classClient_a4595dcdc42fc6dfbf7b53a3dd495b4f1}
+
+\begin{DoxyCompactList}\small\item\em Getter for zip. \end{DoxyCompactList}\item 
 void \hyperlink{classClient_a2127f6355c6d4fe400f3dd314e1fabc8}{send\+Package} (\hyperlink{classPackage}{Package} $\ast$pack)
 \begin{DoxyCompactList}\small\item\em Add a sent package. \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aff47cd6d18feba4c43f7ff495d73f495}{get\+Sent\+Packages} () const 
@@ -31,22 +42,41 @@ void \hyperlink{classClient_a1726c784a1c19701a13e12333cf906e5}{receive\+Package}
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_aae2dee02f0951f418941234103c275ef}{get\+Received\+Packages} () const 
 \begin{DoxyCompactList}\small\item\em Get received packages. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a994ff91075daf477725ca055874e3e22}{to\+String} () const 
-\begin{DoxyCompactList}\small\item\em To String. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em To String. \end{DoxyCompactList}\item 
+pair$<$ int, int $>$ \hyperlink{classClient_a00ea13c3af8a5eb6d931e73a5a00bdd4}{get\+Coords} ()
+\begin{DoxyCompactList}\small\item\em Returns coordinate pair of client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classClient_a6953fb1cd2e5a4fa87ee08479072a402}{parse\+Address} ()
+\begin{DoxyCompactList}\small\item\em Parses address into coordinates. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-string \hyperlink{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{name}\hypertarget{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{}\label{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}
+string \hyperlink{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{name} = \char`\"{}\char`\"{}\hypertarget{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}{}\label{classClient_a456e36f9972a8bf3ecdb5f0e70b3bd5d}
 
 \begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} name. \end{DoxyCompactList}\item 
-string \hyperlink{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{address}\hypertarget{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{}\label{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}
+string \hyperlink{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{address} = \char`\"{}\char`\"{}\hypertarget{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}{}\label{classClient_a6355d7fc34358ed4ceac7985f7c46e6e}
 
-\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} address. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} street address. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a583900f81428de47df9296d49022e022}{city} = \char`\"{}\char`\"{}\hypertarget{classClient_a583900f81428de47df9296d49022e022}{}\label{classClient_a583900f81428de47df9296d49022e022}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} city. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a4e50f1a7dc56fc407b43ee88340ba032}{state} = \char`\"{}\char`\"{}\hypertarget{classClient_a4e50f1a7dc56fc407b43ee88340ba032}{}\label{classClient_a4e50f1a7dc56fc407b43ee88340ba032}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} state. \end{DoxyCompactList}\item 
+string \hyperlink{classClient_a9ee92d218e3709abbd9448e162ea306f}{zip} = \char`\"{}\char`\"{}\hypertarget{classClient_a9ee92d218e3709abbd9448e162ea306f}{}\label{classClient_a9ee92d218e3709abbd9448e162ea306f}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} zip. Note as string due to possible upgrades to none numeric zips (eg, UK.) \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_a2b2adb035b1729e5914a2ff85e672c88}{sent\+Packages}\hypertarget{classClient_a2b2adb035b1729e5914a2ff85e672c88}{}\label{classClient_a2b2adb035b1729e5914a2ff85e672c88}
 
 \begin{DoxyCompactList}\small\item\em Vector of packages sent by this client. \end{DoxyCompactList}\item 
 vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}{received\+Packages}\hypertarget{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}{}\label{classClient_ae0b61b806652c0dd46a5ef3e0308fb51}
 
-\begin{DoxyCompactList}\small\item\em Vector of packages received by this client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Vector of packages received by this client. \end{DoxyCompactList}\item 
+pair$<$ int, int $>$ \hyperlink{classClient_a521946a39509ca76f9ef7bea68e47153}{coordinates}\hypertarget{classClient_a521946a39509ca76f9ef7bea68e47153}{}\label{classClient_a521946a39509ca76f9ef7bea68e47153}
+
+\begin{DoxyCompactList}\small\item\em Coordinate pair of address in the city. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -63,25 +93,30 @@ This client class defines a citizen of the town who can send and receive package
 \subsection{Constructor \& Destructor Documentation}
 \index{Client@{Client}!Client@{Client}}
 \index{Client@{Client}!Client@{Client}}
-\subsubsection[{\texorpdfstring{Client(const string \&, const string \&)}{Client(const string \&, const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
+\subsubsection[{\texorpdfstring{Client(const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)}{Client(const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
 \begin{DoxyParamCaption}
-\item[{const string \&}]{name, }
-\item[{const string \&}]{address}
+\item[{const string \&}]{nam, }
+\item[{const string \&}]{add, }
+\item[{const string \&}]{cit, }
+\item[{const string \&}]{st, }
+\item[{const string \&}]{z}
 \end{DoxyParamCaption}
-)}\hypertarget{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}{}\label{classClient_a48f1cf82b72f664d7cc64a4f3022f5eb}
+)}\hypertarget{classClient_a2581a22e25217aafda77c410ee67092c}{}\label{classClient_a2581a22e25217aafda77c410ee67092c}
 
 
 \hyperlink{classClient}{Client} basic constructor. 
 
-Constructor.
-
-Basic constructor takes strings for name and address.
-
-
+Basic constructor. 
 \begin{DoxyParams}{Parameters}
-{\em \&name} & reference to client\textquotesingle{}s name \\
+{\em nam} & Name of client. \\
 \hline
-{\em \&address} & reference to client\textquotesingle{}s address \\
+{\em add} & Street address for client. \\
+\hline
+{\em cit} & City of client \\
+\hline
+{\em st} & State of client \\
+\hline
+{\em z} & Z\+IP code of client. Note string usage for international packages. \\
 \hline
 \end{DoxyParams}
 
@@ -93,27 +128,27 @@ Basic constructor takes strings for name and address.
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}\hypertarget{classClient_a291fb22c4fccb2a6b182c355078553ed}{}\label{classClient_a291fb22c4fccb2a6b182c355078553ed}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classClient_a291fb22c4fccb2a6b182c355078553ed}{}\label{classClient_a291fb22c4fccb2a6b182c355078553ed}
 
 
 Getter for address. 
 
 \begin{DoxyReturn}{Returns}
-Street Address 
+String of street address 
 \end{DoxyReturn}
-\index{Client@{Client}!get\+Name@{get\+Name}}
-\index{get\+Name@{get\+Name}!Client@{Client}}
-\subsubsection[{\texorpdfstring{get\+Name() const }{getName() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Client\+::get\+Name (
+\index{Client@{Client}!get\+Coords@{get\+Coords}}
+\index{get\+Coords@{get\+Coords}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Coords()}{getCoords()}}]{\setlength{\rightskip}{0pt plus 5cm}pair$<$int, int$>$ Client\+::get\+Coords (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) const}\hypertarget{classClient_a28a677584ad4793b50b31c2e75039e2c}{}\label{classClient_a28a677584ad4793b50b31c2e75039e2c}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classClient_a00ea13c3af8a5eb6d931e73a5a00bdd4}{}\label{classClient_a00ea13c3af8a5eb6d931e73a5a00bdd4}
 
 
-Getter for name. 
+Returns coordinate pair of client. 
 
 \begin{DoxyReturn}{Returns}
-name 
+Coordinate pair of client on City grid. 
 \end{DoxyReturn}
 \index{Client@{Client}!get\+Received\+Packages@{get\+Received\+Packages}}
 \index{get\+Received\+Packages@{get\+Received\+Packages}!Client@{Client}}
@@ -143,7 +178,18 @@ Get sent packages.
 \begin{DoxyReturn}{Returns}
 Vector of sent packages 
 \end{DoxyReturn}
-\index{Client@{Client}!receive\+Package@{receive\+Package}}
+\index{Client@{Client}!parse\+Address@{parse\+Address}}
+\index{parse\+Address@{parse\+Address}!Client@{Client}}
+\subsubsection[{\texorpdfstring{parse\+Address()}{parseAddress()}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::parse\+Address (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classClient_a6953fb1cd2e5a4fa87ee08479072a402}{}\label{classClient_a6953fb1cd2e5a4fa87ee08479072a402}
+
+
+Parses address into coordinates. 
+
+Parses the address stored in object variables to Cartesian coordinates. Main Street runs East/\+West at $Y=0$. Central Avenue runs North/\+South at $X=0$. All avenues are N/S, while all streets are E/W. Building numbers are modulus 100, and rounded up or down to the nearest integer. \index{Client@{Client}!receive\+Package@{receive\+Package}}
 \index{receive\+Package@{receive\+Package}!Client@{Client}}
 \subsubsection[{\texorpdfstring{receive\+Package(\+Package $\ast$pack)}{receivePackage(Package *pack)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::receive\+Package (
 \begin{DoxyParamCaption}
@@ -177,34 +223,27 @@ Add a sent package.
 \end{DoxyParams}
 \index{Client@{Client}!set\+Address@{set\+Address}}
 \index{set\+Address@{set\+Address}!Client@{Client}}
-\subsubsection[{\texorpdfstring{set\+Address(const string \&)}{setAddress(const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Address (
+\subsubsection[{\texorpdfstring{set\+Address(const string \&add, const string \&cit, const string \&st, const string \&z)}{setAddress(const string \&add, const string \&cit, const string \&st, const string \&z)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Address (
 \begin{DoxyParamCaption}
-\item[{const string \&}]{a}
+\item[{const string \&}]{add, }
+\item[{const string \&}]{cit, }
+\item[{const string \&}]{st, }
+\item[{const string \&}]{z}
 \end{DoxyParamCaption}
-)}\hypertarget{classClient_a8a035b3e170849283f8b130965c5fa75}{}\label{classClient_a8a035b3e170849283f8b130965c5fa75}
+)}\hypertarget{classClient_a69b7a62c15ec787ae86bb66ce4ad312a}{}\label{classClient_a69b7a62c15ec787ae86bb66ce4ad312a}
 
 
 Setter for address. 
 
-
+Updates address for client. 
 \begin{DoxyParams}{Parameters}
-{\em a} & reference to address string \\
+{\em add} & Street address for client. \\
 \hline
-\end{DoxyParams}
-\index{Client@{Client}!set\+Name@{set\+Name}}
-\index{set\+Name@{set\+Name}!Client@{Client}}
-\subsubsection[{\texorpdfstring{set\+Name(const string \&)}{setName(const string \&)}}]{\setlength{\rightskip}{0pt plus 5cm}void Client\+::set\+Name (
-\begin{DoxyParamCaption}
-\item[{const string \&}]{n}
-\end{DoxyParamCaption}
-)}\hypertarget{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{}\label{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}
-
-
-Setter for name. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em n} & reference to name string \\
+{\em cit} & City of client \\
+\hline
+{\em st} & State of client \\
+\hline
+{\em z} & Z\+IP code of client. Note string usage for international packages. \\
 \hline
 \end{DoxyParams}
 \index{Client@{Client}!to\+String@{to\+String}}
@@ -218,6 +257,9 @@ Setter for name.
 
 To String. 
 
+Converts client information to string for debugging output. \begin{DoxyReturn}{Returns}
+String containing client info for std\+::cout
+\end{DoxyReturn}
 Prints out client\textquotesingle{}s name and address and also all packages associated with the client. Insertion operator only prints name and address. \begin{DoxyReturn}{Returns}
 string representation of client and all sent and received packages 
 \end{DoxyReturn}

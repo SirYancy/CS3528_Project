@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['package',['Package',['../classPackage.html',1,'Package'],['../classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2',1,'Package::Package()']]],
-  ['priority',['Priority',['../classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd',1,'Package::Priority()'],['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package::priority()']]]
+  ['operator_3c_3c',['operator&lt;&lt;',['../classClient.html#adeb74b47c51aa4da00d60e8ba153a4ed',1,'Client::operator&lt;&lt;()'],['../classPackage.html#a597c8930017d318dc99060084653366d',1,'Package::operator&lt;&lt;()']]]
 ];

@@ -21,13 +21,13 @@ class Client{
         //! Client basic constructor
         /*!
          * Basic constructor.
-         * \param name Name of client.
-         * \param address Street address for client.
-         * \param city City of client
-         * \param state State of client
-         * \param zip ZIP code of client. Note string usage for international packages.
+         * \param nam Name of client.
+         * \param add Street address for client.
+         * \param cit City of client
+         * \param st State of client
+         * \param z ZIP code of client. Note string usage for international packages.
          */
-        Client(const string &name, const string &address, const string &city, const string &state, const string &zip);
+        Client(const string &nam, const string &add, const string &cit, const string &st, const string &z);
 
         //! Setter for name
         void setName(const string&);
@@ -37,12 +37,12 @@ class Client{
 
         //! Setter for address
         /*! Updates address for client.
-         * \param address Street address for client.
-         * \param city City of client
-         * \param state State of client
-         * \param zip ZIP code of client. Note string usage for international packages.
+         * \param add Street address for client.
+         * \param cit City of client
+         * \param st State of client
+         * \param z ZIP code of client. Note string usage for international packages.
          */
-        void setAddress(const string &address, const string &city, const string &state, const string &zip);
+        void setAddress(const string &add, const string &cit, const string &st, const string &z);
 
         //! Getter for address
         /*! \return String of street address
@@ -70,13 +70,26 @@ class Client{
         vector<Package*> getReceivedPackages() const;
 
         //! To String
+        /*! Converts client information to string for debugging output.
+         * \return String containing client info for std::cout
+         */
         string toString() const;
 
-        void parseAddress();
-
+        //! Returns coordinate pair of client.
+        /*! \return Coordinate pair of client on City grid.
+         */
         pair<int, int> getCoords() {return coordinates;};
 
     private:
+        //! Parses address into coordinates
+        /*! Parses the address stored in object variables to Cartesian coordinates.
+         * Main Street runs East/West at \f$Y=0\f$.
+         * Central Avenue runs North/South at \f$X=0\f$.
+         * All avenues are N/S, while all streets are E/W.
+         * Building numbers are modulus 100, and rounded up or down to the nearest integer.
+         */
+        void parseAddress();
+
         //! Client name
         string name = "";
 

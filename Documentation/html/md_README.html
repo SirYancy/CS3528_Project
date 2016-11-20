@@ -79,7 +79,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">CS3528_Project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Final project for class CS3528 </p>
+<div class="textblock"><p>Final project for class CS3528 </p><h2>Team Hope</h2>
+<ul>
+<li>Eric Kuha</li>
+<li>Chelsey Riewer</li>
+<li>Robert Susmilch</li>
+</ul>
+<h2>Basic Idea</h2>
+<p>To create a utility application for a (UPS) style package delivery system which operates in one town.</p>
+<h2>Requirements</h2>
+<ul>
+<li>Sort and order packages into truck</li>
+<li>Determine packages that can be delivered on time<ul>
+<li>Each truck can only operate for 8 hours per day</li>
+<li>Trucks will have a weight limit</li>
+<li>Assume it takes 1 minute to drive one block</li>
+<li>Each stop takes 5 minutes</li>
+</ul>
+</li>
+<li>Output should include list of packages for each truck and a set of driving directions for each driver.</li>
+<li>Packages have the following information<ul>
+<li>UUID</li>
+<li>Two client objects: Sender and receiver</li>
+<li>Priority: Overnight, Two Day, Regular</li>
+</ul>
+</li>
+<li>Clients have the following information<ul>
+<li>UUID (Maybe?)</li>
+<li>Name and address information</li>
+<li>A list record of sent packages</li>
+<li>A list record of received packages</li>
+</ul>
+</li>
+<li>The city has the following qualities<ul>
+<li>Assumed to be divided into quadrants</li>
+<li>X axis is Main Street</li>
+<li>Y axis is Central Avenue</li>
+<li>Streets that are y=n are called nth Stree North or nth Street South</li>
+<li>Streets that are x=n are called nth Avenue East or nth Avenue West </li>
+</ul>
+</li>
+</ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

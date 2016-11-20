@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['receivedpackages',['receivedPackages',['../classClient.html#ae0b61b806652c0dd46a5ef3e0308fb51',1,'Client']]],
-  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]],
-  ['receiver',['receiver',['../classPackage.html#a9331feb10443764e6992894866731eb8',1,'Package']]]
+  ['package',['Package',['../classPackage.html',1,'Package'],['../classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2',1,'Package::Package()']]],
+  ['parseaddress',['parseAddress',['../classClient.html#a6953fb1cd2e5a4fa87ee08479072a402',1,'Client']]],
+  ['priority',['Priority',['../classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd',1,'Package::Priority()'],['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package::priority()']]]
 ];

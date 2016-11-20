@@ -25,23 +25,17 @@ Client::Client(const string &nam, const string &add, const string &cit, const st
     parseAddress();
 }
 
-//! Setter for name
-/*!
- \param n reference to name string
- */
+
 void Client::setName(const string& n){
     name = n;
 }
 
-//! Setter for address
-/*!
- \param a reference to address string
- */
-void Client::setAddress(const string &a, const string &c, const string &s, const string &z){
 
-    address = a;
-    city = c;
-    state = s;
+void Client::setAddress(const string &add, const string &cit, const string &st, const string &z){
+
+    address = add;
+    city = cit;
+    state = st;
     zip = z;
 
 }
