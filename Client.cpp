@@ -45,14 +45,14 @@ void Client::setAddress(const string &add, const string &cit, const string &st, 
  \param pack pointer to package
  */
 void Client::sendPackage(Package *pack){
-    cout << pack << endl;
+    cout << "Sent: " << pack << endl;
     sentPackages.push_back(pack);
 }
 //! Get sent packages
 /*!
  \return Vector of sent packages
  */
-vector<Package *> Client::getSentPackages() const{
+vector<Package*> Client::getSentPackages() const{
     return sentPackages;
 }
 
@@ -61,14 +61,14 @@ vector<Package *> Client::getSentPackages() const{
  \param pack pointer to package
  */
 void Client::receivePackage(Package *pack){
-    cout << pack << endl;
+    cout << "Received: " << pack << endl;
     receivedPackages.push_back(pack);
 }
 //! Get received packages
 /*!
  \return Vector of received packages
  */
-vector<Package *> Client::getReceivedPackages() const
+vector<Package*> Client::getReceivedPackages() const
 {
     return receivedPackages;
 }

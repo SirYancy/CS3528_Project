@@ -41,11 +41,11 @@ typedef struct {
 
 } randomPackageEnum;
 
-void readFile(string fileName, vector<Package> &packageList, vector<Client*> &clientList) {
+void readFile(string fileName, vector<Package*> &packageList, vector<Client*> &clientList) {
     vector<string> csvLine;
     string line;
     string token;
-    string clientName;
+    string clientStr;
     float weight;
     int integer;
     Priority packagePriority;
@@ -77,17 +77,20 @@ void readFile(string fileName, vector<Package> &packageList, vector<Client*> &cl
         }
         cout << endl;
 
-        clientName = csvLine[0] + " " + csvLine[1];
+        //clientStr = csvLine[0] + "," + csvLine[1] + "," + csvLine[2] + "," + csvLine[3] + "," + csvLine[4] +"," + csvLine[5];
         // Create a persistent client and reference via pointer. Must call delete when done to free memory.
         Client* senderPtr = new Client(csvLine[0] + " " + csvLine[1], csvLine[2], csvLine[3], csvLine[4], csvLine[5]);
         Client* receiverPtr = new Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11]);
-        /*
-        clientList.push_back(senderPtr);
-        clientList.push_back(receiverPtr);
-        */
 
         clientList.push_back(senderPtr);
         clientList.push_back(receiverPtr);
+
+
+        //clientList.emplace_back(Client(csvLine[0] + " " + csvLine[1], csvLine[2], csvLine[3], csvLine[4], csvLine[5]));
+
+        //Client* senderPtr = clientList.back().getPointer();
+        //clientList.emplace_back(Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11]));
+        //Client* receiverPtr = clientList.back().getPointer();
 
         cout << "Weight: " << csvLine[12] << endl;
         stringstream conversion(csvLine[12]);
@@ -96,12 +99,20 @@ void readFile(string fileName, vector<Package> &packageList, vector<Client*> &cl
         conversion.str(csvLine[13]);
         conversion >> integer;
         packagePriority = static_cast<Priority>(integer);
-        /*Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority);
+        Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority);
         packageList.push_back(packagePtr);
-        */
 
-        packageList.emplace_back(Package(senderPtr, receiverPtr, weight, packagePriority));
 
+        //packageList.emplace_back(Package(senderPtr, receiverPtr, weight, packagePriority));
+        //packageList.emplace_back(Package(senderPtr, receiverPtr, weight, packagePriority));
+        //Package* packagePtr = packageList.back().getPointer();
+        cout << "Package ptr: " << packagePtr;
+        cout << endl;
+        senderPtr->sendPackage(packagePtr);
+        cout << endl;
+        receiverPtr->receivePackage(packagePtr);
+
+        cout << "From stuffing function: " << packagePtr->getSender()->getName() << endl;
     }
 }
 
@@ -300,40 +311,51 @@ void randomPackages(const randomPackageEnum& randomConsts) {
 
 int main() {
 
-    vector<Package> Packages;
+    vector<Package*> Packages;
     vector<Client*> Clients;
 
     // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test1.csv", 10, 2, 2000, 20, 1600, {4, 2, 1}};
+    randomPackageEnum generatePackages = {"Test1.csv", 10, 3, 2000, 20, 1600, {4, 2, 1}};
 
     randomPackages(generatePackages);
 
     readFile("Test1.csv", Packages, Clients);
 
+    /**********************
+    * Cannot print out packages
+    * Tried many variations with pointers, references and iterators.
+    * Tried similar to that seen in Client.toString(), also tried splitting up the pointers
+    * due to errors.
+    **********************/
+
     cout << "***** PACKAGES *****" << endl;
-    for (unsigned int i = 0; i < Packages.size(); i++) {
-        cout << "*** PACKAGE " << i << " ***" << endl;
-        cout << Packages[i] << endl;
+    for (vector<Package*>::iterator iter = Packages.begin(); iter != Packages.end(); ++iter) {
+        cout << "*** PACKAGE ***" << endl;
+        cout << "Package sender ptr: " << (*iter)->getPointer() << endl;
+        cout << "Sender: " << (*iter)->getSender()->getName() << endl;
+        cout << "Receiver: " << (*iter)->getReceiver()->getName() << endl;
+
     }
+
     cout << endl;
 
     cout << "***** CLIENTS *****" << endl;
 
-    /**********************
-    * Cannot print out senders and receivers!
-    * Tried many variations with pointers, references and iterators.
-    **********************/
-    for (auto& clientPtr : Clients) {
-        cout << "*** CLIENT ***" << endl;
+    // Old trial... attempting just packages above now to iron it out.
+    int index = 0;
+    for (vector<Client*>::iterator iter = Clients.begin(); iter != Clients.end(); ++iter) {
+        cout << "*** CLIENT << " << index << " ***" << endl;
         //cout << Clients[i] << endl;
-        vector<Package*> temp = clientPtr->getReceivedPackages();
+        vector<Package*> temp = (*iter)->getReceivedPackages();
         for (auto& packPtr : temp) {
             //Client* tempClient = packPtr->getSender();
-            cout << "Sent: " << (*packPtr).getSender()->getName() << endl;
+            cout << "Sent: " << packPtr->getSender()->getName() << endl;
+            cout << "Received: " << packPtr->getReceiver()->getName() << endl;
         }
-        cout << &temp << endl;
+        //cout << &temp << endl;
+        index++;
     }
-
+/*
     cout << "This works?!?!" << endl;
 
     Client c1{"Superman", "1587 Main Street E", "Bemidji", "MN", "56601"};
@@ -347,13 +369,14 @@ int main() {
     // We remove the intermediate step above.
     // Conceptually easier, but a pointer might be what we use anyway.
     Package p1{&c1, &c2, 10.2, Priority::TWO_DAY};
-    Package p2{&c2, &c1, 22.2, Priority::OVERNIGHT};
+    //Package p2{&c2, &c1, 22.2, Priority::OVERNIGHT};
 
-
+    c2.sendPackage(&p1);
+    c1.receivePackage(&p1);
     //cout << p1 << endl;
-    //cout << c1.toString();
-    //cout << c2.toString();
+    cout << c1.toString();
+    cout << c2.toString();
 
-
+*/
     return 0;
 }

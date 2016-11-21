@@ -14,14 +14,12 @@ using namespace std;
  \param w Package weight
  \param p Package priority
  */
-Package::Package(Client* s, Client* r, const float w, const Priority p)
-    : sender(s), receiver(r), priority(p)
-{
+Package::Package(Client* s, Client* r, const float w, const Priority p) : sender(s), receiver(r), priority(p) {
     cout << "Package this: " << this << endl;
     setWeight(w);
 
-    s->sendPackage(this);
-    r->receivePackage(this);
+    //s->sendPackage(this);
+    //r->receivePackage(this);
 }
 
 //! Sender setter

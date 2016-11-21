@@ -50,6 +50,8 @@ class Package{
         //! Priority string getter
         string getPriorityString() const;
 
+        Package* getPointer() {return this;};
+
     private:
         //! Pointer to sender client
         Client *sender;

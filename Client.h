@@ -81,6 +81,8 @@ class Client{
          */
         pair<int, int> getCoords() {return coordinates;};
 
+        Client* getPointer() {return this;};
+
     private:
         //! Parses address into coordinates
         /*! Parses the address stored in object variables to Cartesian coordinates.
@@ -92,7 +94,7 @@ class Client{
         void parseAddress();
 
         //! Client name
-        string name = "";
+        string name = "TEST";
 
         //! Client street address
         string address = "";
