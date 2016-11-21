@@ -12,12 +12,31 @@
 using namespace std;
 
 typedef struct {
+
+    // Filename to open
     string fileName;
+
+    // Population of names to draw from.
+    // 10 gives 10 first names and 10 last names, 10*10 = 100 combinations.
     unsigned int population;
+
+    // Number of random packages
     unsigned int num;
+
+    // Maximum building address
     int maxAddress;
+
+    // Maximum streets each direction (20 = 20th St/Ave is furthest out.)
     unsigned int maxStreets;
+
+    // Max random weight
     float maxWeight;
+
+    // Priority weights of REG, TWO, OVER.
+    // One can place positive probabilities or weights.
+    // [0.1, 0.4, 0.5] would be 10% regular, 40% two-day and 50% overnights.
+    // [1, 4, 5] would give the same percentages
+    // [10, 40, 50] should as well.
     float priority[3];
 
 } randomPackageEnum;
