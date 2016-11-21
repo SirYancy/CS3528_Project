@@ -5,6 +5,13 @@
 #include <vector>
 using namespace std;
 
+//! Priority enum for package type
+enum Priority{
+    REGULAR,
+    TWO_DAY,
+    OVERNIGHT
+};
+
 class Client;
 
 //! Package class
@@ -16,12 +23,7 @@ class Package{
     friend std::ostream& operator<<(std::ostream&, const Package&);
 
     public:
-        //! Priority enum for package type
-        enum Priority{
-            REGULAR,
-            TWO_DAY,
-            OVERNIGHT
-        };
+
 
         //! Constructor
         Package(Client*, Client*, const double, const Priority);

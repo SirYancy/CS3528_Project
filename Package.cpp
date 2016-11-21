@@ -17,11 +17,11 @@ Package::Package(
         Client *s,
         Client *r,
         const double w,
-        const Package::Priority p)
+        const Priority p)
     : sender(s), receiver(r), priority(p)
-{ 
+{
     setWeight(w);
-    
+
     s->sendPackage(this);
     r->receivePackage(this);
 }
@@ -86,7 +86,7 @@ double Package::getWeight() const
 /*!
  \param p Priority enum
  */
-void Package::setPriority(const Package::Priority p)
+void Package::setPriority(const Priority p)
 {
     priority = p;
 }
@@ -94,7 +94,7 @@ void Package::setPriority(const Package::Priority p)
 /*!
  \return Package priority
  */
-Package::Priority Package::getPriority() const
+Priority Package::getPriority() const
 {
     return priority;
 }
@@ -108,9 +108,9 @@ string Package::getPriorityString() const
 {
     switch(priority)
     {
-        case Package::REGULAR: return "Regular";
-        case Package::TWO_DAY: return "Two Day";
-        case Package::OVERNIGHT: return "Overnight";
+        case REGULAR: return "Regular";
+        case TWO_DAY: return "Two Day";
+        case OVERNIGHT: return "Overnight";
     }
 }
 
