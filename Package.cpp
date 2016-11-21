@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Package.h"
 #include "Client.h"
+#include <iostream>
 
 using namespace std;
 
@@ -13,13 +14,10 @@ using namespace std;
  \param w Package weight
  \param p Package priority
  */
-Package::Package(
-        Client *s,
-        Client *r,
-        const double w,
-        const Priority p)
+Package::Package(Client* s, Client* r, const float w, const Priority p)
     : sender(s), receiver(r), priority(p)
 {
+    cout << "Package this: " << this << endl;
     setWeight(w);
 
     s->sendPackage(this);
@@ -77,7 +75,7 @@ void Package::setWeight(const double w)
 /*!
  \return Package weight
  */
-double Package::getWeight() const
+float Package::getWeight() const
 {
     return weight;
 }

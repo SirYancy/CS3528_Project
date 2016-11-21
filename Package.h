@@ -7,7 +7,7 @@ using namespace std;
 
 //! Priority enum for package type
 enum Priority{
-    REGULAR,
+    REGULAR = 0,
     TWO_DAY,
     OVERNIGHT
 };
@@ -26,7 +26,7 @@ class Package{
 
 
         //! Constructor
-        Package(Client*, Client*, const double, const Priority);
+        Package(Client* s, Client* r, const float w, const Priority p);
 
         //! Sender setter
         void setSender(Client*);
@@ -41,7 +41,7 @@ class Package{
         //! Weight setter
         void setWeight(const double);
         //! Weight getter
-        double getWeight() const;
+        float getWeight() const;
 
         //! Priority setter
         void setPriority(const Priority);
@@ -56,7 +56,7 @@ class Package{
         //! Pointer to receiver client
         Client *receiver;
         //! Weight of package in ounces
-        double weight;
+        float weight;
         //! Priority enum of package
         Priority priority;
 

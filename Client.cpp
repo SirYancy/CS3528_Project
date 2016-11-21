@@ -45,6 +45,7 @@ void Client::setAddress(const string &add, const string &cit, const string &st, 
  \param pack pointer to package
  */
 void Client::sendPackage(Package *pack){
+    cout << pack << endl;
     sentPackages.push_back(pack);
 }
 //! Get sent packages
@@ -60,6 +61,7 @@ vector<Package *> Client::getSentPackages() const{
  \param pack pointer to package
  */
 void Client::receivePackage(Package *pack){
+    cout << pack << endl;
     receivedPackages.push_back(pack);
 }
 //! Get received packages
@@ -85,11 +87,12 @@ string Client::toString() const{
     output << city << ", " << state << " " << zip << endl;
     output << endl << "Sent Packages:" << endl;
 
-    for(Package* p : sentPackages)
+    for(unsigned int i = 0; i < sentPackages.size(); i++)
     {
-        output  << " Received by: " << p->getReceiver()->getName() << endl
-                << "      Weight: " << p->getWeight() << endl
-                << "    Priority: " << p->getPriorityString() << endl;
+        //cout << p << endl;
+        output  << " Received by: " << sentPackages[i]->getReceiver()->getName() << endl
+                << "      Weight: " << sentPackages[i]->getWeight() << endl
+                << "    Priority: " << sentPackages[i]->getPriorityString() << endl;
     }
     output << endl << "Received Packages: " << endl;
     for(Package* p : receivedPackages)
@@ -336,11 +339,8 @@ void Client::parseAddress() {
             if ((addressNum % 100) > 50) {
                 coordinates.second += 1;
             }
-
         }
     }
-
-
 }
 
 

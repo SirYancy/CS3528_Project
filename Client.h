@@ -66,6 +66,7 @@ class Client{
 
         //! Add a received package
         void receivePackage(Package *pack);
+
         //! Get received packages
         vector<Package*> getReceivedPackages() const;
 
