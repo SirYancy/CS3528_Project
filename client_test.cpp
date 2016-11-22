@@ -42,6 +42,15 @@ typedef struct {
 
 } randomPackageEnum;
 
+struct {
+    string name = "WAREHOUSE";
+    string address = "123 MAIN ST N";
+    string city = "BEMIDJI";
+    string state = "MN";
+    string zip = "56601";
+} warehouse;
+
+
 void readFile(string fileName, vector<Package*> &packageList, unordered_map<std::string, Client*> &clientMap) {//vector<Client*> &clientList) {
     vector<string> csvLine;
     string line;
@@ -49,6 +58,8 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
     string clientStr;
     float weight;
     int integer;
+    unsigned int clientID = 0;
+
     Priority packagePriority;
 
     // Pointers of clients
@@ -61,6 +72,13 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
 
     // Toss first header line if using spreadsheet
     //getline(file, line);
+
+    // Find highest ClientID already in use. For adding clients through multiple files.
+    for (auto iter = clientMap.begin(); iter != clientMap.end(); ++iter) {
+        if (iter->second->getID() > clientID) {
+            clientID = iter->second->getID();
+        }
+    }
 
     // Get line from file until EOF
     while(getline(file, line)) {
@@ -85,7 +103,7 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         */
 
         // Build key in uppercase
-        clientStr = strUpper(csvLine[0] + " " + csvLine[1] + ", " + csvLine[2] + ", " + csvLine[3] + ", " + csvLine[4] +" " + csvLine[5]);
+        clientStr = strUpper(csvLine[0] + " " + csvLine[1] + "," + csvLine[2] + "," + csvLine[3] + "," + csvLine[4] + " " + csvLine[5]);
 
         // Debugging output.
         //cout << clientStr << endl;
@@ -100,8 +118,9 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
             //cout << "\r\nFound sender: " << senderPtr << endl;
 
         } else {
+            clientID++;
             // No client found, create a new one that is persistent and will not disappear off the stack.
-            senderPtr = new Client(csvLine[0] + " " + csvLine[1], csvLine[2], csvLine[3], csvLine[4], csvLine[5]);
+            senderPtr = new Client(csvLine[0] + " " + csvLine[1], csvLine[2], csvLine[3], csvLine[4], csvLine[5], clientID);
             //cout << "\r\nNot found sender, new ptr: " << senderPtr << endl;
 
             // Place the new client into the map
@@ -121,8 +140,9 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
             //cout << receiverPtr << endl;
 
         } else {
+            clientID++;
             // No client found, create a new one that is persistent and will not disappear off the stack.
-            receiverPtr = new Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11]);
+            receiverPtr = new Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11], clientID);
             //cout << "Receiver not found, new ptr: " << receiverPtr << endl;
 
             // Place new client into map.
@@ -348,35 +368,11 @@ void randomPackages(const randomPackageEnum& randomConsts) {
 
 }
 
-int main() {
-
-    vector<Package*> Packages;
-    //vector<Client*> Clients;
-    unordered_map<std::string, Client*> ClientMap;
-
-    // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test1.csv", 100, 10, 2000, 20, 1600, {4, 2, 1}};
-
-    // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
-    //randomPackages(generatePackages);
-
-    readFile("Test1.csv", Packages, ClientMap);
-
-    cout << "***** PACKAGES *****" << endl;
-    for (vector<Package*>::iterator iter = Packages.begin(); iter != Packages.end(); ++iter) {
-        cout << endl << "*** PACKAGE ***" << endl;
-        //cout << "Package sender ptr: " << (*iter)->getPointer() << endl;
-        cout << "Sender: " << (*iter)->getSender()->getName() << endl;
-        cout << "Receiver: " << (*iter)->getReceiver()->getName() << endl;
-
-    }
-
-    cout << endl << endl;
-
+void dumpClients(unordered_map<std::string, Client*> &ClientMap, vector<Package*> &Packages) {
     cout << "***** CLIENTS *****" << endl;
     int index = 0;
     for (auto iter = ClientMap.begin(); iter != ClientMap.end(); ++iter) {
-        cout << endl << "*** CLIENT " << index << " ***" << endl;
+        cout << endl << "*** CLIENT " << iter->second->getID() << " ***" << endl;
         //cout << "Client ptr: " << iter->second << endl;
         cout << iter->second->getName() << endl;
         cout << iter->second->getAddress() << endl;
@@ -395,6 +391,90 @@ int main() {
         }
         index++;
     }
+}
+
+void dumpPackages(unordered_map<std::string, Client*> &ClientMap, vector<Package*> &Packages) {
+    cout << "***** PACKAGES *****" << endl;
+    for (vector<Package*>::iterator iter = Packages.begin(); iter != Packages.end(); ++iter) {
+        cout << endl << "*** PACKAGE ***" << endl;
+        //cout << "Package sender ptr: " << (*iter)->getPointer() << endl;
+        cout << "Sender: " << (*iter)->getSender()->getName() << endl;
+        cout << "Receiver: " << (*iter)->getReceiver()->getName() << endl;
+
+    }
+
+    cout << endl << endl;
+}
+
+vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &ClientMap, vector<Package*> &Packages) {
+    pair<int, int> coord_1, coord_2;
+
+    unsigned int clientSize = ClientMap.size();
+    unsigned int client_1_ID, client_2_ID;
+
+    vector<vector<unsigned int> > matrix (clientSize, vector<unsigned int> (clientSize, 0));
+    int manhattan_x, manhattan_y;
+
+    for (auto iter_1 = ClientMap.begin(); iter_1 != ClientMap.end(); ++iter_1) {
+        vector<unsigned int> row;
+
+        coord_1 = iter_1->second->getCoords();
+        client_1_ID = iter_1->second->getID();
+        for (auto iter_2 = ClientMap.begin(); iter_2 != ClientMap.end(); ++iter_2) {
+            coord_2 = iter_2->second->getCoords();
+            client_2_ID = iter_2->second->getID();
+            cout << "(" << coord_1.first << "," << coord_1.second << ") (" << coord_2.first << "," << coord_2.second << ") = ";
+            manhattan_x = (coord_1.first - coord_2.first);
+            manhattan_y = (coord_1.second - coord_2.second);
+
+            if (manhattan_x < 0) {
+                manhattan_x *= -1;
+            }
+
+            if (manhattan_y < 0) {
+                manhattan_y *= -1;
+            }
+
+            matrix[client_1_ID][client_2_ID] = manhattan_x + manhattan_y;
+            cout << manhattan_x + manhattan_y << endl;
+        }
+    }
+
+    return matrix;
+}
+
+
+int main() {
+
+    vector<Package*> Packages;
+    //vector<Client*> Clients;
+    unordered_map<std::string, Client*> ClientMap;
+    vector<vector<unsigned int> > matrix;
+
+    // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
+    randomPackageEnum generatePackages = {"Test1.csv", 100, 10, 2000, 20, 1600, {4, 2, 1}};
+
+    // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
+    //randomPackages(generatePackages);
+
+    // Make warehouse the origin.
+    Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
+
+    ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
+
+    readFile("Test1.csv", Packages, ClientMap);
+
+    matrix = makeMatrix(ClientMap, Packages);
+
+    dumpClients(ClientMap, Packages);
+
+    for (unsigned int i = 0; i < matrix.size(); i++) {
+        for (unsigned int j = 0; j < matrix[0].size(); j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
 
 
 /*

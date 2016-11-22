@@ -12,10 +12,10 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Weffc++" />
 					<Add option="-std=c++11" />
 					<Add option="-pg" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
@@ -28,6 +28,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,6 +41,8 @@
 		</Compiler>
 		<Unit filename="Client.cpp" />
 		<Unit filename="Client.h" />
+		<Unit filename="Genetic.cpp" />
+		<Unit filename="Genetic.h" />
 		<Unit filename="Package.cpp" />
 		<Unit filename="Package.h" />
 		<Unit filename="Utils.cpp" />
