@@ -29,7 +29,7 @@ class Client{
          * \param st State of client
          * \param z ZIP code of client. Note string usage for international packages.
          */
-        Client(const string &nam, const string &add, const string &cit, const string &st, const string &z);
+        Client(const string &nam, const string &add, const string &cit, const string &st, const string &z, const int &clientID);
 
         //! Setter for name
         void setName(const string&);
@@ -85,6 +85,8 @@ class Client{
 
         Client* getPointer() {return this;};
 
+        unsigned int getID() {return ID;};
+
     private:
         //! Parses address into coordinates
         /*! Parses the address stored in object variables to Cartesian coordinates.
@@ -118,6 +120,9 @@ class Client{
 
         //! Coordinate pair of address in the city.
         pair<int, int> coordinates;
+
+        //! ID of client
+        int ID;
 };
 
 #endif //CLIENT_H

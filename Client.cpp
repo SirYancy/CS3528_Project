@@ -14,7 +14,7 @@ using namespace std;
 Client::Client() {
 }
 
-Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z) {
+Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z, const int &clientID) {
 
     // Trim whitespace
     name = trim_copy(nam);
@@ -22,6 +22,8 @@ Client::Client(const string &nam, const string &add, const string &cit, const st
     city = trim_copy(cit);
     state = trim_copy(st);
     zip = trim_copy(z);
+
+    ID = clientID;
 
     // Parse address into coordinates.
     parseAddress();
