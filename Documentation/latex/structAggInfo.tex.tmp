@@ -1,0 +1,60 @@
+\hypertarget{structAggInfo}{}\section{Agg\+Info Struct Reference}
+\label{structAggInfo}\index{Agg\+Info@{Agg\+Info}}
+
+
+Collaboration diagram for Agg\+Info\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structAggInfo_1_1AggInfo__col}{Agg\+Info\+\_\+col}
+\item 
+struct \hyperlink{structAggInfo_1_1AggInfo__func}{Agg\+Info\+\_\+func}
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+u8 {\bfseries direct\+Mode}\hypertarget{structAggInfo_aaa57d294016ac7e17e7cacaa7b25634e}{}\label{structAggInfo_aaa57d294016ac7e17e7cacaa7b25634e}
+
+\item 
+u8 {\bfseries use\+Sorting\+Idx}\hypertarget{structAggInfo_a8173a7ea13c4a12ce4befbcb40719073}{}\label{structAggInfo_a8173a7ea13c4a12ce4befbcb40719073}
+
+\item 
+int {\bfseries sorting\+Idx}\hypertarget{structAggInfo_a97ce74f509ca908a616c123e7196797b}{}\label{structAggInfo_a97ce74f509ca908a616c123e7196797b}
+
+\item 
+int {\bfseries sorting\+Idx\+P\+Tab}\hypertarget{structAggInfo_a7faac4c3996598960fc46f0c173b244c}{}\label{structAggInfo_a7faac4c3996598960fc46f0c173b244c}
+
+\item 
+int {\bfseries n\+Sorting\+Column}\hypertarget{structAggInfo_a89925dccd1a0ec51d2a5a5dbaead66dc}{}\label{structAggInfo_a89925dccd1a0ec51d2a5a5dbaead66dc}
+
+\item 
+int {\bfseries mn\+Reg}\hypertarget{structAggInfo_aa9a656c3db8fe0f2905062bbcc55efdc}{}\label{structAggInfo_aa9a656c3db8fe0f2905062bbcc55efdc}
+
+\item 
+int {\bfseries mx\+Reg}\hypertarget{structAggInfo_a7aec99396ee3da0bdd985685de1b9da2}{}\label{structAggInfo_a7aec99396ee3da0bdd985685de1b9da2}
+
+\item 
+\hyperlink{structExprList}{Expr\+List} $\ast$ {\bfseries p\+Group\+By}\hypertarget{structAggInfo_aa8e942103d224c4db847743670907781}{}\label{structAggInfo_aa8e942103d224c4db847743670907781}
+
+\item 
+struct \hyperlink{structAggInfo_1_1AggInfo__col}{Agg\+Info\+::\+Agg\+Info\+\_\+col} $\ast$ {\bfseries a\+Col}\hypertarget{structAggInfo_a52fa1a7eb3145c27be13b2bcccd57d62}{}\label{structAggInfo_a52fa1a7eb3145c27be13b2bcccd57d62}
+
+\item 
+int {\bfseries n\+Column}\hypertarget{structAggInfo_a9cbfa5fc33328cf3500426674e036a8b}{}\label{structAggInfo_a9cbfa5fc33328cf3500426674e036a8b}
+
+\item 
+int {\bfseries n\+Accumulator}\hypertarget{structAggInfo_ad2251760d95af9024f0a3170405cb53b}{}\label{structAggInfo_ad2251760d95af9024f0a3170405cb53b}
+
+\item 
+struct \hyperlink{structAggInfo_1_1AggInfo__func}{Agg\+Info\+::\+Agg\+Info\+\_\+func} $\ast$ {\bfseries a\+Func}\hypertarget{structAggInfo_a4e201acd6a1f8aed360c58e45f47c803}{}\label{structAggInfo_a4e201acd6a1f8aed360c58e45f47c803}
+
+\item 
+int {\bfseries n\+Func}\hypertarget{structAggInfo_a5bfde7ca00d28da6edbda523ab038e38}{}\label{structAggInfo_a5bfde7ca00d28da6edbda523ab038e38}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sqlite3.\+c\end{DoxyCompactItemize}

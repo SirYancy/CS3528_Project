@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]]
+  ['genetic',['Genetic',['../classGenetic.html#a459e4673eb23cb59264140f952f67517',1,'Genetic']]],
+  ['getaddress',['getAddress',['../classClient.html#a291fb22c4fccb2a6b182c355078553ed',1,'Client']]],
+  ['getcity',['getCity',['../classClient.html#ad92aa60043bd899cdad19b9ca6a77a2e',1,'Client']]],
+  ['getcoords',['getCoords',['../classClient.html#a00ea13c3af8a5eb6d931e73a5a00bdd4',1,'Client']]],
+  ['getdirections',['getDirections',['../classTruck.html#a80092b55170e601b68dd2cd184933079',1,'Truck']]],
+  ['getname',['getName',['../classClient.html#a28a677584ad4793b50b31c2e75039e2c',1,'Client']]],
+  ['getpackages',['getPackages',['../classTruck.html#a6448f8b9d6cfaaaf5e2bc21b9e103685',1,'Truck']]],
+  ['getpriority',['getPriority',['../classPackage.html#a89dc6064fa77412299f1076056e6128a',1,'Package']]],
+  ['getprioritystring',['getPriorityString',['../classPackage.html#aaf5a625d7851e24dd18bae23309c03d7',1,'Package']]],
+  ['getreceivedpackages',['getReceivedPackages',['../classClient.html#aae2dee02f0951f418941234103c275ef',1,'Client']]],
+  ['getreceiver',['getReceiver',['../classPackage.html#a02e9aee9f9e10b6b6ba124df61bd289d',1,'Package']]],
+  ['getsender',['getSender',['../classPackage.html#a1e603126edbbd5c82c676eb0e6805554',1,'Package']]],
+  ['getsentpackages',['getSentPackages',['../classClient.html#aff47cd6d18feba4c43f7ff495d73f495',1,'Client']]],
+  ['getstate',['getState',['../classClient.html#adf5ae51b9e301019f229b6dd6893f550',1,'Client']]],
+  ['gettruckid',['getTruckID',['../classTruck.html#ac6d9654486fdae70caaecad8ff6ec561',1,'Truck']]],
+  ['getweight',['getWeight',['../classPackage.html#afc422a740b531fae6a4c4ce543c42be9',1,'Package::getWeight()'],['../classTruck.html#ab4e29138dc4a6c430f0b365180cac978',1,'Truck::getWeight()']]],
+  ['getzip',['getZip',['../classClient.html#a4595dcdc42fc6dfbf7b53a3dd495b4f1',1,'Client']]]
 ];

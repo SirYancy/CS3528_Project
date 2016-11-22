@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['client',['Client',['../classClient.html#a2581a22e25217aafda77c410ee67092c',1,'Client']]]
+  ['addpackage',['addPackage',['../classTruck.html#ad4c15f435c3e7f7851b7ffa018ac198e',1,'Truck']]]
 ];

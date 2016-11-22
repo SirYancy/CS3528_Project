@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.9.27)  16 NOV 2016 12:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.9.27)  22 NOV 2016 16:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1188,14 +1188,15 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 1.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 6.29996pt on input line 10.
-)
+(Font)              scaled to size 6.29996pt on input line 5.
+ [3
+
+] [4] [5] [6]
+[7] [8] [9])
 \tf@toc=\write5
 \openout5 = `refman.toc'.
 
- [3
-
-] [4]
+ [10]
 Package hyperref Info: Option `pageanchor' set `true' on input line 137.
 
 Chapter 1.
@@ -1209,12 +1210,24 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 18.66588pt on input line 140.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 6.29996pt on input line 140.
-(./md_README.tex) [1
+(./md_README.tex
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 10.79993pt on input line 1.
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 5.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 5.
+
+[1
 
 
-] [2
-
-]
+]) [2]
 Chapter 2.
 (./annotated.tex
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
@@ -1223,143 +1236,286 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 12.9599pt on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 12.9599pt on input line 1.
-) [3] [4
+ [3
 
-]
+] [4] [5]) [6]
 Chapter 3.
-(./classClient.tex
+(./structHash_1_1__ht.tex) (./structAggInfo.tex)
+(./structAggInfo_1_1AggInfo__col.tex) (./structAggInfo_1_1AggInfo__func.tex
+[7
+
+]) (./structanalysisInfo.tex) (./structAuthContext.tex)
+(./structAutoincInfo.tex) (./structAuxData.tex [8]) (./structBitvec.tex)
+(./structBtCursor.tex [9]) (./structBtLock.tex) (./structBtree.tex [10])
+(./structBtreePayload.tex) (./structBtShared.tex [11]) (./structBusyHandler.tex
+) (./structCellArray.tex [12]) (./structCellInfo.tex) (./classClient.tex
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 10.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 12.
-LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.79993pt on input line 12.
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 10.79993pt on input line 12.
-LaTeX Font Info:    Try loading font information for TS1+phv on input line 15.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
-File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
-)
-LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 15.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 8.09995pt on input line 16.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 16.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 16.
- [5]
+ [13] [14]
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 56.
+(Font)              scaled to size 8.99994pt on input line 114.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 56.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 114.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 56.
+(Font)              scaled to size 8.99994pt on input line 114.
+LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <7> not available
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 114.
+LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
+(Font)              scaled to size 6.29996pt on input line 114.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 56.
+(hyperref)                removing `alignment tab' on input line 114.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 56.
+(hyperref)                removing `alignment tab' on input line 114.
 
 
-Underfull \hbox (badness 10000) detected at line 86
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 114.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 114.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 114.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 114.
+
+
+LaTeX Font Warning: Font shape `T1/pcr/bc/n' undefined
+(Font)              using `T1/pcr/m/n' instead on input line 141.
+
+
+Underfull \hbox (badness 10000) detected at line 146
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 100
+Underfull \hbox (badness 10000) detected at line 160
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 114
+Underfull \hbox (badness 10000) detected at line 174
 [][][]
  []
 
-[6]
-Underfull \hbox (badness 10000) detected at line 128
+[15]
+Underfull \hbox (badness 10000) detected at line 188
 [][][]
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 169.
+(hyperref)                removing `alignment tab' on input line 243.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 185.
-
-[7]
-Underfull \hbox (badness 10000) detected at line 206
-[][][]
- []
-
-) (./classPackage.tex [8]
-Underfull \hbox (badness 10000) detected at line 99
-[][][]
- []
+(hyperref)                removing `alignment tab' on input line 243.
 
 
-Underfull \hbox (badness 10000) detected at line 113
-[][][]
- []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 243.
 
 
-Underfull \hbox (badness 10000) detected at line 127
-[][][]
- []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 243.
 
-[9]
-Underfull \hbox (badness 10000) detected at line 141
+[16]
+Underfull \hbox (badness 10000) detected at line 270
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 157
+Underfull \hbox (badness 10000) detected at line 273
 [][][]
  []
 
-[10]) [11] [12
+) (./structCollSeq.tex) (./structColumn.tex) (./structcompareInfo.tex [17])
+(./structCountCtx.tex) (./structWith_1_1Cte.tex) (./structDateTime.tex [18])
+(./structDb.tex) (./structDbFixer.tex) (./structDistinctCtx.tex [19])
+(./structet__info.tex) (./structExpr.tex [20]) (./structExprList.tex)
+(./structExprList_1_1ExprList__item.tex [21]) (./structExprSpan.tex)
+(./structFileChunk.tex) (./structFilePoint.tex [22]) (./structFKey.tex)
+(./structfts5__api.tex [23]) (./structfts5__tokenizer.tex)
+(./structFts5ExtensionApi.tex [24]) (./structFts5PhraseIter.tex)
+(./structFuncDef.tex) (./structFuncDefHash.tex [25])
+(./structFuncDestructor.tex) (./classGenetic.tex) (./structHash.tex [26])
+(./structHashElem.tex) (./structIdList.tex) (./structIdList_1_1IdList__item.tex
+[27]) (./structIdxCover.tex) (./structImportCtx.tex) (./structIncrblob.tex
+[28]) (./structIncrMerger.tex) (./structIndex.tex [29])
+(./structIndexSample.tex) (./structInitData.tex) (./structIntegrityCk.tex
+[30]) (./structKeyInfo.tex) (./structLimitVal.tex [31]) (./structLookaside.tex)
+(./structLookasideSlot.tex) (./structMem.tex [32]) (./structMemJournal.tex)
+(./structMemPage.tex [33]) (./unionMem_1_1MemValue.tex)
+(./structMergeEngine.tex [34]) (./structModule.tex) (./structNameContext.tex)
+(./unionVdbeOp_1_1p4union.tex [35]) (./classPackage.tex
+<classPackage__coll__graph.pdf, id=2648, 146.5475pt x 178.6675pt>
+File: classPackage__coll__graph.pdf Graphic file (type pdf)
 
-] (./refman.ind [13
+<use classPackage__coll__graph.pdf>
+Package pdftex.def Info: classPackage__coll__graph.pdf used on input line 18.
+(pdftex.def)             Requested size: 146.0pt x 177.99911pt.
+ [36 <./classPackage__coll__graph.pdf>]
+[37]
+Underfull \hbox (badness 10000) detected at line 120
+[][][]
+ []
 
 
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 159.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
+Underfull \hbox (badness 10000) detected at line 134
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 148
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 162
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 178
+[][][]
+ []
+
+[38] [39]) (./structPager.tex [40]) (./structPagerSavepoint.tex)
+(./structParse.tex [41] [42]) (./structPCache.tex) (./structPCache1.tex
+[43]) (./structPgFreeslot.tex) (./structPgHdr.tex [44]) (./structPgHdr1.tex)
+(./structPGroup.tex) (./structPmaReader.tex [45]) (./structPmaWriter.tex)
+(./structPreUpdate.tex [46]) (./structPrintfArguments.tex)
+(./structrandomPackageEnum.tex) (./structReusableSpace.tex [47])
+(./structRowSet.tex) (./structRowSetChunk.tex) (./structRowSetEntry.tex
+[48]) (./structSavedModeInfo.tex) (./structSavepoint.tex)
+(./structScanStatus.tex) (./structSchema.tex [49]) (./structFKey_1_1sColMap.tex
+) (./structScratchFreeslot.tex [50]) (./structSelect.tex)
+(./structSelectDest.tex) (./structShellState.tex [51] [52])
+(./structSortCtx.tex) (./structSorterFile.tex) (./structSorterList.tex)
+(./structSorterRecord.tex [53]) (./structSortSubtask.tex) (./structsqlite3.tex
+[54] [55]) (./structsqlite3__api__routines.tex [56] [57] [58] [59] [60])
+(./structsqlite3__backup.tex) (./structsqlite3__context.tex)
+(./structsqlite3__file.tex [61])
+(./structsqlite3__index__info_1_1sqlite3__index__constraint.tex)
+(./structsqlite3__index__info_1_1sqlite3__index__constraint__usage.tex)
+(./structsqlite3__index__info.tex [62])
+(./structsqlite3__index__info_1_1sqlite3__index__orderby.tex)
+(./structsqlite3__io__methods.tex [63]) (./structsqlite3__mem__methods.tex)
+(./structsqlite3__module.tex [64]) (./structsqlite3__mutex.tex)
+(./structsqlite3__mutex__methods.tex [65])
+(./structsqlite3__pcache__methods.tex) (./structsqlite3__pcache__methods2.tex
+[66]) (./structsqlite3__pcache__page.tex) (./structsqlite3__rtree__geometry.tex
+) (./structsqlite3__rtree__query__info.tex [67]) (./structsqlite3__vfs.tex
+[68]) (./structsqlite3__vtab.tex) (./structsqlite3__vtab__cursor.tex)
+(./structSqlite3Config.tex [69]) (./structsqlite3_1_1sqlite3InitInfo.tex
+[70]) (./structSQLiteThread.tex) (./structSrcCount.tex) (./structSrcList.tex
+[71]) (./structSrcList_1_1SrcList__item.tex [72]) (./structStat4Accum.tex)
+(./structStat4Sample.tex) (./structStrAccum.tex [73]) (./structSubProgram.tex)
+(./structSumCtx.tex) (./structTable.tex [74]) (./structTableLock.tex)
+(./structTabResult.tex [75]) (./structToken.tex) (./structTrigEvent.tex)
+(./structTrigger.tex [76]) (./structTriggerPrg.tex) (./structTriggerStep.tex)
+(./classTruck.tex [77]
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 20.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 20.
+ [78] [79]
+Underfull \hbox (badness 10000) detected at line 138
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 169
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 185
+[][][]
+ []
+
+[80]
+Underfull \hbox (badness 10000) detected at line 221
+[][][]
+ []
+
+) (./structunixFile.tex) (./structunixFileId.tex [81])
+(./structunixInodeInfo.tex) (./structunixShm.tex) (./structunixShmNode.tex
+[82]) (./structUnixUnusedFd.tex) (./structUnpackedRecord.tex)
+(./structValueNewStat4Ctx.tex [83]) (./structVdbe.tex [84])
+(./structVdbeCursor.tex [85]) (./structVdbeFrame.tex [86]) (./structVdbeOp.tex)
+(./structVdbeOpList.tex [87]) (./structVdbeSorter.tex) (./structVtabCtx.tex)
+(./structVTable.tex [88]) (./structvxworksFileId.tex) (./structWal.tex [89])
+(./structWalCkptInfo.tex) (./structWalIndexHdr.tex [90])
+(./structWalIterator.tex) (./structWalker.tex [91])
+(./structWalIterator_1_1WalSegment.tex) (./structWalWriter.tex)
+(./structWhereAndInfo.tex [92]) (./structWhereClause.tex)
+(./structWhereInfo.tex [93]) (./structWhereLevel.tex [94])
+(./structWhereLoop.tex [95]) (./structWhereLoopBuilder.tex)
+(./structWhereMaskSet.tex) (./structWhereOrCost.tex) (./structWhereOrInfo.tex
+[96]) (./structWhereOrSet.tex) (./structWherePath.tex) (./structWhereScan.tex
+[97]) (./structWhereTerm.tex) (./structWith.tex [98])
+(./structParse_1_1yColCache.tex) (./unionYYMINORTYPE.tex [99])
+(./structyyParser.tex) (./structyyStackEntry.tex) [100] (./refman.ind [101
+
+
+
+]
+[102] [103])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
  (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 219379596A005CCBF73621BBD485A226;7468.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
+(rerunfilecheck)             Checksum: 936823A447F5A4C7C95F1519099DADEB;54438.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
  ) 
 Here is how much of TeX's memory you used:
- 14894 strings out of 493029
- 211939 string characters out of 6136234
- 307987 words of memory out of 5000000
- 18094 multiletter control sequences out of 15000+600000
- 59783 words of font info for 65 fonts, out of 8000000 for 9000
+ 20113 strings out of 493029
+ 432788 string characters out of 6136234
+ 423144 words of memory out of 5000000
+ 20385 multiletter control sequences out of 15000+600000
+ 65362 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,15n,92p,673b,561s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,16n,92p,1540b,634s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
-/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (17 pages, 93581 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucr
+r8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (113 pages, 468198 bytes).
 PDF statistics:
- 449 PDF objects out of 1000 (max. 8388607)
- 407 compressed objects within 5 object streams
- 89 named destinations out of 1000 (max. 500000)
- 265 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6012 PDF objects out of 6186 (max. 8388607)
+ 5814 compressed objects within 59 object streams
+ 2641 named destinations out of 2984 (max. 500000)
+ 1838 words of extra memory for PDF output out of 10000 (max. 10000000)
 
