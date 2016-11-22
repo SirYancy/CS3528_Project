@@ -49,7 +49,13 @@ class Package{
         Priority getPriority() const;
         //! Priority string getter
         string getPriorityString() const;
+        
+        //! Returns delivered flag
+        bool getDelivered() const;
+        //! Sets delivered flag to true
+        void deliver();
 
+        //! Returns a pointer to this package
         Package* getPointer() {return this;};
 
     private:
@@ -61,9 +67,8 @@ class Package{
         float weight;
         //! Priority enum of package
         Priority priority;
-
         //! Package delivered?
-        bool Delivered = false;
+        bool delivered = false;
 
 };
 

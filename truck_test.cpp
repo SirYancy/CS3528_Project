@@ -11,6 +11,8 @@ int main()
 {
     Truck t{25};
     Truck t2{40};
+    
+    Priority p = Priority::TWO_DAY;
 
     cout << t.toString() << endl;
     cout << t2.toString() << endl;
@@ -18,7 +20,7 @@ int main()
     Client c1{"Superman", "123 1st St. NW", "Bemidji", "MN",  "56601"};
     Client c2{"Batman", "444 12th Ave. SE", "Bemidji", "MN", "56601"};
 
-    Package p1{&c1, &c2, 10.2, Package::TWO_DAY};
+    Package p1{&c1, &c2, 10.2, p};
 
     t.addPackage(&p1);
 

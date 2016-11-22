@@ -117,6 +117,21 @@ string Package::getPriorityString() const {
     return value;
 }
 
+//! Returns delivered flag
+/*!
+ * return bool delivered flag
+ */
+bool Package::getDelivered() const
+{
+    return delivered;
+}
+
+//! Sets delivered flag to true
+void Package::deliver()
+{
+    delivered = true;
+}
+
 //! Insertion Operator
 /*!
  \param output output stream
@@ -133,3 +148,4 @@ ostream& operator<<(ostream& output, const Package& pack)
         << "Priority: " << pack.getPriorityString() << endl;
     return output;
 }
+
