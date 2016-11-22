@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include "Utils.h"
 
 using namespace std;
 
@@ -77,7 +78,10 @@ void readFile(string fileName, vector<Package*> &packageList, vector<Client*> &c
         }
         cout << endl;
 
-        //clientStr = csvLine[0] + "," + csvLine[1] + "," + csvLine[2] + "," + csvLine[3] + "," + csvLine[4] +"," + csvLine[5];
+        clientStr = csvLine[0] + " " + csvLine[1] + ", " + csvLine[2] + ", " + csvLine[3] + ", " + csvLine[4] +" " + csvLine[5];
+
+        cout << strUpper(clientStr) << endl;
+
         // Create a persistent client and reference via pointer. Must call delete when done to free memory.
         Client* senderPtr = new Client(csvLine[0] + " " + csvLine[1], csvLine[2], csvLine[3], csvLine[4], csvLine[5]);
         Client* receiverPtr = new Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11]);
