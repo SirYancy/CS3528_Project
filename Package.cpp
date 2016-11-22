@@ -15,11 +15,11 @@ using namespace std;
  \param p Package priority
  */
 Package::Package(Client* s, Client* r, const float w, const Priority p) : sender(s), receiver(r), priority(p) {
-    cout << "Package this: " << this << endl;
+    //cout << "Package this: " << this << endl;
     setWeight(w);
 
-    //s->sendPackage(this);
-    //r->receivePackage(this);
+    s->sendPackage(this);
+    r->receivePackage(this);
 }
 
 //! Sender setter
@@ -100,14 +100,21 @@ Priority Package::getPriority() const
  * Priority is an enum and hence is actually an int. Here's a nice way to print the string value.
  \return string of priority
  */
-string Package::getPriorityString() const
-{
-    switch(priority)
-    {
-        case REGULAR: return "Regular";
-        case TWO_DAY: return "Two Day";
-        case OVERNIGHT: return "Overnight";
+string Package::getPriorityString() const {
+    string value;
+
+    switch(priority) {
+        case REGULAR:
+            value = "Regular";
+            break;
+        case TWO_DAY:
+            value = "Two Day";
+            break;
+        case OVERNIGHT:
+            value = "Overnight";
+            break;
     }
+    return value;
 }
 
 //! Insertion Operator

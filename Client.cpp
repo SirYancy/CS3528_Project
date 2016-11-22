@@ -11,6 +11,8 @@
 #include "Utils.h"
 
 using namespace std;
+Client::Client() {
+}
 
 Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z) {
 
@@ -45,7 +47,7 @@ void Client::setAddress(const string &add, const string &cit, const string &st, 
  \param pack pointer to package
  */
 void Client::sendPackage(Package *pack){
-    cout << "Sent: " << pack << endl;
+    //cout << "Sent: " << pack << endl;
     sentPackages.push_back(pack);
 }
 //! Get sent packages
@@ -61,7 +63,7 @@ vector<Package*> Client::getSentPackages() const{
  \param pack pointer to package
  */
 void Client::receivePackage(Package *pack){
-    cout << "Received: " << pack << endl;
+    //cout << "Received: " << pack << endl;
     receivedPackages.push_back(pack);
 }
 //! Get received packages

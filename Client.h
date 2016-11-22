@@ -18,6 +18,8 @@ class Client{
     friend std::ostream& operator<<(std::ostream&, const Client&);
 
     public:
+        Client();
+
         //! Client basic constructor
         /*!
          * Basic constructor.
