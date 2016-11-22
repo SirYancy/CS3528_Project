@@ -41,9 +41,14 @@ Priority \hyperlink{classPackage_a89dc6064fa77412299f1076056e6128a}{get\+Priorit
 \begin{DoxyCompactList}\small\item\em Priority getter. \end{DoxyCompactList}\item 
 string \hyperlink{classPackage_aaf5a625d7851e24dd18bae23309c03d7}{get\+Priority\+String} () const 
 \begin{DoxyCompactList}\small\item\em Priority string getter. \end{DoxyCompactList}\item 
-\hyperlink{classPackage}{Package} $\ast$ {\bfseries get\+Pointer} ()\hypertarget{classPackage_a77c9ac0d3d435ce001757fe9f7ffdd98}{}\label{classPackage_a77c9ac0d3d435ce001757fe9f7ffdd98}
+bool \hyperlink{classPackage_a451673bf60ccf8361f9dfbe14d4ebe52}{get\+Delivered} () const 
+\begin{DoxyCompactList}\small\item\em Returns delivered flag. \end{DoxyCompactList}\item 
+void \hyperlink{classPackage_ab90644a711aa033414de576d177f2c38}{deliver} ()\hypertarget{classPackage_ab90644a711aa033414de576d177f2c38}{}\label{classPackage_ab90644a711aa033414de576d177f2c38}
 
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Sets delivered flag to true. \end{DoxyCompactList}\item 
+\hyperlink{classPackage}{Package} $\ast$ \hyperlink{classPackage_a77c9ac0d3d435ce001757fe9f7ffdd98}{get\+Pointer} ()\hypertarget{classPackage_a77c9ac0d3d435ce001757fe9f7ffdd98}{}\label{classPackage_a77c9ac0d3d435ce001757fe9f7ffdd98}
+
+\begin{DoxyCompactList}\small\item\em Returns a pointer to this package. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -59,7 +64,7 @@ float \hyperlink{classPackage_ae45dfddbca19f89d50d3ea0960ed0a11}{weight}\hyperta
 Priority \hyperlink{classPackage_a4ba73df5afb3cdd936d297652ce9af99}{priority}\hypertarget{classPackage_a4ba73df5afb3cdd936d297652ce9af99}{}\label{classPackage_a4ba73df5afb3cdd936d297652ce9af99}
 
 \begin{DoxyCompactList}\small\item\em Priority enum of package. \end{DoxyCompactList}\item 
-bool \hyperlink{classPackage_a68e383f4da8ac54fb275c752684eaf00}{Delivered} = false\hypertarget{classPackage_a68e383f4da8ac54fb275c752684eaf00}{}\label{classPackage_a68e383f4da8ac54fb275c752684eaf00}
+bool \hyperlink{classPackage_a468cb4f0c2ba246b7d349446e0839120}{delivered} = false\hypertarget{classPackage_a468cb4f0c2ba246b7d349446e0839120}{}\label{classPackage_a468cb4f0c2ba246b7d349446e0839120}
 
 \begin{DoxyCompactList}\small\item\em \hyperlink{classPackage}{Package} delivered? \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
@@ -104,7 +109,18 @@ Constructor.
 
 
 \subsection{Member Function Documentation}
-\index{Package@{Package}!get\+Priority@{get\+Priority}}
+\index{Package@{Package}!get\+Delivered@{get\+Delivered}}
+\index{get\+Delivered@{get\+Delivered}!Package@{Package}}
+\subsubsection[{\texorpdfstring{get\+Delivered() const }{getDelivered() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Package\+::get\+Delivered (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classPackage_a451673bf60ccf8361f9dfbe14d4ebe52}{}\label{classPackage_a451673bf60ccf8361f9dfbe14d4ebe52}
+
+
+Returns delivered flag. 
+
+return bool delivered flag \index{Package@{Package}!get\+Priority@{get\+Priority}}
 \index{get\+Priority@{get\+Priority}!Package@{Package}}
 \subsubsection[{\texorpdfstring{get\+Priority() const }{getPriority() const }}]{\setlength{\rightskip}{0pt plus 5cm}Priority Package\+::get\+Priority (
 \begin{DoxyParamCaption}

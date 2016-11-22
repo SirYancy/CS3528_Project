@@ -1,7 +1,7 @@
 \begin{theindex}
 
   \item {add\+Package}
-    \subitem {Truck}, \hyperpage{79}
+    \subitem {Truck}, \hyperpage{81}
   \item {Agg\+Info}, \hyperpage{7}
   \item {Agg\+Info\+::\+Agg\+Info\+\_\+col}, \hyperpage{7}
   \item {Agg\+Info\+::\+Agg\+Info\+\_\+func}, \hyperpage{8}
@@ -28,306 +28,318 @@
     \subitem {Client}, \hyperpage{15}
     \subitem {get\+Address}, \hyperpage{15}
     \subitem {get\+Coords}, \hyperpage{15}
-    \subitem {get\+Received\+Packages}, \hyperpage{15}
-    \subitem {get\+Sent\+Packages}, \hyperpage{15}
+    \subitem {get\+Count}, \hyperpage{16}
+    \subitem {get\+ID}, \hyperpage{16}
+    \subitem {get\+Pointer}, \hyperpage{16}
+    \subitem {get\+Received\+Packages}, \hyperpage{16}
+    \subitem {get\+Sent\+Packages}, \hyperpage{16}
     \subitem {parse\+Address}, \hyperpage{16}
-    \subitem {receive\+Package}, \hyperpage{16}
-    \subitem {send\+Package}, \hyperpage{16}
-    \subitem {set\+Address}, \hyperpage{16}
-    \subitem {to\+String}, \hyperpage{16}
-  \item {Coll\+Seq}, \hyperpage{17}
-  \item {Column}, \hyperpage{17}
-  \item {compare\+Info}, \hyperpage{18}
-  \item {Count\+Ctx}, \hyperpage{18}
+    \subitem {receive\+Package}, \hyperpage{17}
+    \subitem {send\+Package}, \hyperpage{18}
+    \subitem {set\+Address}, \hyperpage{18}
+    \subitem {to\+String}, \hyperpage{18}
+  \item {Coll\+Seq}, \hyperpage{19}
+  \item {Column}, \hyperpage{19}
+  \item {compare\+Info}, \hyperpage{19}
+  \item {Count\+Ctx}, \hyperpage{20}
 
   \indexspace
 
-  \item {Date\+Time}, \hyperpage{19}
-  \item {Db}, \hyperpage{19}
-  \item {Db\+Fixer}, \hyperpage{19}
+  \item {Date\+Time}, \hyperpage{20}
+  \item {Db}, \hyperpage{21}
+  \item {Db\+Fixer}, \hyperpage{21}
   \item {deliver\+Package}
-    \subitem {Truck}, \hyperpage{79}
-  \item {Distinct\+Ctx}, \hyperpage{20}
+    \subitem {Truck}, \hyperpage{81}
+  \item {Distinct\+Ctx}, \hyperpage{21}
 
   \indexspace
 
-  \item {et\+\_\+info}, \hyperpage{20}
-  \item {Expr}, \hyperpage{20}
-  \item {Expr\+List}, \hyperpage{21}
-  \item {Expr\+List\+::\+Expr\+List\+\_\+item}, \hyperpage{22}
-  \item {Expr\+Span}, \hyperpage{22}
+  \item {et\+\_\+info}, \hyperpage{22}
+  \item {Expr}, \hyperpage{22}
+  \item {Expr\+List}, \hyperpage{23}
+  \item {Expr\+List\+::\+Expr\+List\+\_\+item}, \hyperpage{23}
+  \item {Expr\+Span}, \hyperpage{23}
 
   \indexspace
 
-  \item {F\+Key}, \hyperpage{23}
-  \item {F\+Key\+::s\+Col\+Map}, \hyperpage{50}
-  \item {File\+Chunk}, \hyperpage{22}
-  \item {File\+Point}, \hyperpage{23}
-  \item {fts5\+\_\+api}, \hyperpage{24}
-  \item {fts5\+\_\+tokenizer}, \hyperpage{24}
-  \item {Fts5\+Extension\+Api}, \hyperpage{24}
-  \item {Fts5\+Phrase\+Iter}, \hyperpage{25}
-  \item {Func\+Def}, \hyperpage{25}
-  \item {Func\+Def\+Hash}, \hyperpage{26}
-  \item {Func\+Destructor}, \hyperpage{26}
+  \item {F\+Key}, \hyperpage{24}
+  \item {F\+Key\+::s\+Col\+Map}, \hyperpage{52}
+  \item {File\+Chunk}, \hyperpage{24}
+  \item {File\+Point}, \hyperpage{24}
+  \item {fts5\+\_\+api}, \hyperpage{25}
+  \item {fts5\+\_\+tokenizer}, \hyperpage{25}
+  \item {Fts5\+Extension\+Api}, \hyperpage{26}
+  \item {Fts5\+Phrase\+Iter}, \hyperpage{26}
+  \item {Func\+Def}, \hyperpage{26}
+  \item {Func\+Def\+Hash}, \hyperpage{27}
+  \item {Func\+Destructor}, \hyperpage{27}
 
   \indexspace
 
-  \item {Genetic}, \hyperpage{26}
+  \item {Genetic}, \hyperpage{28}
   \item {get\+Address}
     \subitem {Client}, \hyperpage{15}
   \item {get\+Coords}
     \subitem {Client}, \hyperpage{15}
+  \item {get\+Count}
+    \subitem {Client}, \hyperpage{16}
+  \item {get\+Delivered}
+    \subitem {Package}, \hyperpage{39}
   \item {get\+Directions}
-    \subitem {Truck}, \hyperpage{80}
+    \subitem {Truck}, \hyperpage{82}
+  \item {get\+ID}
+    \subitem {Client}, \hyperpage{16}
   \item {get\+Packages}
-    \subitem {Truck}, \hyperpage{80}
+    \subitem {Truck}, \hyperpage{82}
+  \item {get\+Pointer}
+    \subitem {Client}, \hyperpage{16}
   \item {get\+Priority}
-    \subitem {Package}, \hyperpage{38}
+    \subitem {Package}, \hyperpage{39}
   \item {get\+Priority\+String}
-    \subitem {Package}, \hyperpage{38}
+    \subitem {Package}, \hyperpage{40}
   \item {get\+Received\+Packages}
-    \subitem {Client}, \hyperpage{15}
+    \subitem {Client}, \hyperpage{16}
   \item {get\+Receiver}
-    \subitem {Package}, \hyperpage{38}
+    \subitem {Package}, \hyperpage{40}
   \item {get\+Sender}
-    \subitem {Package}, \hyperpage{38}
+    \subitem {Package}, \hyperpage{40}
   \item {get\+Sent\+Packages}
-    \subitem {Client}, \hyperpage{15}
+    \subitem {Client}, \hyperpage{16}
   \item {get\+Truck\+ID}
-    \subitem {Truck}, \hyperpage{80}
+    \subitem {Truck}, \hyperpage{82}
   \item {get\+Weight}
-    \subitem {Package}, \hyperpage{38}
-    \subitem {Truck}, \hyperpage{80}
+    \subitem {Package}, \hyperpage{40}
+    \subitem {Truck}, \hyperpage{82}
 
   \indexspace
 
-  \item {Hash}, \hyperpage{27}
+  \item {Hash}, \hyperpage{28}
   \item {Hash\+::\+\_\+ht}, \hyperpage{7}
-  \item {Hash\+Elem}, \hyperpage{27}
+  \item {Hash\+Elem}, \hyperpage{29}
 
   \indexspace
 
-  \item {Id\+List}, \hyperpage{27}
-  \item {Id\+List\+::\+Id\+List\+\_\+item}, \hyperpage{28}
-  \item {Idx\+Cover}, \hyperpage{28}
-  \item {Import\+Ctx}, \hyperpage{28}
-  \item {Incr\+Merger}, \hyperpage{29}
-  \item {Incrblob}, \hyperpage{29}
-  \item {Index}, \hyperpage{29}
-  \item {Index\+Sample}, \hyperpage{30}
-  \item {Init\+Data}, \hyperpage{30}
-  \item {Integrity\+Ck}, \hyperpage{31}
+  \item {Id\+List}, \hyperpage{29}
+  \item {Id\+List\+::\+Id\+List\+\_\+item}, \hyperpage{29}
+  \item {Idx\+Cover}, \hyperpage{30}
+  \item {Import\+Ctx}, \hyperpage{30}
+  \item {Incr\+Merger}, \hyperpage{31}
+  \item {Incrblob}, \hyperpage{30}
+  \item {Index}, \hyperpage{31}
+  \item {Index\+Sample}, \hyperpage{32}
+  \item {Init\+Data}, \hyperpage{32}
+  \item {Integrity\+Ck}, \hyperpage{32}
 
   \indexspace
 
-  \item {Key\+Info}, \hyperpage{31}
+  \item {Key\+Info}, \hyperpage{33}
 
   \indexspace
 
-  \item {Limit\+Val}, \hyperpage{32}
-  \item {Lookaside}, \hyperpage{32}
-  \item {Lookaside\+Slot}, \hyperpage{32}
+  \item {Limit\+Val}, \hyperpage{33}
+  \item {Lookaside}, \hyperpage{33}
+  \item {Lookaside\+Slot}, \hyperpage{34}
 
   \indexspace
 
-  \item {Mem}, \hyperpage{33}
-  \item {Mem\+::\+Mem\+Value}, \hyperpage{34}
-  \item {Mem\+Journal}, \hyperpage{33}
-  \item {Mem\+Page}, \hyperpage{34}
-  \item {Merge\+Engine}, \hyperpage{35}
-  \item {Module}, \hyperpage{35}
+  \item {Mem}, \hyperpage{34}
+  \item {Mem\+::\+Mem\+Value}, \hyperpage{36}
+  \item {Mem\+Journal}, \hyperpage{34}
+  \item {Mem\+Page}, \hyperpage{35}
+  \item {Merge\+Engine}, \hyperpage{36}
+  \item {Module}, \hyperpage{36}
 
   \indexspace
 
-  \item {Name\+Context}, \hyperpage{35}
+  \item {Name\+Context}, \hyperpage{37}
 
   \indexspace
 
-  \item {P\+Cache}, \hyperpage{43}
-  \item {P\+Cache1}, \hyperpage{44}
-  \item {P\+Group}, \hyperpage{45}
-  \item {Package}, \hyperpage{36}
-    \subitem {get\+Priority}, \hyperpage{38}
-    \subitem {get\+Priority\+String}, \hyperpage{38}
-    \subitem {get\+Receiver}, \hyperpage{38}
-    \subitem {get\+Sender}, \hyperpage{38}
-    \subitem {get\+Weight}, \hyperpage{38}
-    \subitem {Package}, \hyperpage{37}
-    \subitem {set\+Priority}, \hyperpage{39}
-    \subitem {set\+Receiver}, \hyperpage{39}
-    \subitem {set\+Sender}, \hyperpage{39}
-    \subitem {set\+Weight}, \hyperpage{39}
-  \item {Pager}, \hyperpage{40}
-  \item {Pager\+Savepoint}, \hyperpage{41}
-  \item {Parse}, \hyperpage{42}
-  \item {Parse\+::y\+Col\+Cache}, \hyperpage{99}
+  \item {P\+Cache}, \hyperpage{45}
+  \item {P\+Cache1}, \hyperpage{46}
+  \item {P\+Group}, \hyperpage{47}
+  \item {Package}, \hyperpage{38}
+    \subitem {get\+Delivered}, \hyperpage{39}
+    \subitem {get\+Priority}, \hyperpage{39}
+    \subitem {get\+Priority\+String}, \hyperpage{40}
+    \subitem {get\+Receiver}, \hyperpage{40}
+    \subitem {get\+Sender}, \hyperpage{40}
+    \subitem {get\+Weight}, \hyperpage{40}
+    \subitem {Package}, \hyperpage{39}
+    \subitem {set\+Priority}, \hyperpage{40}
+    \subitem {set\+Receiver}, \hyperpage{41}
+    \subitem {set\+Sender}, \hyperpage{41}
+    \subitem {set\+Weight}, \hyperpage{41}
+  \item {Pager}, \hyperpage{41}
+  \item {Pager\+Savepoint}, \hyperpage{43}
+  \item {Parse}, \hyperpage{43}
+  \item {Parse\+::y\+Col\+Cache}, \hyperpage{101}
   \item {parse\+Address}
     \subitem {Client}, \hyperpage{16}
-  \item {Pg\+Freeslot}, \hyperpage{44}
-  \item {Pg\+Hdr}, \hyperpage{44}
-  \item {Pg\+Hdr1}, \hyperpage{45}
-  \item {Pma\+Reader}, \hyperpage{46}
-  \item {Pma\+Writer}, \hyperpage{46}
-  \item {Pre\+Update}, \hyperpage{47}
-  \item {Printf\+Arguments}, \hyperpage{47}
+  \item {Pg\+Freeslot}, \hyperpage{46}
+  \item {Pg\+Hdr}, \hyperpage{46}
+  \item {Pg\+Hdr1}, \hyperpage{47}
+  \item {Pma\+Reader}, \hyperpage{48}
+  \item {Pma\+Writer}, \hyperpage{48}
+  \item {Pre\+Update}, \hyperpage{49}
+  \item {Printf\+Arguments}, \hyperpage{49}
 
   \indexspace
 
-  \item {random\+Package\+Enum}, \hyperpage{47}
+  \item {random\+Package\+Enum}, \hyperpage{49}
   \item {receive\+Package}
-    \subitem {Client}, \hyperpage{16}
-  \item {Reusable\+Space}, \hyperpage{48}
-  \item {Row\+Set}, \hyperpage{48}
-  \item {Row\+Set\+Chunk}, \hyperpage{48}
-  \item {Row\+Set\+Entry}, \hyperpage{49}
+    \subitem {Client}, \hyperpage{17}
+  \item {Reusable\+Space}, \hyperpage{50}
+  \item {Row\+Set}, \hyperpage{50}
+  \item {Row\+Set\+Chunk}, \hyperpage{50}
+  \item {Row\+Set\+Entry}, \hyperpage{51}
 
   \indexspace
 
-  \item {S\+Q\+Lite\+Thread}, \hyperpage{71}
-  \item {Saved\+Mode\+Info}, \hyperpage{49}
-  \item {Savepoint}, \hyperpage{49}
-  \item {Scan\+Status}, \hyperpage{50}
-  \item {Schema}, \hyperpage{50}
-  \item {Scratch\+Freeslot}, \hyperpage{51}
-  \item {Select}, \hyperpage{51}
-  \item {Select\+Dest}, \hyperpage{51}
+  \item {S\+Q\+Lite\+Thread}, \hyperpage{73}
+  \item {Saved\+Mode\+Info}, \hyperpage{51}
+  \item {Savepoint}, \hyperpage{51}
+  \item {Scan\+Status}, \hyperpage{52}
+  \item {Schema}, \hyperpage{52}
+  \item {Scratch\+Freeslot}, \hyperpage{53}
+  \item {Select}, \hyperpage{53}
+  \item {Select\+Dest}, \hyperpage{53}
   \item {send\+Package}
-    \subitem {Client}, \hyperpage{16}
+    \subitem {Client}, \hyperpage{18}
   \item {set\+Address}
-    \subitem {Client}, \hyperpage{16}
+    \subitem {Client}, \hyperpage{18}
   \item {set\+Directions}
-    \subitem {Truck}, \hyperpage{80}
+    \subitem {Truck}, \hyperpage{82}
   \item {set\+Priority}
-    \subitem {Package}, \hyperpage{39}
+    \subitem {Package}, \hyperpage{40}
   \item {set\+Receiver}
-    \subitem {Package}, \hyperpage{39}
+    \subitem {Package}, \hyperpage{41}
   \item {set\+Sender}
-    \subitem {Package}, \hyperpage{39}
+    \subitem {Package}, \hyperpage{41}
   \item {set\+Weight}
-    \subitem {Package}, \hyperpage{39}
-  \item {Shell\+State}, \hyperpage{52}
-  \item {Sort\+Ctx}, \hyperpage{53}
-  \item {Sort\+Subtask}, \hyperpage{54}
-  \item {Sorter\+File}, \hyperpage{53}
-  \item {Sorter\+List}, \hyperpage{54}
-  \item {Sorter\+Record}, \hyperpage{54}
-  \item {sqlite3}, \hyperpage{55}
-  \item {sqlite3\+::sqlite3\+Init\+Info}, \hyperpage{71}
-  \item {sqlite3\+\_\+api\+\_\+routines}, \hyperpage{56}
-  \item {sqlite3\+\_\+backup}, \hyperpage{61}
-  \item {sqlite3\+\_\+context}, \hyperpage{61}
-  \item {sqlite3\+\_\+file}, \hyperpage{62}
-  \item {sqlite3\+\_\+index\+\_\+info}, \hyperpage{62}
+    \subitem {Package}, \hyperpage{41}
+  \item {Shell\+State}, \hyperpage{54}
+  \item {Sort\+Ctx}, \hyperpage{55}
+  \item {Sort\+Subtask}, \hyperpage{56}
+  \item {Sorter\+File}, \hyperpage{55}
+  \item {Sorter\+List}, \hyperpage{56}
+  \item {Sorter\+Record}, \hyperpage{56}
+  \item {sqlite3}, \hyperpage{57}
+  \item {sqlite3\+::sqlite3\+Init\+Info}, \hyperpage{73}
+  \item {sqlite3\+\_\+api\+\_\+routines}, \hyperpage{58}
+  \item {sqlite3\+\_\+backup}, \hyperpage{63}
+  \item {sqlite3\+\_\+context}, \hyperpage{63}
+  \item {sqlite3\+\_\+file}, \hyperpage{64}
+  \item {sqlite3\+\_\+index\+\_\+info}, \hyperpage{64}
   \item {sqlite3\+\_\+index\+\_\+info\+::sqlite3\+\_\+index\+\_\+constraint}, 
-		\hyperpage{62}
+		\hyperpage{64}
   \item {sqlite3\+\_\+index\+\_\+info\+::sqlite3\+\_\+index\+\_\+constraint\+\_\+usage}, 
-		\hyperpage{62}
+		\hyperpage{64}
   \item {sqlite3\+\_\+index\+\_\+info\+::sqlite3\+\_\+index\+\_\+orderby}, 
-		\hyperpage{63}
-  \item {sqlite3\+\_\+io\+\_\+methods}, \hyperpage{64}
-  \item {sqlite3\+\_\+mem\+\_\+methods}, \hyperpage{64}
-  \item {sqlite3\+\_\+module}, \hyperpage{65}
-  \item {sqlite3\+\_\+mutex}, \hyperpage{65}
-  \item {sqlite3\+\_\+mutex\+\_\+methods}, \hyperpage{65}
-  \item {sqlite3\+\_\+pcache\+\_\+methods}, \hyperpage{66}
-  \item {sqlite3\+\_\+pcache\+\_\+methods2}, \hyperpage{66}
-  \item {sqlite3\+\_\+pcache\+\_\+page}, \hyperpage{67}
-  \item {sqlite3\+\_\+rtree\+\_\+geometry}, \hyperpage{67}
-  \item {sqlite3\+\_\+rtree\+\_\+query\+\_\+info}, \hyperpage{68}
-  \item {sqlite3\+\_\+vfs}, \hyperpage{68}
-  \item {sqlite3\+\_\+vtab}, \hyperpage{69}
-  \item {sqlite3\+\_\+vtab\+\_\+cursor}, \hyperpage{69}
-  \item {Sqlite3\+Config}, \hyperpage{69}
-  \item {Src\+Count}, \hyperpage{71}
-  \item {Src\+List}, \hyperpage{72}
-  \item {Src\+List\+::\+Src\+List\+\_\+item}, \hyperpage{72}
-  \item {Stat4\+Accum}, \hyperpage{73}
-  \item {Stat4\+Sample}, \hyperpage{73}
-  \item {Str\+Accum}, \hyperpage{74}
-  \item {Sub\+Program}, \hyperpage{74}
-  \item {Sum\+Ctx}, \hyperpage{74}
+		\hyperpage{65}
+  \item {sqlite3\+\_\+io\+\_\+methods}, \hyperpage{66}
+  \item {sqlite3\+\_\+mem\+\_\+methods}, \hyperpage{66}
+  \item {sqlite3\+\_\+module}, \hyperpage{67}
+  \item {sqlite3\+\_\+mutex}, \hyperpage{67}
+  \item {sqlite3\+\_\+mutex\+\_\+methods}, \hyperpage{67}
+  \item {sqlite3\+\_\+pcache\+\_\+methods}, \hyperpage{68}
+  \item {sqlite3\+\_\+pcache\+\_\+methods2}, \hyperpage{68}
+  \item {sqlite3\+\_\+pcache\+\_\+page}, \hyperpage{69}
+  \item {sqlite3\+\_\+rtree\+\_\+geometry}, \hyperpage{69}
+  \item {sqlite3\+\_\+rtree\+\_\+query\+\_\+info}, \hyperpage{70}
+  \item {sqlite3\+\_\+vfs}, \hyperpage{70}
+  \item {sqlite3\+\_\+vtab}, \hyperpage{71}
+  \item {sqlite3\+\_\+vtab\+\_\+cursor}, \hyperpage{71}
+  \item {Sqlite3\+Config}, \hyperpage{71}
+  \item {Src\+Count}, \hyperpage{73}
+  \item {Src\+List}, \hyperpage{74}
+  \item {Src\+List\+::\+Src\+List\+\_\+item}, \hyperpage{74}
+  \item {Stat4\+Accum}, \hyperpage{75}
+  \item {Stat4\+Sample}, \hyperpage{75}
+  \item {Str\+Accum}, \hyperpage{76}
+  \item {Sub\+Program}, \hyperpage{76}
+  \item {Sum\+Ctx}, \hyperpage{76}
 
   \indexspace
 
-  \item {Tab\+Result}, \hyperpage{76}
-  \item {Table}, \hyperpage{75}
-  \item {Table\+Lock}, \hyperpage{75}
+  \item {Tab\+Result}, \hyperpage{78}
+  \item {Table}, \hyperpage{77}
+  \item {Table\+Lock}, \hyperpage{77}
   \item {to\+String}
-    \subitem {Client}, \hyperpage{16}
+    \subitem {Client}, \hyperpage{18}
+    \subitem {Truck}, \hyperpage{83}
+  \item {Token}, \hyperpage{78}
+  \item {Trig\+Event}, \hyperpage{78}
+  \item {Trigger}, \hyperpage{78}
+  \item {Trigger\+Prg}, \hyperpage{79}
+  \item {Trigger\+Step}, \hyperpage{79}
+  \item {Truck}, \hyperpage{80}
+    \subitem {add\+Package}, \hyperpage{81}
+    \subitem {deliver\+Package}, \hyperpage{81}
+    \subitem {get\+Directions}, \hyperpage{82}
+    \subitem {get\+Packages}, \hyperpage{82}
+    \subitem {get\+Truck\+ID}, \hyperpage{82}
+    \subitem {get\+Weight}, \hyperpage{82}
+    \subitem {set\+Directions}, \hyperpage{82}
+    \subitem {to\+String}, \hyperpage{83}
     \subitem {Truck}, \hyperpage{81}
-  \item {Token}, \hyperpage{76}
-  \item {Trig\+Event}, \hyperpage{76}
-  \item {Trigger}, \hyperpage{76}
-  \item {Trigger\+Prg}, \hyperpage{77}
-  \item {Trigger\+Step}, \hyperpage{77}
-  \item {Truck}, \hyperpage{78}
-    \subitem {add\+Package}, \hyperpage{79}
-    \subitem {deliver\+Package}, \hyperpage{79}
-    \subitem {get\+Directions}, \hyperpage{80}
-    \subitem {get\+Packages}, \hyperpage{80}
-    \subitem {get\+Truck\+ID}, \hyperpage{80}
-    \subitem {get\+Weight}, \hyperpage{80}
-    \subitem {set\+Directions}, \hyperpage{80}
-    \subitem {to\+String}, \hyperpage{81}
-    \subitem {Truck}, \hyperpage{79}
-    \subitem {truck\+Count}, \hyperpage{81}
+    \subitem {truck\+Count}, \hyperpage{83}
   \item {truck\+Count}
-    \subitem {Truck}, \hyperpage{81}
+    \subitem {Truck}, \hyperpage{83}
 
   \indexspace
 
-  \item {unix\+File}, \hyperpage{81}
-  \item {unix\+File\+Id}, \hyperpage{82}
-  \item {unix\+Inode\+Info}, \hyperpage{82}
-  \item {unix\+Shm}, \hyperpage{82}
-  \item {unix\+Shm\+Node}, \hyperpage{83}
-  \item {Unix\+Unused\+Fd}, \hyperpage{83}
-  \item {Unpacked\+Record}, \hyperpage{83}
+  \item {unix\+File}, \hyperpage{83}
+  \item {unix\+File\+Id}, \hyperpage{84}
+  \item {unix\+Inode\+Info}, \hyperpage{84}
+  \item {unix\+Shm}, \hyperpage{84}
+  \item {unix\+Shm\+Node}, \hyperpage{85}
+  \item {Unix\+Unused\+Fd}, \hyperpage{85}
+  \item {Unpacked\+Record}, \hyperpage{85}
 
   \indexspace
 
-  \item {V\+Table}, \hyperpage{89}
-  \item {Value\+New\+Stat4\+Ctx}, \hyperpage{84}
-  \item {Vdbe}, \hyperpage{84}
-  \item {Vdbe\+Cursor}, \hyperpage{86}
-  \item {Vdbe\+Frame}, \hyperpage{86}
-  \item {Vdbe\+Op}, \hyperpage{87}
-  \item {Vdbe\+Op\+::p4union}, \hyperpage{36}
-  \item {Vdbe\+Op\+List}, \hyperpage{88}
-  \item {Vdbe\+Sorter}, \hyperpage{88}
-  \item {Vtab\+Ctx}, \hyperpage{88}
-  \item {vxworks\+File\+Id}, \hyperpage{89}
+  \item {V\+Table}, \hyperpage{91}
+  \item {Value\+New\+Stat4\+Ctx}, \hyperpage{86}
+  \item {Vdbe}, \hyperpage{86}
+  \item {Vdbe\+Cursor}, \hyperpage{88}
+  \item {Vdbe\+Frame}, \hyperpage{88}
+  \item {Vdbe\+Op}, \hyperpage{89}
+  \item {Vdbe\+Op\+::p4union}, \hyperpage{37}
+  \item {Vdbe\+Op\+List}, \hyperpage{90}
+  \item {Vdbe\+Sorter}, \hyperpage{90}
+  \item {Vtab\+Ctx}, \hyperpage{90}
+  \item {vxworks\+File\+Id}, \hyperpage{91}
 
   \indexspace
 
-  \item {Wal}, \hyperpage{90}
-  \item {Wal\+Ckpt\+Info}, \hyperpage{90}
-  \item {Wal\+Index\+Hdr}, \hyperpage{91}
-  \item {Wal\+Iterator}, \hyperpage{91}
-  \item {Wal\+Iterator\+::\+Wal\+Segment}, \hyperpage{92}
-  \item {Wal\+Writer}, \hyperpage{92}
-  \item {Walker}, \hyperpage{91}
-  \item {Where\+And\+Info}, \hyperpage{93}
-  \item {Where\+Clause}, \hyperpage{93}
-  \item {Where\+Info}, \hyperpage{93}
-  \item {Where\+Level}, \hyperpage{94}
-  \item {Where\+Loop}, \hyperpage{95}
-  \item {Where\+Loop\+Builder}, \hyperpage{96}
-  \item {Where\+Mask\+Set}, \hyperpage{96}
-  \item {Where\+Or\+Cost}, \hyperpage{96}
-  \item {Where\+Or\+Info}, \hyperpage{97}
-  \item {Where\+Or\+Set}, \hyperpage{97}
-  \item {Where\+Path}, \hyperpage{97}
-  \item {Where\+Scan}, \hyperpage{98}
-  \item {Where\+Term}, \hyperpage{98}
-  \item {With}, \hyperpage{99}
-  \item {With\+::\+Cte}, \hyperpage{18}
+  \item {Wal}, \hyperpage{92}
+  \item {Wal\+Ckpt\+Info}, \hyperpage{92}
+  \item {Wal\+Index\+Hdr}, \hyperpage{93}
+  \item {Wal\+Iterator}, \hyperpage{93}
+  \item {Wal\+Iterator\+::\+Wal\+Segment}, \hyperpage{94}
+  \item {Wal\+Writer}, \hyperpage{94}
+  \item {Walker}, \hyperpage{93}
+  \item {Where\+And\+Info}, \hyperpage{95}
+  \item {Where\+Clause}, \hyperpage{95}
+  \item {Where\+Info}, \hyperpage{95}
+  \item {Where\+Level}, \hyperpage{96}
+  \item {Where\+Loop}, \hyperpage{97}
+  \item {Where\+Loop\+Builder}, \hyperpage{98}
+  \item {Where\+Mask\+Set}, \hyperpage{98}
+  \item {Where\+Or\+Cost}, \hyperpage{98}
+  \item {Where\+Or\+Info}, \hyperpage{99}
+  \item {Where\+Or\+Set}, \hyperpage{99}
+  \item {Where\+Path}, \hyperpage{99}
+  \item {Where\+Scan}, \hyperpage{100}
+  \item {Where\+Term}, \hyperpage{100}
+  \item {With}, \hyperpage{101}
+  \item {With\+::\+Cte}, \hyperpage{20}
 
   \indexspace
 
-  \item {Y\+Y\+M\+I\+N\+O\+R\+T\+Y\+PE}, \hyperpage{99}
-  \item {yy\+Parser}, \hyperpage{100}
-  \item {yy\+Stack\+Entry}, \hyperpage{100}
+  \item {Y\+Y\+M\+I\+N\+O\+R\+T\+Y\+PE}, \hyperpage{101}
+  \item {yy\+Parser}, \hyperpage{102}
+  \item {yy\+Stack\+Entry}, \hyperpage{102}
 
 \end{theindex}

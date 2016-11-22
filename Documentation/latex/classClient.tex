@@ -12,7 +12,7 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classClient_a8b477619887702b7a50b574819e746bd}{Client} (const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z, const int \&client\+ID)
+\hyperlink{classClient_a2581a22e25217aafda77c410ee67092c}{Client} (const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)
 \begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} basic constructor. \end{DoxyCompactList}\item 
 void \hyperlink{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{set\+Name} (const string \&)\hypertarget{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{}\label{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}
 
@@ -45,12 +45,15 @@ string \hyperlink{classClient_a994ff91075daf477725ca055874e3e22}{to\+String} () 
 \begin{DoxyCompactList}\small\item\em To String. \end{DoxyCompactList}\item 
 pair$<$ int, int $>$ \hyperlink{classClient_a00ea13c3af8a5eb6d931e73a5a00bdd4}{get\+Coords} ()
 \begin{DoxyCompactList}\small\item\em Returns coordinate pair of client. \end{DoxyCompactList}\item 
-\hyperlink{classClient}{Client} $\ast$ {\bfseries get\+Pointer} ()\hypertarget{classClient_a81f028cdd0ad080e4739d8b9ad4d757c}{}\label{classClient_a81f028cdd0ad080e4739d8b9ad4d757c}
-
+\hyperlink{classClient}{Client} $\ast$ \hyperlink{classClient_a81f028cdd0ad080e4739d8b9ad4d757c}{get\+Pointer} ()
+\begin{DoxyCompactList}\small\item\em Returns a pointer to this client. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classClient_ad03bbecd42ede5870a9f537fb7c01d97}{get\+ID} ()
+\begin{DoxyCompactList}\small\item\em returns the ID of this \hyperlink{classClient}{Client} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
 \item 
-unsigned int {\bfseries get\+ID} ()\hypertarget{classClient_ad03bbecd42ede5870a9f537fb7c01d97}{}\label{classClient_ad03bbecd42ede5870a9f537fb7c01d97}
-
-\end{DoxyCompactItemize}
+static int \hyperlink{classClient_af10ea5348920682f6b7eb8ebcb2c325e}{get\+Count} ()
+\begin{DoxyCompactList}\small\item\em Returns the count of total number of clients. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -83,9 +86,15 @@ vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classClient_ae
 pair$<$ int, int $>$ \hyperlink{classClient_a521946a39509ca76f9ef7bea68e47153}{coordinates}\hypertarget{classClient_a521946a39509ca76f9ef7bea68e47153}{}\label{classClient_a521946a39509ca76f9ef7bea68e47153}
 
 \begin{DoxyCompactList}\small\item\em Coordinate pair of address in the city. \end{DoxyCompactList}\item 
-int \hyperlink{classClient_a4c9ce60da7f62bf92891052bc20912b0}{ID}\hypertarget{classClient_a4c9ce60da7f62bf92891052bc20912b0}{}\label{classClient_a4c9ce60da7f62bf92891052bc20912b0}
+const int \hyperlink{classClient_a08c0686b646ab315da55e7f910af7a28}{ID}\hypertarget{classClient_a08c0686b646ab315da55e7f910af7a28}{}\label{classClient_a08c0686b646ab315da55e7f910af7a28}
 
 \begin{DoxyCompactList}\small\item\em ID of client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classClient_a23391f807266e671b35c4a490fca2693}{count} = 0\hypertarget{classClient_a23391f807266e671b35c4a490fca2693}{}\label{classClient_a23391f807266e671b35c4a490fca2693}
+
+\begin{DoxyCompactList}\small\item\em static count of Clients \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -102,16 +111,15 @@ This client class defines a citizen of the town who can send and receive package
 \subsection{Constructor \& Destructor Documentation}
 \index{Client@{Client}!Client@{Client}}
 \index{Client@{Client}!Client@{Client}}
-\subsubsection[{\texorpdfstring{Client(const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z, const int \&client\+I\+D)}{Client(const string &nam, const string &add, const string &cit, const string &st, const string &z, const int &clientID)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
+\subsubsection[{\texorpdfstring{Client(const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)}{Client(const string &nam, const string &add, const string &cit, const string &st, const string &z)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{nam, }
 \item[{const string \&}]{add, }
 \item[{const string \&}]{cit, }
 \item[{const string \&}]{st, }
-\item[{const string \&}]{z, }
-\item[{const int \&}]{client\+ID}
+\item[{const string \&}]{z}
 \end{DoxyParamCaption}
-)}\hypertarget{classClient_a8b477619887702b7a50b574819e746bd}{}\label{classClient_a8b477619887702b7a50b574819e746bd}
+)}\hypertarget{classClient_a2581a22e25217aafda77c410ee67092c}{}\label{classClient_a2581a22e25217aafda77c410ee67092c}
 
 
 \hyperlink{classClient}{Client} basic constructor. 
@@ -159,6 +167,48 @@ Returns coordinate pair of client.
 
 \begin{DoxyReturn}{Returns}
 Coordinate pair of client on City grid. 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+Count@{get\+Count}}
+\index{get\+Count@{get\+Count}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Count()}{getCount()}}]{\setlength{\rightskip}{0pt plus 5cm}static int Client\+::get\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classClient_af10ea5348920682f6b7eb8ebcb2c325e}{}\label{classClient_af10ea5348920682f6b7eb8ebcb2c325e}
+
+
+Returns the count of total number of clients. 
+
+\begin{DoxyReturn}{Returns}
+int client count 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+I\+D()}{getID()}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Client\+::get\+ID (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classClient_ad03bbecd42ede5870a9f537fb7c01d97}{}\label{classClient_ad03bbecd42ede5870a9f537fb7c01d97}
+
+
+returns the ID of this \hyperlink{classClient}{Client} 
+
+\begin{DoxyReturn}{Returns}
+int this client\textquotesingle{}s ID 
+\end{DoxyReturn}
+\index{Client@{Client}!get\+Pointer@{get\+Pointer}}
+\index{get\+Pointer@{get\+Pointer}!Client@{Client}}
+\subsubsection[{\texorpdfstring{get\+Pointer()}{getPointer()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Client}$\ast$ Client\+::get\+Pointer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classClient_a81f028cdd0ad080e4739d8b9ad4d757c}{}\label{classClient_a81f028cdd0ad080e4739d8b9ad4d757c}
+
+
+Returns a pointer to this client. 
+
+\begin{DoxyReturn}{Returns}
+Client$\ast$ pointer to this client 
 \end{DoxyReturn}
 \index{Client@{Client}!get\+Received\+Packages@{get\+Received\+Packages}}
 \index{get\+Received\+Packages@{get\+Received\+Packages}!Client@{Client}}
