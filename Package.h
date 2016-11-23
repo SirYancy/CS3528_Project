@@ -7,9 +7,9 @@ using namespace std;
 
 //! Priority enum for package type
 enum Priority{
-    REGULAR = 0,
-    TWO_DAY,
-    OVERNIGHT
+    REGULAR = 1,
+    TWO_DAY = 2,
+    OVERNIGHT = 3
 };
 
 class Client;

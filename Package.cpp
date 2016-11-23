@@ -14,7 +14,7 @@ using namespace std;
  \param w Package weight
  \param p Package priority
  */
-Package::Package(Client* s, Client* r, const float w, const Priority p) : sender(s), receiver(r), priority(p) {
+Package::Package(Client* s, Client* r, float w, Priority p) : sender(s), receiver(r), priority(p) {
     //cout << "Package this: " << this << endl;
     setWeight(w);
 
@@ -92,6 +92,7 @@ void Package::setPriority(const Priority p)
  */
 Priority Package::getPriority() const
 {
+    //cout << "Package priority: " << static_cast<int>(priority) << endl;
     return priority;
 }
 

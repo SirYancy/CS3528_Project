@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cmath>
 #include "Utils.h"
+#include "Genetic.h"
 
 using namespace std;
 
@@ -158,13 +159,14 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         conversion >> weight;
 
         // Load for conversion to priority
-        conversion.str(csvLine[13]);
+        stringstream convertPriority(csvLine[13]);
 
         // Convert to integer for priority
-        conversion >> integer;
+        convertPriority >> integer;
 
         // Get package priority by typecasting.
         packagePriority = static_cast<Priority>(integer);
+        //std::cout << "Input package priority int: " << integer << " Priority: " << packagePriority << std::endl;
 
         // Make new persistent package that won't disappear off the stack. Get pointer.
         Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority);
@@ -359,8 +361,8 @@ void randomPackages(const randomPackageEnum& randomConsts) {
             index++;
         }
 
-        // Found our priority, since it is an enum, just output integer.
-        file << index << endl;
+        // Found our priority, since it is an enum, just output integer (moved enum up by 1 to avoid divide by zero).
+        file << index + 1 << endl;
 
     }
 
@@ -416,14 +418,14 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
     int manhattan_x, manhattan_y;
 
     for (auto iter_1 = ClientMap.begin(); iter_1 != ClientMap.end(); ++iter_1) {
-        vector<unsigned int> row;
+        //vector<unsigned int> row;
 
         coord_1 = iter_1->second->getCoords();
         client_1_ID = iter_1->second->getID();
         for (auto iter_2 = ClientMap.begin(); iter_2 != ClientMap.end(); ++iter_2) {
             coord_2 = iter_2->second->getCoords();
             client_2_ID = iter_2->second->getID();
-            cout << "(" << coord_1.first << "," << coord_1.second << ") (" << coord_2.first << "," << coord_2.second << ") = ";
+            //cout << "(" << coord_1.first << "," << coord_1.second << ") (" << coord_2.first << "," << coord_2.second << ") = ";
             manhattan_x = (coord_1.first - coord_2.first);
             manhattan_y = (coord_1.second - coord_2.second);
 
@@ -436,7 +438,7 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
             }
 
             matrix[client_1_ID][client_2_ID] = manhattan_x + manhattan_y;
-            cout << manhattan_x + manhattan_y << endl;
+            //cout << manhattan_x + manhattan_y << endl;
         }
     }
 
@@ -446,36 +448,42 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
 
 int main() {
 
+    srand(100);
     vector<Package*> Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
 
-    // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test1.csv", 100, 10, 2000, 20, 1600, {4, 2, 1}};
+                                        // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
+    randomPackageEnum generatePackages = {"Test2.csv", 100, 100, 2000, 20, 1600, {4, 2, 1}};
 
     // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
-    //randomPackages(generatePackages);
+    randomPackages(generatePackages);
 
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
-    readFile("Test1.csv", Packages, ClientMap);
+    readFile("Test2.csv", Packages, ClientMap);
 
     matrix = makeMatrix(ClientMap, Packages);
 
-    dumpClients(ClientMap, Packages);
+    //dumpClients(ClientMap, Packages);
 
+    /*
     for (unsigned int i = 0; i < matrix.size(); i++) {
         for (unsigned int j = 0; j < matrix[0].size(); j++) {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
     }
+    */
 
+    std::cout << "Evolving best route, please wait..." << std::endl;
 
+    Genetic GA(Packages, matrix, 16*2000, 100, 100, 5, 1, 60*8, 0.001, 0.001, 0.001);
+    vector<Package* > bestRoute = GA.evolve();
 
 /*
     cout << "This works?!?!" << endl;
