@@ -29,5 +29,5 @@
 *.app
 
 # Documentation files
-#**/Documentation/html/**
-#**/Documentation/latex/**
+**/Documentation/html/**
+**/Documentation/latex/**
