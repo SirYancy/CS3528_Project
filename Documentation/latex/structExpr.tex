@@ -1,0 +1,76 @@
+\hypertarget{structExpr}{}\section{Expr Struct Reference}
+\label{structExpr}\index{Expr@{Expr}}
+
+
+Collaboration diagram for Expr\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structExpr__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+u8 {\bfseries op}\hypertarget{structExpr_a101c55ddb6c149d95f0327831eb78225}{}\label{structExpr_a101c55ddb6c149d95f0327831eb78225}
+
+\item 
+char {\bfseries affinity}\hypertarget{structExpr_aeb51b76e606d6fbae234e38473bf3dc9}{}\label{structExpr_aeb51b76e606d6fbae234e38473bf3dc9}
+
+\item 
+u32 {\bfseries flags}\hypertarget{structExpr_aebac9ee7e6aa7adca63969d3ba8d0ded}{}\label{structExpr_aebac9ee7e6aa7adca63969d3ba8d0ded}
+
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>char $\ast$ {\bfseries zToken}\\
+\>int {\bfseries iValue}\\
+\} {\bfseries u}\hypertarget{structExpr_a5a43a51aa0ee7afc9babcdc337dd77db}{}\label{structExpr_a5a43a51aa0ee7afc9babcdc337dd77db}
+\\
+
+\end{tabbing}\item 
+\hyperlink{structExpr}{Expr} $\ast$ {\bfseries p\+Left}\hypertarget{structExpr_a0a78282ae0d696f4a25013a12e38b1ba}{}\label{structExpr_a0a78282ae0d696f4a25013a12e38b1ba}
+
+\item 
+\hyperlink{structExpr}{Expr} $\ast$ {\bfseries p\+Right}\hypertarget{structExpr_aa08c218d5b0b6f8882e8bf9ec8822a08}{}\label{structExpr_aa08c218d5b0b6f8882e8bf9ec8822a08}
+
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\hyperlink{structExprList}{ExprList} $\ast$ {\bfseries pList}\\
+\>\hyperlink{structSelect}{Select} $\ast$ {\bfseries pSelect}\\
+\} {\bfseries x}\hypertarget{structExpr_a9ff6313055718299e20a19e551dcbf0a}{}\label{structExpr_a9ff6313055718299e20a19e551dcbf0a}
+\\
+
+\end{tabbing}\item 
+int {\bfseries n\+Height}\hypertarget{structExpr_a5a893ea309f801f23404e7e5ac02732b}{}\label{structExpr_a5a893ea309f801f23404e7e5ac02732b}
+
+\item 
+int {\bfseries i\+Table}\hypertarget{structExpr_af8e273f4d7d173bfb5996ed09054611c}{}\label{structExpr_af8e273f4d7d173bfb5996ed09054611c}
+
+\item 
+yn\+Var {\bfseries i\+Column}\hypertarget{structExpr_ad19251a8eb6db3cf0bdffe0dcb07eeba}{}\label{structExpr_ad19251a8eb6db3cf0bdffe0dcb07eeba}
+
+\item 
+i16 {\bfseries i\+Agg}\hypertarget{structExpr_a9fe0ed6360b0a4cf5b67ab8def922033}{}\label{structExpr_a9fe0ed6360b0a4cf5b67ab8def922033}
+
+\item 
+i16 {\bfseries i\+Right\+Join\+Table}\hypertarget{structExpr_aa49b76f3628a7bf2b0997c33461cc651}{}\label{structExpr_aa49b76f3628a7bf2b0997c33461cc651}
+
+\item 
+u8 {\bfseries op2}\hypertarget{structExpr_a0eacba0a2a6977e434b096b1cb9d5b9e}{}\label{structExpr_a0eacba0a2a6977e434b096b1cb9d5b9e}
+
+\item 
+\hyperlink{structAggInfo}{Agg\+Info} $\ast$ {\bfseries p\+Agg\+Info}\hypertarget{structExpr_a4fde82477256ee85f3a906263549082a}{}\label{structExpr_a4fde82477256ee85f3a906263549082a}
+
+\item 
+\hyperlink{structTable}{Table} $\ast$ {\bfseries p\+Tab}\hypertarget{structExpr_a27c8824b41d853eeeebe61cf3ac1ae5a}{}\label{structExpr_a27c8824b41d853eeeebe61cf3ac1ae5a}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sqlite3.\+c\end{DoxyCompactItemize}

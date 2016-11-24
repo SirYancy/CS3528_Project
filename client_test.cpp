@@ -11,6 +11,7 @@
 #include "Utils.h"
 #include "Genetic.h"
 
+
 using namespace std;
 
 typedef struct {
@@ -448,17 +449,17 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
 
 int main() {
 
-    srand(100);
+    srand(time(0));
     vector<Package*> Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
 
                                         // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test2.csv", 100, 100, 2000, 20, 1600, {4, 2, 1}};
+    randomPackageEnum generatePackages = {"Test2.csv", 100, 50, 2000, 20, 160, {4, 2, 1}};
 
     // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
-    randomPackages(generatePackages);
+    //randomPackages(generatePackages);
 
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
@@ -482,7 +483,16 @@ int main() {
 
     std::cout << "Evolving best route, please wait..." << std::endl;
 
-    Genetic GA(Packages, matrix, 16*2000, 100, 100, 5, 1, 60*8, 0.001, 0.001, 0.001);
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 10;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0.05;
+
+    Genetic GA(Packages, matrix, 16*2000, 100, 200, 5, 1, 60*8, 10000, mutation);
     vector<Package* > bestRoute = GA.evolve();
 
 /*

@@ -62,7 +62,7 @@
 	<vector>
 	<utility>
 
-1479882374 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+1479969373 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
 	<iostream>
 	<iomanip>
 	"Client.h"
@@ -97,13 +97,14 @@
 	<functional>
 	"Utils.h"
 
-1479882526 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+1479969334 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
 	"Genetic.h"
 	<vector>
 	<iostream>
 	<cmath>
+	<thread>
 
-1479882306 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+1479963436 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
 	<string>
 	<vector>
 	<utility>

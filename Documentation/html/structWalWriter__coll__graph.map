@@ -1,0 +1,7 @@
+<map id="WalWriter" name="WalWriter">
+<area shape="rect" id="node2" href="$structsqlite3__file.html" title="sqlite3_file" alt="" coords="303,95,387,121"/>
+<area shape="rect" id="node4" href="$structWal.html" title="Wal" alt="" coords="221,199,267,225"/>
+<area shape="rect" id="node3" href="$structsqlite3__io__methods.html" title="sqlite3_io_methods" alt="" coords="278,5,413,32"/>
+<area shape="rect" id="node5" href="$structsqlite3__vfs.html" title="sqlite3_vfs" alt="" coords="5,95,91,121"/>
+<area shape="rect" id="node6" href="$structWalIndexHdr.html" title="WalIndexHdr" alt="" coords="179,95,277,121"/>
+</map>

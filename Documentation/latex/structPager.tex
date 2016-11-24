@@ -1,0 +1,202 @@
+\hypertarget{structPager}{}\section{Pager Struct Reference}
+\label{structPager}\index{Pager@{Pager}}
+
+
+Collaboration diagram for Pager\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structPager__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structsqlite3__vfs}{sqlite3\+\_\+vfs} $\ast$ {\bfseries p\+Vfs}\hypertarget{structPager_affa78e08a7f691a4c8f7043e0b4c9212}{}\label{structPager_affa78e08a7f691a4c8f7043e0b4c9212}
+
+\item 
+u8 {\bfseries exclusive\+Mode}\hypertarget{structPager_a5cbccc156e07d6226cb65a7ab05ac116}{}\label{structPager_a5cbccc156e07d6226cb65a7ab05ac116}
+
+\item 
+u8 {\bfseries journal\+Mode}\hypertarget{structPager_a9ad7bd09f1c9323d943ee17ddf42e46e}{}\label{structPager_a9ad7bd09f1c9323d943ee17ddf42e46e}
+
+\item 
+u8 {\bfseries use\+Journal}\hypertarget{structPager_af7783f866150d7e322c28cb324ad85d6}{}\label{structPager_af7783f866150d7e322c28cb324ad85d6}
+
+\item 
+u8 {\bfseries no\+Sync}\hypertarget{structPager_ae943093a3ccbfbf264ccf3c8a52edac1}{}\label{structPager_ae943093a3ccbfbf264ccf3c8a52edac1}
+
+\item 
+u8 {\bfseries full\+Sync}\hypertarget{structPager_abae5c9c3d85120ae266acc4c9a355b86}{}\label{structPager_abae5c9c3d85120ae266acc4c9a355b86}
+
+\item 
+u8 {\bfseries extra\+Sync}\hypertarget{structPager_a942f1ff74fbe690c2777d181c791589f}{}\label{structPager_a942f1ff74fbe690c2777d181c791589f}
+
+\item 
+u8 {\bfseries ckpt\+Sync\+Flags}\hypertarget{structPager_a4543ec92953e7bda49b3ed4f0bdab890}{}\label{structPager_a4543ec92953e7bda49b3ed4f0bdab890}
+
+\item 
+u8 {\bfseries wal\+Sync\+Flags}\hypertarget{structPager_aa8c8c2d893e4d2165f089ddde3e85103}{}\label{structPager_aa8c8c2d893e4d2165f089ddde3e85103}
+
+\item 
+u8 {\bfseries sync\+Flags}\hypertarget{structPager_ac7f90d27da63090369a0e44a0bceb525}{}\label{structPager_ac7f90d27da63090369a0e44a0bceb525}
+
+\item 
+u8 {\bfseries temp\+File}\hypertarget{structPager_a9caa1abb43f6e839dd9a265c27b0b9e4}{}\label{structPager_a9caa1abb43f6e839dd9a265c27b0b9e4}
+
+\item 
+u8 {\bfseries no\+Lock}\hypertarget{structPager_a829f9ffd857c0959c1822e5301caf49f}{}\label{structPager_a829f9ffd857c0959c1822e5301caf49f}
+
+\item 
+u8 {\bfseries read\+Only}\hypertarget{structPager_ad7a7013309fd80a2a01844e69e8e7398}{}\label{structPager_ad7a7013309fd80a2a01844e69e8e7398}
+
+\item 
+u8 {\bfseries mem\+Db}\hypertarget{structPager_abca3633b7745075aa5cf432b3fae54f2}{}\label{structPager_abca3633b7745075aa5cf432b3fae54f2}
+
+\item 
+u8 {\bfseries e\+State}\hypertarget{structPager_af03ee0ac77cf73453295ffcf43e46b43}{}\label{structPager_af03ee0ac77cf73453295ffcf43e46b43}
+
+\item 
+u8 {\bfseries e\+Lock}\hypertarget{structPager_afcaf60e4b0be0995c926e3357d4bbef0}{}\label{structPager_afcaf60e4b0be0995c926e3357d4bbef0}
+
+\item 
+u8 {\bfseries change\+Count\+Done}\hypertarget{structPager_a90c86a51ec6805d5702d32e456b0bcdc}{}\label{structPager_a90c86a51ec6805d5702d32e456b0bcdc}
+
+\item 
+u8 {\bfseries set\+Master}\hypertarget{structPager_acd7eae0587c98ac41afab04e4b5defcb}{}\label{structPager_acd7eae0587c98ac41afab04e4b5defcb}
+
+\item 
+u8 {\bfseries do\+Not\+Spill}\hypertarget{structPager_a2f6579b3006b692a4ce1e5ad3e9a58ed}{}\label{structPager_a2f6579b3006b692a4ce1e5ad3e9a58ed}
+
+\item 
+u8 {\bfseries subj\+In\+Memory}\hypertarget{structPager_a9205654b516184d84fde5c3b5f72ff77}{}\label{structPager_a9205654b516184d84fde5c3b5f72ff77}
+
+\item 
+u8 {\bfseries b\+Use\+Fetch}\hypertarget{structPager_a35c15ace49e893cd5823222f549700e6}{}\label{structPager_a35c15ace49e893cd5823222f549700e6}
+
+\item 
+u8 {\bfseries has\+Held\+Shared\+Lock}\hypertarget{structPager_a8d4961bd8449f4bf8157763bb7e56b4f}{}\label{structPager_a8d4961bd8449f4bf8157763bb7e56b4f}
+
+\item 
+Pgno {\bfseries db\+Size}\hypertarget{structPager_afa5d7849190ef0a9a6f85bb15f2444b3}{}\label{structPager_afa5d7849190ef0a9a6f85bb15f2444b3}
+
+\item 
+Pgno {\bfseries db\+Orig\+Size}\hypertarget{structPager_a8f9cd11d6ae3fac48182e6eae0810c6a}{}\label{structPager_a8f9cd11d6ae3fac48182e6eae0810c6a}
+
+\item 
+Pgno {\bfseries db\+File\+Size}\hypertarget{structPager_a1f8f55f49cb0ec91bfde4dca96a13f13}{}\label{structPager_a1f8f55f49cb0ec91bfde4dca96a13f13}
+
+\item 
+Pgno {\bfseries db\+Hint\+Size}\hypertarget{structPager_aa99d74d10ef3cdcf61501f9777a0246b}{}\label{structPager_aa99d74d10ef3cdcf61501f9777a0246b}
+
+\item 
+int {\bfseries err\+Code}\hypertarget{structPager_addaf9648a1111d7b6c85166cf7c7a575}{}\label{structPager_addaf9648a1111d7b6c85166cf7c7a575}
+
+\item 
+int {\bfseries n\+Rec}\hypertarget{structPager_a3a202368c065a43695533503c98f28d9}{}\label{structPager_a3a202368c065a43695533503c98f28d9}
+
+\item 
+u32 {\bfseries cksum\+Init}\hypertarget{structPager_ad799667658328a44b471378a1b99623e}{}\label{structPager_ad799667658328a44b471378a1b99623e}
+
+\item 
+u32 {\bfseries n\+Sub\+Rec}\hypertarget{structPager_a670c4c54515c0257c35ddfc07c43763e}{}\label{structPager_a670c4c54515c0257c35ddfc07c43763e}
+
+\item 
+\hyperlink{structBitvec}{Bitvec} $\ast$ {\bfseries p\+In\+Journal}\hypertarget{structPager_a530ea868337a7c0c4e7c125035f73737}{}\label{structPager_a530ea868337a7c0c4e7c125035f73737}
+
+\item 
+\hyperlink{structsqlite3__file}{sqlite3\+\_\+file} $\ast$ {\bfseries fd}\hypertarget{structPager_a005ff1960fc1550a870cd1dae418c99e}{}\label{structPager_a005ff1960fc1550a870cd1dae418c99e}
+
+\item 
+\hyperlink{structsqlite3__file}{sqlite3\+\_\+file} $\ast$ {\bfseries jfd}\hypertarget{structPager_a81057c4420b8278e8141cf626abf4f0d}{}\label{structPager_a81057c4420b8278e8141cf626abf4f0d}
+
+\item 
+\hyperlink{structsqlite3__file}{sqlite3\+\_\+file} $\ast$ {\bfseries sjfd}\hypertarget{structPager_a8196bcc97f184d480848895f71e080e6}{}\label{structPager_a8196bcc97f184d480848895f71e080e6}
+
+\item 
+i64 {\bfseries journal\+Off}\hypertarget{structPager_ad3cffdc0987965fa6a472b19355f48df}{}\label{structPager_ad3cffdc0987965fa6a472b19355f48df}
+
+\item 
+i64 {\bfseries journal\+Hdr}\hypertarget{structPager_a7f4a7f5f0245b063a82c185f40bad7f0}{}\label{structPager_a7f4a7f5f0245b063a82c185f40bad7f0}
+
+\item 
+\hyperlink{structsqlite3__backup}{sqlite3\+\_\+backup} $\ast$ {\bfseries p\+Backup}\hypertarget{structPager_ae230d34da61bf28178fa1ac142a88c15}{}\label{structPager_ae230d34da61bf28178fa1ac142a88c15}
+
+\item 
+\hyperlink{structPagerSavepoint}{Pager\+Savepoint} $\ast$ {\bfseries a\+Savepoint}\hypertarget{structPager_a4d5f4487316c026eceb8461e90fffcfd}{}\label{structPager_a4d5f4487316c026eceb8461e90fffcfd}
+
+\item 
+int {\bfseries n\+Savepoint}\hypertarget{structPager_a020adae89ef6c1b28e51fffc3d4b22c9}{}\label{structPager_a020adae89ef6c1b28e51fffc3d4b22c9}
+
+\item 
+u32 {\bfseries i\+Data\+Version}\hypertarget{structPager_a4464625e1489082ddb9129b6b5db0583}{}\label{structPager_a4464625e1489082ddb9129b6b5db0583}
+
+\item 
+char {\bfseries db\+File\+Vers} \mbox{[}16\mbox{]}\hypertarget{structPager_acf03a47838eee1cf474bb93dbc834b5f}{}\label{structPager_acf03a47838eee1cf474bb93dbc834b5f}
+
+\item 
+int {\bfseries n\+Mmap\+Out}\hypertarget{structPager_acacf681e33935075e2b19e0906574b95}{}\label{structPager_acacf681e33935075e2b19e0906574b95}
+
+\item 
+sqlite3\+\_\+int64 {\bfseries sz\+Mmap}\hypertarget{structPager_a2e1c04a512708f6df091f6d6246b70d3}{}\label{structPager_a2e1c04a512708f6df091f6d6246b70d3}
+
+\item 
+\hyperlink{structPgHdr}{Pg\+Hdr} $\ast$ {\bfseries p\+Mmap\+Freelist}\hypertarget{structPager_a2213dad45ad7c79cf50dcdaf9bf6a718}{}\label{structPager_a2213dad45ad7c79cf50dcdaf9bf6a718}
+
+\item 
+u16 {\bfseries n\+Extra}\hypertarget{structPager_a44e153b2f756bfb86ab471c25893b3b6}{}\label{structPager_a44e153b2f756bfb86ab471c25893b3b6}
+
+\item 
+i16 {\bfseries n\+Reserve}\hypertarget{structPager_a82581087240713cab679108e3adeaf58}{}\label{structPager_a82581087240713cab679108e3adeaf58}
+
+\item 
+u32 {\bfseries vfs\+Flags}\hypertarget{structPager_a36f3333fe82c70a46a99f2f8f289a971}{}\label{structPager_a36f3333fe82c70a46a99f2f8f289a971}
+
+\item 
+u32 {\bfseries sector\+Size}\hypertarget{structPager_a4a47c73d7c18b803df33ba6c39baa5bf}{}\label{structPager_a4a47c73d7c18b803df33ba6c39baa5bf}
+
+\item 
+int {\bfseries page\+Size}\hypertarget{structPager_a9cfb910e7eaf8442f5414d722232a6e9}{}\label{structPager_a9cfb910e7eaf8442f5414d722232a6e9}
+
+\item 
+Pgno {\bfseries mx\+Pgno}\hypertarget{structPager_ad1d9a508ac764486a5eaef9b4f7781af}{}\label{structPager_ad1d9a508ac764486a5eaef9b4f7781af}
+
+\item 
+i64 {\bfseries journal\+Size\+Limit}\hypertarget{structPager_ae381db4e0b49f92596b0cdeb279e6bc6}{}\label{structPager_ae381db4e0b49f92596b0cdeb279e6bc6}
+
+\item 
+char $\ast$ {\bfseries z\+Filename}\hypertarget{structPager_a2a55a044468f8658b7993e57087a5561}{}\label{structPager_a2a55a044468f8658b7993e57087a5561}
+
+\item 
+char $\ast$ {\bfseries z\+Journal}\hypertarget{structPager_ab36ce1f606c407ad3fc56a3651f5a319}{}\label{structPager_ab36ce1f606c407ad3fc56a3651f5a319}
+
+\item 
+int($\ast$ {\bfseries x\+Busy\+Handler} )(void $\ast$)\hypertarget{structPager_ae1f5a3f57a0351a2d2f652716c48c463}{}\label{structPager_ae1f5a3f57a0351a2d2f652716c48c463}
+
+\item 
+void $\ast$ {\bfseries p\+Busy\+Handler\+Arg}\hypertarget{structPager_a7a685e7a8dcbcd725c5a982fd8deb91b}{}\label{structPager_a7a685e7a8dcbcd725c5a982fd8deb91b}
+
+\item 
+int {\bfseries a\+Stat} \mbox{[}3\mbox{]}\hypertarget{structPager_a0b3bb8afc7c4c82e0e99f3ad99dd0986}{}\label{structPager_a0b3bb8afc7c4c82e0e99f3ad99dd0986}
+
+\item 
+void($\ast$ {\bfseries x\+Reiniter} )(\hyperlink{structPgHdr}{Db\+Page} $\ast$)\hypertarget{structPager_ad214904b953afe7d4718a713fedb8c98}{}\label{structPager_ad214904b953afe7d4718a713fedb8c98}
+
+\item 
+char $\ast$ {\bfseries p\+Tmp\+Space}\hypertarget{structPager_a64934188c72599e0be9ae54d3fc1cc92}{}\label{structPager_a64934188c72599e0be9ae54d3fc1cc92}
+
+\item 
+\hyperlink{structPCache}{P\+Cache} $\ast$ {\bfseries p\+P\+Cache}\hypertarget{structPager_ae2495e45e354e92a858144386f91cab3}{}\label{structPager_ae2495e45e354e92a858144386f91cab3}
+
+\item 
+\hyperlink{structWal}{Wal} $\ast$ {\bfseries p\+Wal}\hypertarget{structPager_a2c759424108248d8b08e6f400fab14dd}{}\label{structPager_a2c759424108248d8b08e6f400fab14dd}
+
+\item 
+char $\ast$ {\bfseries z\+Wal}\hypertarget{structPager_ac63ab281e48f9ac8521b85c1a90475b3}{}\label{structPager_ac63ab281e48f9ac8521b85c1a90475b3}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sqlite3.\+c\end{DoxyCompactItemize}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['weight',['weight',['../classPackage.html#a54c6c965d6f9b94d463d3786e35f8a76',1,'Package']]]
+  ['mutation',['mutation',['../classGenetic.html#ac00a7d48d29e825d08bb366b04ffb66a',1,'Genetic']]]
 ];

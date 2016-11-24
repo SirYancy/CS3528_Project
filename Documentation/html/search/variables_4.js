@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['priority',['priority',['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package']]]
+  ['elitist',['elitist',['../classGenetic.html#ad4bc449790f8d84e5ec83ca65e2c4546',1,'Genetic']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['name',['name',['../classClient.html#a456e36f9972a8bf3ecdb5f0e70b3bd5d',1,'Client']]]
+  ['delivered',['Delivered',['../classPackage.html#a68e383f4da8ac54fb275c752684eaf00',1,'Package']]],
+  ['directions',['directions',['../classTruck.html#a62316796e456b748a80c870e41e058f4',1,'Truck']]],
+  ['drivetime',['driveTime',['../classGenetic.html#a060cb30bbd912dd78fbf567410746631',1,'Genetic']]]
 ];

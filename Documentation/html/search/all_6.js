@@ -1,6 +1,14 @@
 var searchData=
 [
-  ['package',['Package',['../classPackage.html',1,'Package'],['../classPackage.html#a64d987fe7cb1d583f2af4a38e544a6f2',1,'Package::Package()']]],
-  ['parseaddress',['parseAddress',['../classClient.html#a6953fb1cd2e5a4fa87ee08479072a402',1,'Client']]],
-  ['priority',['Priority',['../classPackage.html#ac96ebcf78f2d93898635a1275da0c0bd',1,'Package::Priority()'],['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package::priority()']]]
+  ['filechunk',['FileChunk',['../structFileChunk.html',1,'']]],
+  ['filepoint',['FilePoint',['../structFilePoint.html',1,'']]],
+  ['fitness',['fitness',['../classGenetic.html#a77e09f3e47c576867ce2e6ccac1b5085',1,'Genetic']]],
+  ['fkey',['FKey',['../structFKey.html',1,'']]],
+  ['fts5_5fapi',['fts5_api',['../structfts5__api.html',1,'']]],
+  ['fts5_5ftokenizer',['fts5_tokenizer',['../structfts5__tokenizer.html',1,'']]],
+  ['fts5extensionapi',['Fts5ExtensionApi',['../structFts5ExtensionApi.html',1,'']]],
+  ['fts5phraseiter',['Fts5PhraseIter',['../structFts5PhraseIter.html',1,'']]],
+  ['funcdef',['FuncDef',['../structFuncDef.html',1,'']]],
+  ['funcdefhash',['FuncDefHash',['../structFuncDefHash.html',1,'']]],
+  ['funcdestructor',['FuncDestructor',['../structFuncDestructor.html',1,'']]]
 ];

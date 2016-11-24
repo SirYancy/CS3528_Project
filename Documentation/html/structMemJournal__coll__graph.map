@@ -1,0 +1,6 @@
+<map id="MemJournal" name="MemJournal">
+<area shape="rect" id="node2" href="$structFilePoint.html" title="FilePoint" alt="" coords="73,95,147,121"/>
+<area shape="rect" id="node3" href="$structFileChunk.html" title="FileChunk" alt="" coords="5,5,87,32"/>
+<area shape="rect" id="node4" href="$structsqlite3__vfs.html" title="sqlite3_vfs" alt="" coords="171,95,257,121"/>
+<area shape="rect" id="node5" href="$structsqlite3__io__methods.html" title="sqlite3_io_methods" alt="" coords="345,95,480,121"/>
+</map>

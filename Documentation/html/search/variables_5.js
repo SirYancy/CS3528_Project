@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['receivedpackages',['receivedPackages',['../classClient.html#ae0b61b806652c0dd46a5ef3e0308fb51',1,'Client']]],
-  ['receiver',['receiver',['../classPackage.html#a9331feb10443764e6992894866731eb8',1,'Package']]]
+  ['generations',['generations',['../classGenetic.html#aa2930835ae1b5aeb910f5d6a1acdc3ff',1,'Genetic']]],
+  ['genes',['genes',['../classGenetic.html#ad85db12db467d5cbc46df9d50f9877e8',1,'Genetic']]]
 ];
