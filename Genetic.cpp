@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 //#include <thread>
+#include <future>
 
 Genetic::Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
@@ -19,7 +20,7 @@ Genetic::Genetic(std::vector<Package*> packs,
     // Truncate population to multiples of four for threading.
     popNum = (population / 4) * 4;
 
-    std::cout << popNum << std::endl;
+    std::cout << "Population: " << popNum << std::endl;
 
     // Total for roulette selection of mutation.
     mutation.total = mutation.crossOver + mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
@@ -157,11 +158,13 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
 
     indFit = 0;
     if (shiftTime > timeLimit) {
-        indFit -= pow(shiftTime - timeLimit, 1.45);
+        indFit -= pow(shiftTime - timeLimit, 1.55);
     } else {
-        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
+        //indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
+        indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
+    //std::cout << 2.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)) << std::endl;
     //indFit += pow((static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities), 1.5);
     indFit += pow(static_cast<float>(priorities), 1.57);
 
@@ -179,7 +182,35 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
     return fit;
 }
 
-vector<Package*> Genetic::evolve() {
+void Genetic::evolve_threads() {
+    typedef vector<Package* > route;
+
+    auto f1 = std::async(std::launch::deferred, &Genetic::evolve, this);
+    auto f2 = std::async(std::launch::deferred, &Genetic::evolve, this);
+
+    // These do not work. I believe it is due to requiring a reference to evolve. I need
+    // a way to create a "copy" of this object, or it's data members to allow simultanous threads accessing the data.
+    //auto f3 = std::async(std::launch::async, &Genetic::evolve, this);
+    //auto f4 = std::async(std::launch::async, &Genetic::evolve, this);
+
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+    //auto res3 = f3.get();
+    //auto res4 = f4.get();
+
+/*
+    auto f1 = std::async(std::launch::async, &Genetic::thread1, this);
+    auto f2 = std::async(std::launch::async, &Genetic::thread2, this);
+
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+
+    std::cout << res1 << " " << res2 << std::endl;
+*/
+}
+
+
+vector<Package * > Genetic::evolve() {
 
     initPopulation();
     vector<float> currentFitness (5, 0);
@@ -211,7 +242,7 @@ vector<Package*> Genetic::evolve() {
     }
     std::cout << "Best route F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << std::endl;
 
-    return bestFit;
+    return getBest();
 }
 
 void Genetic::mate() {

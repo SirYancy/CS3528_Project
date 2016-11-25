@@ -36,10 +36,16 @@ class Genetic {
          */
         vector<Package* > evolve();
 
+        vector<Package* > getBest() {return bestFit;};
+
+        void evolve_threads();
 
     protected:
 
     private:
+
+        int thread1() {return 1;};
+        int thread2() {return 2;};
         //! Create initial route population.
         void initPopulation();
 

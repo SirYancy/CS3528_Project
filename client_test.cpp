@@ -10,6 +10,7 @@
 #include <cmath>
 #include "Utils.h"
 #include "Genetic.h"
+#include <future>
 
 
 using namespace std;
@@ -445,18 +446,32 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
 
     return matrix;
 }
+vector<Package* > run_simulation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0.05;
 
+    Genetic GA(Packages, matrix, 16*2000, 200, 300, 5, 1, 60*8, 10000, mutation);
+    return GA.evolve();
+
+}
 
 int main() {
 
-    srand(time(0));
-    vector<Package*> Packages;
+    //srand(time(0));
+    srand(100);
+    vector<Package* > Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
 
                                         // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test2.csv", 100, 50, 2000, 20, 160, {4, 2, 1}};
+    randomPackageEnum generatePackages = {"Test2.csv", 200, 100, 2000, 20, 160, {4, 2, 1}};
 
     // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
     //randomPackages(generatePackages);
@@ -483,17 +498,20 @@ int main() {
 
     std::cout << "Evolving best route, please wait..." << std::endl;
 
-    mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
-    mutation.insertNew  = 25;
-    mutation.inversion  = 20;
-    mutation.swapOut    = 10;
-    mutation.swapWithin = 25;
-    mutation.elite      = 0.05;
+    // Launch multiple asncronous threads. It seems that one cannot call object methods and get object copies.
+    // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
+    // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
+    // it's own unique snowflake.
+    auto f1 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    auto f2 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    auto f3 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    auto f4 = std::async(std::launch::async, run_simulation, Packages, matrix);
 
-    Genetic GA(Packages, matrix, 16*2000, 100, 200, 5, 1, 60*8, 10000, mutation);
-    vector<Package* > bestRoute = GA.evolve();
+
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+    auto res3 = f3.get();
+    auto res4 = f4.get();
 
 /*
     cout << "This works?!?!" << endl;

@@ -36,6 +36,9 @@ class Genetic {
          */
         vector<Package* > evolve();
 
+        vector<Package* > getBest() {return bestFit;};
+
+        void evolve_threads();
 
     protected:
 
@@ -114,6 +117,9 @@ class Genetic {
 
         //! Population size for evolution. Population size will be rounded down to multiples of 4 (threading.)
         unsigned int popNum;
+
+        //! Maximum possible priority score.
+        unsigned int totalPriority = 0;
 
         //! Weight limit for route. Truck can hold this much. Ounces.
         unsigned int weightLimit;

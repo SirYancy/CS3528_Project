@@ -10,6 +10,7 @@
 #include <cmath>
 #include "Utils.h"
 #include "Genetic.h"
+#include <future>
 
 
 using namespace std;
@@ -445,21 +446,35 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
 
     return matrix;
 }
+vector<Package* > run_simulation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0.05;
 
+    Genetic GA(Packages, matrix, 16*2000, 200, 300, 5, 1, 60*8, 30000, mutation);
+    return GA.evolve();
+
+}
 
 int main() {
 
+    //srand(time(0));
     srand(100);
-    vector<Package*> Packages;
+    vector<Package* > Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
 
                                         // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test2.csv", 100, 50, 2000, 20, 160, {4, 2, 1}};
+    randomPackageEnum generatePackages = {"Test2.csv", 200, 100, 2000, 20, 160, {4, 2, 1}};
 
     // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
-    randomPackages(generatePackages);
+    //randomPackages(generatePackages);
 
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
@@ -482,19 +497,55 @@ int main() {
     */
 
     std::cout << "Evolving best route, please wait..." << std::endl;
+/*
+    mutation_enum mutation;
+    mutation.crossOver  = 55;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 10;
+    mutation.inversion  = 10;
+    mutation.swapOut    = 5;
+    mutation.swapWithin = 15;
+    mutation.elite      = 0.05;
+*/
 
     mutation_enum mutation;
-    mutation.crossOver  = 0.6;
-    mutation.deleteOld  = 0.005;
-    mutation.insertNew  = 0.005;
-    mutation.inversion  = 0.005;
-    mutation.swapOut    = 0.005;
-    mutation.swapWithin = 0.01;
-    mutation.elite      = 1;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0.05;
 
-    Genetic GA(Packages, matrix, 16*2000, 100, 500, 5, 1, 60*8, 999999, mutation);
-    vector<Package* > bestRoute = GA.evolve();
+    //Genetic GA1(Packages, matrix, 16*2000, 200, 300, 5, 1, 60*8, 30000, mutation);
 
+    //auto f3 = std::async(std::launch::async, &Genetic::evolve, this);
+    //auto f4 = std::async(std::launch::async, &Genetic::evolve, this);
+
+    //auto res1 = f1.get();
+    //thread t1(GA1.evolve);
+    //t1.join();
+    //GA1.evolve_threads();
+    auto f1 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    auto f2 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    auto f3 = std::async(std::launch::async, run_simulation, Packages, matrix);
+    //auto f4 = std::async(std::launch::async, run_simulation, Packages, matrix);
+
+
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+    auto res3 = f3.get();
+    //auto res4 = f4.get();
+    /*
+        thread t1(&Genetic::crossOver, this, 1);
+        thread t2(&Genetic::crossOver, this, 2);
+        thread t3(&Genetic::crossOver, this, 3);
+        thread t4(&Genetic::crossOver, this, 4);
+        t1.join();
+        t2.join();
+        t3.join();
+        t4.join();
+        */
 /*
     cout << "This works?!?!" << endl;
 
