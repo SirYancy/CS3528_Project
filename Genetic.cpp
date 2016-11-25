@@ -18,7 +18,8 @@ Genetic::Genetic(std::vector<Package*> packs,
 
 {
     // Truncate population to multiples of four for threading.
-    popNum = (population / 4) * 4;
+    //popNum = (population / 4) * 4;
+    popNum = population;
 
     std::cout << "Population: " << popNum << std::endl;
 
@@ -69,7 +70,7 @@ void Genetic::initPopulation() {
         tries = 0;
 
         // Loop while we still have packages to place, and we're under the limits.
-        while (totalPackages < numOfPackages && totalPackages < packageLimit && totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
+        while (totalPackages < numOfPackages ) {// && totalPackages < packageLimit && totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
 
             tries++;
 
@@ -112,6 +113,12 @@ void Genetic::initPopulation() {
         genes.push_back(std::make_pair(individual, 0));
     }
 
+
+    initRanking();
+
+}
+
+void Genetic::initRanking() {
     // Resize the ranking vector to evolution.
     ranking.resize(genes.size());
 
@@ -158,15 +165,15 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
 
     indFit = 0;
     if (shiftTime > timeLimit) {
-        indFit -= pow(shiftTime - timeLimit, 1.55);
+        indFit -= (pow(shiftTime - timeLimit, 2.3) + 200);
     } else {
-        //indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
-        indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
+        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
+        //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
     //std::cout << 2.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)) << std::endl;
     //indFit += pow((static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities), 1.5);
-    indFit += pow(static_cast<float>(priorities), 1.57);
+    indFit += pow(static_cast<float>(priorities), 1.8);
 
 
     if (weight > weightLimit) {
@@ -182,37 +189,24 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
     return fit;
 }
 
-void Genetic::evolve_threads() {
-    typedef vector<Package* > route;
+void Genetic::loadPopulation(vector< pair<vector<Package* >, float> > newPopulation) {
+    genes = newPopulation;
+    popNum = newPopulation.size();
+    initRanking();
+    return;
 
-    auto f1 = std::async(std::launch::deferred, &Genetic::evolve, this);
-    auto f2 = std::async(std::launch::deferred, &Genetic::evolve, this);
+}
 
-    // These do not work. I believe it is due to requiring a reference to evolve. I need
-    // a way to create a "copy" of this object, or it's data members to allow simultanous threads accessing the data.
-    //auto f3 = std::async(std::launch::async, &Genetic::evolve, this);
-    //auto f4 = std::async(std::launch::async, &Genetic::evolve, this);
+vector< pair<vector<Package* >, float> > Genetic::evolve_threads() {
+    evolve();
+    return genes;
 
-    auto res1 = f1.get();
-    auto res2 = f2.get();
-    //auto res3 = f3.get();
-    //auto res4 = f4.get();
-
-/*
-    auto f1 = std::async(std::launch::async, &Genetic::thread1, this);
-    auto f2 = std::async(std::launch::async, &Genetic::thread2, this);
-
-    auto res1 = f1.get();
-    auto res2 = f2.get();
-
-    std::cout << res1 << " " << res2 << std::endl;
-*/
 }
 
 
 vector<Package * > Genetic::evolve() {
 
-    initPopulation();
+    //initPopulation();
     vector<float> currentFitness (5, 0);
     vector<float> currentBest (5, 0);
 
@@ -235,7 +229,7 @@ vector<Package * > Genetic::evolve() {
                 //std::cout << "Current fitness: " << currentFitness << " Best: " << bestFitScore << std::endl;
         }
 
-        if (i % 1000 == 0) {
+        if (i % 100 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
         }
         mate();
@@ -254,7 +248,14 @@ void Genetic::mate() {
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
     mergeSort(0, genes.size() - 1);
 
-    for (unsigned int i = 0; i < (popNum - elitist) / 2; ++i) {
+    /*
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        std::cout << (*iter).second << " ";
+    }
+
+    std::cout << std::endl;
+*/
+    for (unsigned int i = 0; i < popNum; ++i) {//(popNum - elitist) / 2; ++i) {
 
 
         newIndividuals = mutate();
@@ -280,10 +281,11 @@ void Genetic::mate() {
 
     //std::cout << "Before elite: " << newPopulation.size();
     // Save the elite few, the fitest. Save the Queen!
+    /*
     for (unsigned int i = popNum - elitist - 1; i < popNum; ++i) {
         newPopulation.push_back(genes[i]);
     }
-
+    */
     //std::cout << " After elite: " << newPopulation.size() << std::endl;
     genes = newPopulation;
 }
@@ -536,6 +538,7 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
 
     // Size of gene
     unsigned int geneSize = gene.size();
+
 
     // Where insertion point is
     unsigned int randomPoint = rand() % geneSize;

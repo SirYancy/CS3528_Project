@@ -11,7 +11,13 @@
 #include "Utils.h"
 #include "Genetic.h"
 #include <future>
+#include <random>
+#include <algorithm>
 
+#define GENERATIONS 1000
+#define POPULATION 100
+#define MAXTIME 60*8
+#define MAXWEIGHT 16*2000
 
 using namespace std;
 
@@ -47,7 +53,7 @@ typedef struct {
 
 struct {
     string name = "WAREHOUSE";
-    string address = "123 MAIN ST N";
+    string address = "23 MAIN ST N";
     string city = "BEMIDJI";
     string state = "MN";
     string zip = "56601";
@@ -62,6 +68,7 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
     float weight;
     int integer;
     unsigned int clientID = 0;
+    unsigned int packageID = 0;
 
     Priority packagePriority;
 
@@ -171,7 +178,9 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         //std::cout << "Input package priority int: " << integer << " Priority: " << packagePriority << std::endl;
 
         // Make new persistent package that won't disappear off the stack. Get pointer.
-        Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority);
+        Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority, packageID);
+
+        packageID++;
 
         // Add to package list
         packageList.push_back(packagePtr);
@@ -446,7 +455,11 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
 
     return matrix;
 }
-vector<Package* > run_simulation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+
+vector< pair<vector<Package* >, float> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    vector< pair<vector<Package* >, float> > result;
+    vector<float > fit;
+
     mutation_enum mutation;
     mutation.crossOver  = 60;
     mutation.deleteOld  = 5;
@@ -454,21 +467,158 @@ vector<Package* > run_simulation(vector<Package* > Packages, vector<vector<unsig
     mutation.inversion  = 20;
     mutation.swapOut    = 25;
     mutation.swapWithin = 25;
-    mutation.elite      = 0.05;
+    mutation.elite      = 0;
 
-    Genetic GA(Packages, matrix, 16*2000, 200, 300, 5, 1, 60*8, 10000, mutation);
-    return GA.evolve();
+    Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
+    GA.initPopulation();
+    result = GA.evolve_threads();
+    //fit = GA.fitness(result);
+    //return make_pair(result, fit);
+    return result;
+
+}
+
+pair<vector<Package* >, vector<float> > simulationCrossover(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, float> > mixedPop) {
+    vector<Package * > result;
+    vector<float > fit;
+
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0;
+
+    Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
+    GA.loadPopulation(mixedPop);
+    result = GA.evolve();
+    fit = GA.fitness(result);
+    return make_pair(result, fit);
+    //return result;
+
+}
+
+pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    vector< pair<vector<Package* >, float> > mixedPopulation;
+    pair<vector<Package* >, float> selected;
+
+    vector< pair<vector<Package* >, float> > newPop1, newPop2, newPop3, newPop4;
+
+    // Launch multiple asncronous threads. It seems that one cannot call object methods and get object copies.
+    // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
+    // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
+    // it's own unique snowflake.
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+
+
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+    auto res3 = f3.get();
+    auto res4 = f4.get();
+
+    unsigned int resultSize1 = res1.size();
+    unsigned int resultSize2 = res2.size();
+    unsigned int resultSize3 = res3.size();
+    unsigned int resultSize4 = res4.size();
+
+    for (vector< pair<vector<Package* >, float> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
+        mixedPopulation.push_back(*iter);
+    }
+
+    for (vector< pair<vector<Package* >, float> >::iterator iter = res2.begin(); iter != res2.end(); ++iter) {
+        mixedPopulation.push_back(*iter);
+    }
+
+    for (vector< pair<vector<Package* >, float> >::iterator iter = res3.begin(); iter != res3.end(); ++iter) {
+        mixedPopulation.push_back(*iter);
+    }
+
+    for (vector< pair<vector<Package* >, float> >::iterator iter = res4.begin(); iter != res4.end(); ++iter) {
+        mixedPopulation.push_back(*iter);
+    }
+
+    // Fill selection vector with 0s for size of population.
+    //vector<unsigned int > roundRobinSelection {mixedPopulation.size(), 0};
+    // Fill vector with 0, 1, 2, ..., n
+    //std::iota(roundRobinSelection.begin(), roundRobinSelection.end(), 0);
+
+    // Seed nice random number generator.
+    std::mt19937 rng(std::random_device{}());
+
+    // Shuffle up the indices.
+    std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
+
+    while(mixedPopulation.size() > 0) {
+        if (mixedPopulation.size() > 0) {
+            newPop1.push_back(mixedPopulation.back());
+            //std::cout << &mixedPopulation.back() << std::endl;
+            mixedPopulation.pop_back();
+        }
+        if (mixedPopulation.size() > 0) {
+            newPop2.push_back(mixedPopulation.back());
+            //std::cout << &mixedPopulation.back() << std::endl;
+            mixedPopulation.pop_back();
+        }
+        if (mixedPopulation.size() > 0) {
+            newPop3.push_back(mixedPopulation.back());
+            //std::cout << &mixedPopulation.back() << std::endl;
+            mixedPopulation.pop_back();
+        }
+
+        if (mixedPopulation.size() > 0) {
+            newPop4.push_back(mixedPopulation.back());
+            //std::cout << &mixedPopulation.back() << std::endl;
+            mixedPopulation.pop_back();
+        }
+    }
+
+    auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
+    auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
+    auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
+    auto c4 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop4);
+
+/*
+    auto res1 = f1.get();
+    auto res2 = f2.get();
+    auto res3 = f3.get();
+    auto res4 = f4.get();
+    */
+
+    vector<pair<vector<Package* >, vector<float> > > bestMixed;
+    bestMixed.push_back(c1.get());
+    bestMixed.push_back(c2.get());
+    bestMixed.push_back(c3.get());
+    bestMixed.push_back(c4.get());
+
+    unsigned int index = 0;
+    float bestSoFar = 0;
+
+    for (unsigned int i = 0; i < bestMixed.size(); ++i) {
+        if (bestMixed[i].second[0] > bestSoFar) {
+            bestSoFar = i;
+        }
+    }
+
+    return bestMixed[bestSoFar];
 
 }
 
 int main() {
 
     //srand(time(0));
-    srand(100);
+    srand(201);
     vector<Package* > Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
+    pair<vector<Package* >, vector<float> > best;
+
+
 
                                         // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
     randomPackageEnum generatePackages = {"Test2.csv", 200, 100, 2000, 20, 160, {4, 2, 1}};
@@ -498,21 +648,92 @@ int main() {
 
     std::cout << "Evolving best route, please wait..." << std::endl;
 
-    // Launch multiple asncronous threads. It seems that one cannot call object methods and get object copies.
-    // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
-    // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
-    // it's own unique snowflake.
-    auto f1 = std::async(std::launch::async, run_simulation, Packages, matrix);
-    auto f2 = std::async(std::launch::async, run_simulation, Packages, matrix);
-    auto f3 = std::async(std::launch::async, run_simulation, Packages, matrix);
-    auto f4 = std::async(std::launch::async, run_simulation, Packages, matrix);
 
+    //best = runSimulationMixed(Packages, matrix);
+    vector< pair<vector<Package* >, float> > result;
+    vector<float > fit;
 
-    auto res1 = f1.get();
-    auto res2 = f2.get();
-    auto res3 = f3.get();
-    auto res4 = f4.get();
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0;
 
+    Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
+    GA.initPopulation();
+    GA.evolve();
+/*
+    std::cout << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
+
+    // Output file stream
+    ofstream file;
+
+    int xmin = 0;
+    int xmax = 0;
+    int ymin = 0;
+    int ymax = 0;
+
+    file.open("route.gnu");
+    for (vector<Package* >::iterator iter = Packages.begin(); iter!=Packages.end(); ++iter) {
+        if ((*iter)->getReceiver()->getCoords().first < xmin) {
+            xmin = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().first > xmax) {
+            xmax = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second < ymin) {
+            ymin = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second > ymax) {
+            ymax = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+    }
+
+    file << std::endl << std::endl;
+
+    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
+
+    for (vector<Package* >::iterator iter = best.first.begin(); iter!=best.first.end(); ++iter) {
+        file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+    }
+    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
+
+    file.close();
+
+    file.open("gnugraph");
+
+    file << "set style line 1 lc rgb \'#0060ad\' lt 1 lw 2 pt 7 ps 1.5 # --- blue" << std::endl;
+    file << "set style line 2 lc rgb \'#dd181f\' lt 1 lw 2 pt 5 ps 1.5 # --- red" << std::endl;
+
+    file << "set xrange [" << xmin - 5 << ":" << xmax + 5 << "]" << std::endl;
+    file << "set yrange [" << ymin - 5 << ":" << ymax + 5 << "]" << std::endl;
+
+    file << "set terminal pngcairo size 1920,1080" << std::endl;
+
+    file << "set term \'pngcairo\'" << std::endl;
+    file << "set output \'route.png\'" << std::endl;
+    file << "set style line 100 lt 1 lc rgb \"gray\" lw 2" << std::endl;
+    file << "set style line 101 lt 0.5 lc rgb \"gray\" lw 2" << std::endl;
+
+    file << "set grid mytics ytics ls 100, ls 101" << std::endl;
+    file << "set grid mxtics xtics ls 100, ls 101" << std::endl;
+    file << "set mxtics 10" << std::endl;
+    file << "set mytics 10" << std::endl;
+    file << "set label \"Pop: " << POPULATION << ", Gen: " << GENERATIONS << ", Fit: " << best.second[0] << "\"  at graph 0.8, 0.05" << std::endl;
+    file << "set label \"Pri: " << best.second[1] << ", T: " << best.second[3] << "/" << MAXTIME << ", P: " << best.first.size() - 2 << "/" << Packages.size() << "\" at graph 0.8, graph 0.03" << std::endl;
+
+    file << "plot \'route.gnu\' index 0 with points ls 1 title \'Packages\', \'route.gnu\' index 1 with linespoints ls 2 title \'Route\'" << std::endl;
+    //file << "pause -1" << std::endl;
+    file.close();
+    */
 /*
     cout << "This works?!?!" << endl;
 
@@ -536,5 +757,6 @@ int main() {
     cout << c2.toString();
 
 */
+
     return 0;
 }

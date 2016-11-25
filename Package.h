@@ -9,7 +9,7 @@ using namespace std;
 enum Priority{
     REGULAR = 1,
     TWO_DAY = 2,
-    OVERNIGHT = 3
+    OVERNIGHT = 4
 };
 
 class Client;
@@ -26,7 +26,7 @@ class Package{
 
 
         //! Constructor
-        Package(Client* s, Client* r, const float w, const Priority p);
+        Package(Client* s, Client* r, const float w, const Priority p, unsigned int ID);
 
         //! Sender setter
         void setSender(Client*);
@@ -52,6 +52,10 @@ class Package{
 
         Package* getPointer() {return this;};
 
+        unsigned int getID() {return ID;};
+
+        void setID(unsigned int id) {ID = id;};
+
     private:
         //! Pointer to sender client
         Client *sender;
@@ -64,6 +68,9 @@ class Package{
 
         //! Package delivered?
         bool Delivered = false;
+
+        //! Package ID number.
+        unsigned int ID;
 
 };
 
