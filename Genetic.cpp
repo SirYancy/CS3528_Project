@@ -245,6 +245,9 @@ void Genetic::mate() {
     vector< pair<vector<Package* >, float> > newPopulation;
     vector< vector<Package* > > newIndividuals;
 
+    // Resize to correct size to increase speed.
+    newPopulation.resize(genes.size());
+
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
     mergeSort(0, genes.size() - 1);
 
@@ -255,12 +258,12 @@ void Genetic::mate() {
 
     std::cout << std::endl;
 */
-    for (unsigned int i = 0; i < popNum; ++i) {//(popNum - elitist) / 2; ++i) {
+    for (unsigned int i = 0; i < (popNum - elitist) / 2; ++i) {
 
 
         newIndividuals = mutate();
-        newPopulation.push_back(make_pair(newIndividuals[0], 0));
-        newPopulation.push_back(make_pair(newIndividuals[1], 0));
+        newPopulation[2 * i] = make_pair(newIndividuals[0], 0);
+        newPopulation[2 * i + 1] = make_pair(newIndividuals[1], 0);
 
         /*
         thread t1(&Genetic::crossOver, this, 1);
@@ -281,11 +284,11 @@ void Genetic::mate() {
 
     //std::cout << "Before elite: " << newPopulation.size();
     // Save the elite few, the fitest. Save the Queen!
-    /*
+
     for (unsigned int i = popNum - elitist - 1; i < popNum; ++i) {
-        newPopulation.push_back(genes[i]);
+        newPopulation[i] = genes[i];
     }
-    */
+
     //std::cout << " After elite: " << newPopulation.size() << std::endl;
     genes = newPopulation;
 }
@@ -534,54 +537,56 @@ vector<vector<Package* > > Genetic::mutate() {
 }
 
 vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
-    vector<Package* > newGene;
+    // Do we have any packages to insert?
+    if (gene.size() < numOfPackages) {
+        vector<Package* > newGene;
 
-    // Size of gene
-    unsigned int geneSize = gene.size();
+        // Size of gene
+        unsigned int geneSize = gene.size();
 
 
-    // Where insertion point is
-    unsigned int randomPoint = rand() % geneSize;
+        // Where insertion point is
+        unsigned int randomPoint = rand() % geneSize;
 
-    unsigned int randomNewGene;
+        unsigned int randomNewGene;
 
-    // Is random package already present in gene
-    bool present = true;
+        // Is random package already present in gene
+        bool present = true;
 
-    // Limit to number of tries.
-    unsigned int tries = 0;
+        // Limit to number of tries.
+        unsigned int tries = 0;
 
-    // Attempt to get non-duplicate package
-    while(present == true && tries < 200) {
-        // Assume not present in gene
-        present = false;
+        // Attempt to get non-duplicate package
+        while(present == true && tries < 200) {
+            // Assume not present in gene
+            present = false;
 
-        // Random package
-        randomNewGene = rand() % numOfPackages;
+            // Random package
+            randomNewGene = rand() % numOfPackages;
 
-        // Check gene for duplicates
-        for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
-            if (packages[randomNewGene] == gene[swapIn]) {
-                // Duplicate
-                present = true;
-                break;
+            // Check gene for duplicates
+            for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
+                if (packages[randomNewGene] == gene[swapIn]) {
+                    // Duplicate
+                    present = true;
+                    break;
+                }
             }
+
+            tries++;
         }
 
-        tries++;
+        if (tries < 200) {
+            // Time to insert, point point
+            randomPoint = rand() % geneSize;
+
+            // Jam it in
+            gene.insert(gene.begin() + randomPoint, packages[randomNewGene]);
+        }
+
     }
+    return gene;
 
-    if (tries < 200) {
-        // Time to insert, point point
-        randomPoint = rand() % geneSize;
-
-        // Jam it in
-        gene.insert(gene.begin() + randomPoint, packages[randomNewGene]);
-    }
-
-    // Return gene
-    newGene = gene;
-    return newGene;
 
 }
 
@@ -614,8 +619,7 @@ vector<Package* > Genetic::mutateInversion(vector<Package* > gene) {
 
     }
     // Return gene
-    newGene = gene;
-    return newGene;
+    return gene;
 }
 
 
@@ -634,8 +638,8 @@ vector<Package* > Genetic::mutateDelete(vector<Package* > gene) {
         // Remove gene.
         gene.erase(gene.begin() + randomPoint);
     }
-    newGene = gene;
-    return newGene;
+
+    return gene;
 }
 
 
@@ -665,48 +669,50 @@ vector<Package* > Genetic::mutateSwapWithin(vector<Package *> gene) {
         gene[randomSwap2] = temp;
     }
     // Return gene
-    newGene = gene;
-    return newGene;
+    return gene;
 }
 
 
 vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
-    unsigned int geneSize = gene.size();
-    vector<Package* > newGene;
+    if (gene.size() < numOfPackages) {
+        unsigned int geneSize = gene.size();
+        vector<Package* > newGene;
 
-    bool present = true;
-    unsigned int tries = 0;
-    unsigned int randomNewGene;
+        bool present = true;
+        unsigned int tries = 0;
+        unsigned int randomNewGene;
 
-    // Swap package outside this gene at this index point.
-    unsigned int randomPoint = rand() % geneSize;
+        // Swap package outside this gene at this index point.
+        unsigned int randomPoint = rand() % geneSize;
 
 
-    while(present == true && tries < 200) {
-        present = false;
+        while(present == true && tries < 200) {
+            present = false;
 
-        randomNewGene = rand() % numOfPackages;
+            randomNewGene = rand() % numOfPackages;
 
-        for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
-            if (packages[randomNewGene] == gene[swapIn]) {
-                present = true;
-                break;
+            for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
+                if (packages[randomNewGene] == gene[swapIn]) {
+                    present = true;
+                    break;
+                }
             }
+            ++tries;
         }
-        ++tries;
+
+        if (tries < 200) {
+            gene[randomPoint] = packages[randomNewGene];
+        }
     }
 
-    if (tries < 200) {
-        gene[randomPoint] = packages[randomNewGene];
-    }
+    return gene;
 
-    newGene = gene;
-    return newGene;
 }
 
 void Genetic::mergeLists(unsigned long i, unsigned long m, unsigned long j) {
     typedef pair<vector<Package* >, float> geneFit;
-    vector< geneFit > geneBank = genes;
+    vector< geneFit > geneBank;
+    geneBank.resize(genes.size());
 
     unsigned long p = i;
     unsigned long q = m + 1;

@@ -125,7 +125,7 @@ void Genetic::initRanking() {
     // Load exponential ranking array. Always the same number to individuals, so same ranking
     for (unsigned int i = 0; i < ranking.size(); ++i) {
         // Exponential ranking
-        ranking[i] = pow(i+1, 5);
+        ranking[i] = pow(i+1, 3);
         //std::cout << "Ranking[" << i << "]=" << ranking[i] << std::endl;
         // Add rank to total
         rankTotal += ranking[i];
@@ -539,6 +539,7 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
     // Size of gene
     unsigned int geneSize = gene.size();
 
+
     // Where insertion point is
     unsigned int randomPoint = rand() % geneSize;
 
@@ -705,7 +706,8 @@ vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
 
 void Genetic::mergeLists(unsigned long i, unsigned long m, unsigned long j) {
     typedef pair<vector<Package* >, float> geneFit;
-    vector< geneFit > geneBank = genes;
+    vector< geneFit > geneBank;
+    geneBank.resize(genes.size());
 
     unsigned long p = i;
     unsigned long q = m + 1;

@@ -649,7 +649,8 @@ int main() {
     std::cout << "Evolving best route, please wait..." << std::endl;
 
 
-    //best = runSimulationMixed(Packages, matrix);
+    best = runSimulationMixed(Packages, matrix);
+    /*
     vector< pair<vector<Package* >, float> > result;
     vector<float > fit;
 
@@ -665,7 +666,7 @@ int main() {
     Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
     GA.initPopulation();
     GA.evolve();
-/*
+*/
     std::cout << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
     // Output file stream
@@ -733,7 +734,6 @@ int main() {
     file << "plot \'route.gnu\' index 0 with points ls 1 title \'Packages\', \'route.gnu\' index 1 with linespoints ls 2 title \'Route\'" << std::endl;
     //file << "pause -1" << std::endl;
     file.close();
-    */
 /*
     cout << "This works?!?!" << endl;
 
