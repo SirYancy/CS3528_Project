@@ -1,6 +1,6 @@
 CXX = g++
 CC = g++
-FLAGS = -std=c++11 -O3 -pthread
+FLAGS = -std=c++11 -g -O3 -pthread
 
 all: package_delivery
 

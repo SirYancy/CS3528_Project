@@ -456,7 +456,7 @@ vector<Package* > run_simulation(vector<Package* > Packages, vector<vector<unsig
     mutation.swapWithin = 25;
     mutation.elite      = 0.05;
 
-    Genetic GA(Packages, matrix, 16*2000, 200, 300, 5, 1, 60*8, 10000, mutation);
+    Genetic GA(Packages, matrix, 16*2000, 20, 100, 5, 1, 60*8, 1000, mutation);
     return GA.evolve();
 
 }

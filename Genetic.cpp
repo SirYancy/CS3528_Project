@@ -249,6 +249,9 @@ void Genetic::mate() {
     //vector<unsigned int> ranking (genes.size(), 0);
 
     vector< pair<vector<Package* >, float> > newPopulation;
+
+    newPopulation.resize(genes.size());
+
     vector< vector<Package* > > newIndividuals;
 
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
@@ -258,8 +261,8 @@ void Genetic::mate() {
 
 
         newIndividuals = mutate();
-        newPopulation.push_back(make_pair(newIndividuals[0], 0));
-        newPopulation.push_back(make_pair(newIndividuals[1], 0));
+        newPopulation[2 * i] = make_pair(newIndividuals[0], 0);
+        newPopulation[2 * i + 1] = make_pair(newIndividuals[1], 0);
 
         /*
         thread t1(&Genetic::crossOver, this, 1);
@@ -281,7 +284,7 @@ void Genetic::mate() {
     //std::cout << "Before elite: " << newPopulation.size();
     // Save the elite few, the fitest. Save the Queen!
     for (unsigned int i = popNum - elitist - 1; i < popNum; ++i) {
-        newPopulation.push_back(genes[i]);
+        newPopulation[i] = genes[i];
     }
 
     //std::cout << " After elite: " << newPopulation.size() << std::endl;
@@ -416,6 +419,7 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
 vector<vector<Package* > > Genetic::mutate() {
     vector<vector<Package* > > newIndividuals;
+    newIndividuals.resize(2);
 
     unsigned int smallestLength;
     unsigned int longestLength;
@@ -490,8 +494,8 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.deleteOld) {
 
-        newIndividuals.push_back(mutateDelete(gene1));
-        newIndividuals.emplace_back(mutateDelete(gene2));
+        newIndividuals[0] = mutateDelete(gene1);
+        newIndividuals[1] = mutateDelete(gene2);
         return newIndividuals;
     }
 
@@ -499,8 +503,8 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.insertNew) {
 
-        newIndividuals.emplace_back(mutateInsert(gene1));
-        newIndividuals.emplace_back(mutateInsert(gene2));
+        newIndividuals[0] = mutateInsert(gene1);
+        newIndividuals[1] = mutateInsert(gene2);
         return newIndividuals;
     }
 
@@ -508,24 +512,24 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.inversion) {
 
-        newIndividuals.emplace_back(mutateInversion(gene1));
-        newIndividuals.emplace_back(mutateInversion(gene2));
+        newIndividuals[0] = mutateInversion(gene1);
+        newIndividuals[1] = mutateInversion(gene2);
         return newIndividuals;
     }
 
     randomP -= mutation.inversion;
 
     if (randomP < mutation.swapOut) {
-        newIndividuals.emplace_back(mutateSwapNew(gene1));
-        newIndividuals.emplace_back(mutateSwapNew(gene2));
+        newIndividuals[0] = mutateSwapNew(gene1);
+        newIndividuals[1] = mutateSwapNew(gene2);
         return newIndividuals;
     }
 
     randomP -= mutation.swapOut;
 
     // End of the road. Swap genes within each parent.
-    newIndividuals.emplace_back(mutateSwapWithin(gene1));
-    newIndividuals.emplace_back(mutateSwapWithin(gene2));
+    newIndividuals[0] = mutateSwapWithin(gene1);
+    newIndividuals[1] = mutateSwapWithin(gene2);
 
     return newIndividuals;
 
@@ -703,7 +707,8 @@ vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
 
 void Genetic::mergeLists(unsigned long i, unsigned long m, unsigned long j) {
     typedef pair<vector<Package* >, float> geneFit;
-    vector< geneFit > geneBank = genes;
+    vector< geneFit > geneBank;
+    geneBank.resize(genes.size());
 
     unsigned long p = i;
     unsigned long q = m + 1;
