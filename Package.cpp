@@ -105,13 +105,13 @@ string Package::getPriorityString() const {
     string value;
 
     switch(priority) {
-        case REGULAR:
+        case Priority::REGULAR:
             value = "Regular";
             break;
-        case TWO_DAY:
+        case Priority::TWO_DAY:
             value = "Two Day";
             break;
-        case OVERNIGHT:
+        case Priority::OVERNIGHT:
             value = "Overnight";
             break;
     }
