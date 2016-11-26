@@ -15,7 +15,7 @@
 #include <algorithm>
 
 #define GENERATIONS 10000
-#define POPULATION 1000
+#define POPULATION 10000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 
@@ -797,6 +797,153 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
 
 }
 
+void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector<float> >* best, Client* originPtr) {
+    // Output file stream
+    ofstream file;
+
+    int xmin = 0;
+    int xmax = 0;
+    int ymin = 0;
+    int ymax = 0;
+
+    file.open("route.gnu");
+
+    // Index 0, OVERNIGHT
+    file << "#Index 0, OVERNIGHT" << std::endl;
+    for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
+        if ((*iter)->getReceiver()->getCoords().first < xmin) {
+            xmin = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().first > xmax) {
+            xmax = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second < ymin) {
+            ymin = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second > ymax) {
+            ymax = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getPriority() == Priority::OVERNIGHT) {
+            file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+        }
+    }
+
+    file << std::endl << std::endl;
+
+    // Index 1, TWO_DAY
+    file << "#Index 1, TWO-DAY" << std::endl;
+    for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
+        if ((*iter)->getReceiver()->getCoords().first < xmin) {
+            xmin = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().first > xmax) {
+            xmax = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second < ymin) {
+            ymin = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second > ymax) {
+            ymax = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getPriority() == Priority::TWO_DAY) {
+            file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+        }
+    }
+
+    file << std::endl << std::endl;
+
+    // Index 2, REGULAR
+    file << "#Index 2, REGULAR" << std::endl;
+    for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
+        if ((*iter)->getReceiver()->getCoords().first < xmin) {
+            xmin = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().first > xmax) {
+            xmax = (*iter)->getReceiver()->getCoords().first;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second < ymin) {
+            ymin = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getReceiver()->getCoords().second > ymax) {
+            ymax = (*iter)->getReceiver()->getCoords().second;
+        }
+
+        if ((*iter)->getPriority() == Priority::REGULAR) {
+            file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+        }
+    }
+
+
+    file << std::endl << std::endl;
+
+    // Index 3, Depot
+    file << "#Index 3, Depot" << std::endl;
+    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
+
+    file << std::endl << std::endl;
+
+    // Index 4, route
+    file << "#Index 4, Evolved route" << std::endl;
+    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
+
+    for (vector<Package* >::iterator iter = best->first.begin(); iter!=best->first.end(); ++iter) {
+        file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
+    }
+    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
+
+    file.close();
+
+    file.open("gnugraph");
+
+    // Regular packages, green circles
+    file << "set style line 1 lc rgb \'#008000\' lt 1 lw 2 pt 7 ps 1.5 # --- green" << std::endl;
+    // Two-day packages, blue squares
+    file << "set style line 2 lc rgb \'blue\' lt 1 lw 2 pt 5 ps 1.5 # --- blue" << std::endl;
+    // Overnight packages, red triangles
+    file << "set style line 3 lc rgb \'red\' lt 1 lw 2 pt 9 ps 1.5 # --- red" << std::endl;
+    // Depot, yellow pentagon
+    file << "set style line 4 lc rgb \'black' lt 1 lw 2 pt 15 ps 4 # --- black" << std::endl;
+
+    // Route, orange.
+    file << "set style line 5 lc rgb \'orange' lt 1 lw 3 pt 1 ps 1.5 # --- orange" << std::endl;
+
+    file << "set xrange [" << xmin - 5 << ":" << xmax + 5 << "]" << std::endl;
+    file << "set yrange [" << ymin - 5 << ":" << ymax + 5 << "]" << std::endl;
+
+    file << "set terminal pngcairo size 1920,1080" << std::endl;
+
+    file << "set term \'pngcairo\'" << std::endl;
+    file << "set output \'route.png\'" << std::endl;
+    file << "set style line 100 lt 1 lc rgb \"gray\" lw 2" << std::endl;
+    file << "set style line 101 lt 0.5 lc rgb \"gray\" lw 2" << std::endl;
+
+    file << "set grid mytics ytics ls 100, ls 101" << std::endl;
+    file << "set grid mxtics xtics ls 100, ls 101" << std::endl;
+    file << "set mxtics 10" << std::endl;
+    file << "set mytics 10" << std::endl;
+    file << "set label \"Pop: " << POPULATION << ", Gen: " << GENERATIONS << ", Fit: " << best->second[0] << "\"  at graph 0.8, 0.05" << std::endl;
+    file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << MAXTIME << ", P: " << best->first.size() - 2 << "/" << Packages->size() << "\" at graph 0.8, graph 0.03" << std::endl;
+
+    file << "plot \'route.gnu\' index 4 with lines ls 5 title \'Route\',\\" << std::endl;
+    file << "\'route.gnu\' index 0 with points ls 3 title \'Overnight\',\\" << std::endl;
+    file << "\'route.gnu\' index 1 with points ls 2 title \'Two-day\',\\" << std::endl;
+    file << "\'route.gnu\' index 2 with points ls 1 title \'Regular\',\\" << std::endl;
+    file << "\'route.gnu\' index 3 with points ls 4 title \'Depot\'" << std::endl;
+    //file << "pause -1" << std::endl;
+    file.close();
+}
+
 int main() {
 
     srand(time(0));
@@ -871,71 +1018,7 @@ int main() {
 */
     std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
-    // Output file stream
-    ofstream file;
-
-    int xmin = 0;
-    int xmax = 0;
-    int ymin = 0;
-    int ymax = 0;
-
-    file.open("route.gnu");
-    for (vector<Package* >::iterator iter = Packages.begin(); iter!=Packages.end(); ++iter) {
-        if ((*iter)->getReceiver()->getCoords().first < xmin) {
-            xmin = (*iter)->getReceiver()->getCoords().first;
-        }
-
-        if ((*iter)->getReceiver()->getCoords().first > xmax) {
-            xmax = (*iter)->getReceiver()->getCoords().first;
-        }
-
-        if ((*iter)->getReceiver()->getCoords().second < ymin) {
-            ymin = (*iter)->getReceiver()->getCoords().second;
-        }
-
-        if ((*iter)->getReceiver()->getCoords().second > ymax) {
-            ymax = (*iter)->getReceiver()->getCoords().second;
-        }
-
-        file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
-    }
-
-    file << std::endl << std::endl;
-
-    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
-
-    for (vector<Package* >::iterator iter = best.first.begin(); iter!=best.first.end(); ++iter) {
-        file << (*iter)->getReceiver()->getCoords().first << " " << (*iter)->getReceiver()->getCoords().second << std::endl;
-    }
-    file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
-
-    file.close();
-
-    file.open("gnugraph");
-
-    file << "set style line 1 lc rgb \'#0060ad\' lt 1 lw 2 pt 7 ps 1.5 # --- blue" << std::endl;
-    file << "set style line 2 lc rgb \'#dd181f\' lt 1 lw 2 pt 5 ps 1.5 # --- red" << std::endl;
-
-    file << "set xrange [" << xmin - 5 << ":" << xmax + 5 << "]" << std::endl;
-    file << "set yrange [" << ymin - 5 << ":" << ymax + 5 << "]" << std::endl;
-
-    file << "set terminal pngcairo size 1920,1080" << std::endl;
-
-    file << "set term \'pngcairo\'" << std::endl;
-    file << "set output \'route.png\'" << std::endl;
-    file << "set style line 100 lt 1 lc rgb \"gray\" lw 2" << std::endl;
-    file << "set style line 101 lt 0.5 lc rgb \"gray\" lw 2" << std::endl;
-
-    file << "set grid mytics ytics ls 100, ls 101" << std::endl;
-    file << "set grid mxtics xtics ls 100, ls 101" << std::endl;
-    file << "set mxtics 10" << std::endl;
-    file << "set mytics 10" << std::endl;
-    file << "set label \"Pop: " << POPULATION << ", Gen: " << GENERATIONS << ", Fit: " << best.second[0] << "\"  at graph 0.8, 0.05" << std::endl;
-    file << "set label \"Pri: " << best.second[1] << ", T: " << best.second[3] << "/" << MAXTIME << ", P: " << best.first.size() - 2 << "/" << Packages.size() << "\" at graph 0.8, graph 0.03" << std::endl;
-
-    file << "plot \'route.gnu\' index 0 with points ls 1 title \'Packages\', \'route.gnu\' index 1 with linespoints ls 2 title \'Route\'" << std::endl;
-    //file << "pause -1" << std::endl;
-    file.close();
+    createGraphFile(&Packages, &best, originPtr);
 /*
     cout << "This works?!?!" << endl;
 

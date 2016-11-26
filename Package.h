@@ -6,10 +6,10 @@
 using namespace std;
 
 //! Priority enum for package type
-enum Priority{
+enum class Priority{
     REGULAR = 1,
-    TWO_DAY = 2,
-    OVERNIGHT = 4
+    TWO_DAY,
+    OVERNIGHT
 };
 
 class Client;
@@ -55,8 +55,10 @@ class Package{
 
         //! Priority setter
         void setPriority(const Priority);
+
         //! Priority getter
         Priority getPriority() const;
+
         //! Priority string getter
         string getPriorityString() const;
 
