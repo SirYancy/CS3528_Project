@@ -15,14 +15,14 @@ using namespace std;
 int main()
 {
     vector<Client> clients;
-    string address;
-    ifstream addresses ("address.txt");
+    string clientString;
+    ifstream clientFile ("address.txt");
    
-    if(addresses.is_open())
+    if(clientFile.is_open())
     {
-        while(getline(addresses, address))
+        while(getline(clientFile, clientString))
         {
-            Client c{address};
+            Client c{clientString};
             cout << c.toString() << endl;
             clients.push_back(c);
         }

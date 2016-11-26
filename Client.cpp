@@ -2,12 +2,12 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
-#include "Client.h"
-#include "Package.h"
 #include <algorithm>
 #include <locale>
 #include <cctype>
 #include <functional>
+#include "Client.h"
+#include "Package.h"
 #include "Utils.h"
 
 using namespace std;
@@ -20,21 +20,11 @@ Client::Client(): ID(++count) {
 Client::Client(const string& clientString)
     : ID{++count}
 {
-    stringstream    clientStream(clientString);
-    string          clientItem;
-    vector<string>  clientVector;
+    int nameLoc = clientString.find_first_of(",");
 
-    while(getline(clientStream, clientItem, ','))
-    {
-        clientVector.push_back(clientItem);
-    }
+    name = clientString.substr(0, nameLoc);
 
-    name =        trim_copy(clientVector[0]);
-    address =     trim_copy(clientVector[1]);
-    city =        trim_copy(clientVector[2]);
-    state =       trim_copy(clientVector[3]);
-    zip =         trim_copy(clientVector[4]);
-
+    setAddress(clientString.substr(nameLoc+1));
 }
 
 
@@ -59,12 +49,33 @@ void Client::setName(const string& n){
 }
 
 
+void Client::setAddress(const string& addString)
+{
+    stringstream    clientStream(addString);
+    string          clientItem;
+    vector<string>  clientVector;
+
+    while(getline(clientStream, clientItem, ','))
+    {
+        clientVector.push_back(clientItem);
+    }
+
+    address =     trim_copy(clientVector[0]);
+    city =        trim_copy(clientVector[1]);
+    state =       trim_copy(clientVector[2]);
+    zip =         trim_copy(clientVector[3]);
+
+    parseAddress();
+}
+
 void Client::setAddress(const string &add, const string &cit, const string &st, const string &z){
 
     address = add;
     city = cit;
     state = st;
     zip = z;
+
+    parseAddress();
 
 }
 

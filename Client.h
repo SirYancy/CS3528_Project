@@ -44,6 +44,9 @@ class Client{
         //! Getter for name
         string getName() const {return name;};
 
+        //! Setter for address with single string
+        void setAddress(const string&);
+
         //! Setter for address
         /*! Updates address for client.
          * \param add Street address for client.
