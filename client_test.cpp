@@ -14,13 +14,16 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 10000
+#define GENERATIONS 30000
 #define POPULATION 10000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 
 using namespace std;
 
+// Seed nice random number generator.
+std::mt19937 rng(std::random_device{}());
+    
 typedef struct {
 
     // Filename to open
@@ -200,9 +203,6 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
 
 
 string parseStreet(unsigned int street, unsigned int addressNum) {
-    // Seed nice random number generator.
-    std::mt19937 rng(std::random_device{}());
-
     // Coin flip
     std::uniform_int_distribution<int> coinFlip(0, 1);
 
@@ -293,9 +293,6 @@ string streetAddressUniform(const randomPackageEnum randomConsts) {
     // Round any odd populations down
     unsigned int halfPop = randomConsts.population / 2;
 
-    // Seed nice random number generator.
-    std::mt19937 rng(std::random_device{}());
-
     // Uniform distribution of integers for streets
     std::uniform_int_distribution<unsigned int> streetsUniform(0, randomConsts.maxStreets);
 
@@ -338,9 +335,6 @@ vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
 
     // Round any odd populations down
     unsigned int halfPop = randomConsts.population / 2;
-
-    // Seed nice random number generator.
-    std::mt19937 rng(std::random_device{}());
 
     // Uniform distribution of integers for streets
     std::uniform_int_distribution<unsigned int> streetsUniform(0, randomConsts.maxStreets);
@@ -413,9 +407,6 @@ void randomPackages(const randomPackageEnum randomConsts) {
 
     // Round any odd populations down
     unsigned int halfPop = randomConsts.population / 2;
-
-    // Seed nice random number generator.
-    std::mt19937 rng(std::random_device{}());
 
     // Uniform distribution of integers for streets
     std::uniform_int_distribution<int> streetsUniform(0, randomConsts.maxStreets);
@@ -710,17 +701,19 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
+    // We launch simulationIsolation which will return the entire population for mixing.
     auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
 
-
+    // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();
     auto res2 = f2.get();
     auto res3 = f3.get();
     auto res4 = f4.get();
 
+    // Process all results by conglomerating them into one big population.
     for (vector< pair<vector<Package* >, float> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
@@ -737,12 +730,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         mixedPopulation.push_back(*iter);
     }
 
-    // Seed nice random number generator.
-    std::mt19937 rng(std::random_device{}());
-
-    // Shuffle up the indices.
+    // Shuffle up the big population.
     std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
 
+    // Repopulate the isolated island threads from the mixed genomes.
     while(mixedPopulation.size() > 0) {
         if (mixedPopulation.size() > 0) {
             newPop1.push_back(mixedPopulation.back());
@@ -767,6 +758,8 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
+    // Launch evolution again, with the mixed up and shuffled isolated populations. This time
+    // we return only the fittest individual genome.
     auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
     auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
     auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
@@ -779,12 +772,14 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     auto res4 = f4.get();
     */
 
+    // Grab the best route and stuff in here
     vector<pair<vector<Package* >, vector<float> > > bestMixed;
     bestMixed.push_back(c1.get());
     bestMixed.push_back(c2.get());
     bestMixed.push_back(c3.get());
     bestMixed.push_back(c4.get());
 
+    // Which route is the bestest!
     float bestSoFar = 0;
 
     for (unsigned int i = 0; i < bestMixed.size(); ++i) {
@@ -793,6 +788,7 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
+    // Return best of the isolated and mixed populations.
     return bestMixed[bestSoFar];
 
 }

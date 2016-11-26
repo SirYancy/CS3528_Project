@@ -155,10 +155,10 @@ class Genetic {
         vector< pair<vector<Package* >, float> > genes;
 
         //! Ranking vector for population used in parent selection for mutation.
-        vector<unsigned int> ranking;
+        vector<double> ranking;
 
         //! Ranking total for random selection in roulette selection.
-        unsigned int rankTotal = 0;
+        double rankTotal = 0;
 
         //! Length of ranking array. Same as population.
         unsigned int rankingSize;

@@ -14,7 +14,7 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 10000
+#define GENERATIONS 30000
 #define POPULATION 10000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
@@ -710,17 +710,19 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
+    // We launch simulationIsolation which will return the entire population for mixing.
     auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
     auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
 
-
+    // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();
     auto res2 = f2.get();
     auto res3 = f3.get();
     auto res4 = f4.get();
 
+    // Process all results by conglomerating them into one big population.
     for (vector< pair<vector<Package* >, float> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
@@ -740,9 +742,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     // Seed nice random number generator.
     std::mt19937 rng(std::random_device{}());
 
-    // Shuffle up the indices.
+    // Shuffle up the big population.
     std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
 
+    // Repopulate the isolated island threads from the mixed genomes.
     while(mixedPopulation.size() > 0) {
         if (mixedPopulation.size() > 0) {
             newPop1.push_back(mixedPopulation.back());
@@ -767,6 +770,8 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
+    // Launch evolution again, with the mixed up and shuffled isolated populations. This time
+    // we return only the fittest individual genome.
     auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
     auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
     auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
@@ -779,12 +784,14 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     auto res4 = f4.get();
     */
 
+    // Grab the best route and stuff in here
     vector<pair<vector<Package* >, vector<float> > > bestMixed;
     bestMixed.push_back(c1.get());
     bestMixed.push_back(c2.get());
     bestMixed.push_back(c3.get());
     bestMixed.push_back(c4.get());
 
+    // Which route is the bestest!
     float bestSoFar = 0;
 
     for (unsigned int i = 0; i < bestMixed.size(); ++i) {
@@ -793,6 +800,7 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
+    // Return best of the isolated and mixed populations.
     return bestMixed[bestSoFar];
 
 }
@@ -809,6 +817,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file.open("route.gnu");
 
     // Index 0, OVERNIGHT
+    file << "#Index 0, OVERNIGHT" << std::endl;
     for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
         if ((*iter)->getReceiver()->getCoords().first < xmin) {
             xmin = (*iter)->getReceiver()->getCoords().first;
@@ -834,6 +843,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << std::endl << std::endl;
 
     // Index 1, TWO_DAY
+    file << "#Index 1, TWO-DAY" << std::endl;
     for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
         if ((*iter)->getReceiver()->getCoords().first < xmin) {
             xmin = (*iter)->getReceiver()->getCoords().first;
@@ -859,6 +869,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << std::endl << std::endl;
 
     // Index 2, REGULAR
+    file << "#Index 2, REGULAR" << std::endl;
     for (vector<Package* >::iterator iter = Packages->begin(); iter!=Packages->end(); ++iter) {
         if ((*iter)->getReceiver()->getCoords().first < xmin) {
             xmin = (*iter)->getReceiver()->getCoords().first;
@@ -885,11 +896,13 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << std::endl << std::endl;
 
     // Index 3, Depot
+    file << "#Index 3, Depot" << std::endl;
     file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
 
     file << std::endl << std::endl;
 
     // Index 4, route
+    file << "#Index 4, Evolved route" << std::endl;
     file << originPtr->getCoords().first << " " << originPtr->getCoords().second << std::endl;
 
     for (vector<Package* >::iterator iter = best->first.begin(); iter!=best->first.end(); ++iter) {
@@ -902,16 +915,16 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file.open("gnugraph");
 
     // Regular packages, green circles
-    file << "set style line 1 lc rgb \'green\' lt 1 lw 2 pt 7 ps 1.5 # --- green" << std::endl;
+    file << "set style line 1 lc rgb \'#008000\' lt 1 lw 2 pt 7 ps 1.5 # --- green" << std::endl;
     // Two-day packages, blue squares
     file << "set style line 2 lc rgb \'blue\' lt 1 lw 2 pt 5 ps 1.5 # --- blue" << std::endl;
     // Overnight packages, red triangles
     file << "set style line 3 lc rgb \'red\' lt 1 lw 2 pt 9 ps 1.5 # --- red" << std::endl;
     // Depot, yellow pentagon
-    file << "set style line 4 lc rgb \'yellow' lt 1 lw 2 pt 15 ps 1.5 # --- red" << std::endl;
+    file << "set style line 4 lc rgb \'black' lt 1 lw 2 pt 15 ps 4 # --- black" << std::endl;
 
     // Route, orange.
-    file << "set style line 5 lc rgb \'orange' lt 1 lw 2 pt 1 ps 1.5 # --- red" << std::endl;
+    file << "set style line 5 lc rgb \'orange' lt 1 lw 3 pt 1 ps 1.5 # --- orange" << std::endl;
 
     file << "set xrange [" << xmin - 5 << ":" << xmax + 5 << "]" << std::endl;
     file << "set yrange [" << ymin - 5 << ":" << ymax + 5 << "]" << std::endl;
@@ -1013,7 +1026,7 @@ int main() {
 */
     std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
-
+    createGraphFile(&Packages, &best, originPtr);
 /*
     cout << "This works?!?!" << endl;
 

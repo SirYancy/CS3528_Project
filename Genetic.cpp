@@ -6,6 +6,10 @@
 #include <cmath>
 //#include <thread>
 #include <future>
+#include <random>
+
+// Seed nice random number generator.
+std::mt19937 rng(std::random_device{}());
 
 Genetic::Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
@@ -21,7 +25,7 @@ Genetic::Genetic(std::vector<Package*> packs,
     //popNum = (population / 4) * 4;
     popNum = population;
 
-    std::cout << "Population: " << popNum << std::endl;
+    std::cout << "Population: " << popNum << " Generations: " << gens << std::endl;
 
     // Total for roulette selection of mutation.
     mutation.total = mutation.crossOver + mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
@@ -48,6 +52,9 @@ Genetic::~Genetic()
 }
 
 void Genetic::initPopulation() {
+    // Package distribution
+    std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
+
     std::vector<Package* > individual;
 
     float totalWeight = 0;
@@ -75,11 +82,11 @@ void Genetic::initPopulation() {
             tries++;
 
             // Random index to packages
-            randomPackage = rand() % numOfPackages;
+            //randomPackage = rand() % numOfPackages;
 
             //std::cout << "Random package: " << randomPackage << std::endl;
             // Get the package pointer
-            currentPackage = packages[randomPackage];
+            currentPackage = packages[packageUniform(rng)];
 
             //std::cout << "Package ptr: " << currentPackage << std::endl;
             // Assume not present in current individual
@@ -195,7 +202,7 @@ void Genetic::loadPopulation(vector< pair<vector<Package* >, float> > newPopulat
     // Initialize current fitness.
     vector<float> currentFitness (5, 0);
 
-    initRanking(1.75);
+    initRanking(2);
 
     /*
     for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
@@ -273,10 +280,10 @@ void Genetic::mate() {
     vector< vector<Package* > > newIndividuals;
 
     // Resize to correct size to increase speed.
-    newPopulation.resize(genes.size());
+    newPopulation.resize(popNum);
 
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
-    mergeSort(0, genes.size() - 1);
+    mergeSort(0, popNum - 1);
 
     // Create a new population not including save elite individuals.
     for (unsigned int i = 0; i < (popNum - elitist) / 2; ++i) {
@@ -300,6 +307,9 @@ void Genetic::mate() {
 }
 
 vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Package* > gene2) {
+
+
+
     // Do we have genes of size 1?
     if (gene1.size() <= 1 || gene2.size() <= 1) {
         return vector<vector<Package* > > {gene1, gene2};
@@ -347,8 +357,9 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
     }
 
+    std::uniform_int_distribution<int> pointUniform(1, smallestLength - 1);
     // Random point to apply crossover. Don't want to cross over at 0
-    randomPoint = (rand() % (smallestLength - 1)) + 1;
+    randomPoint = pointUniform(rng); //(rand() % (smallestLength - 1)) + 1;
 
 
 
@@ -435,6 +446,9 @@ vector<vector<Package* > > Genetic::mutate() {
     vector<vector<Package* > > newIndividuals;
     newIndividuals.resize(2);
 
+    std::uniform_real_distribution<double> rankUniform(0, rankTotal);
+
+
     unsigned int smallestLength;
     unsigned int longestLength;
     unsigned int randomPoint;
@@ -445,6 +459,8 @@ vector<vector<Package* > > Genetic::mutate() {
 
     int randomIndividual1 = 0;
     int randomIndividual2 = 0;
+    double rank1 = 0;
+    double rank2 = 0;
 
     float randomP;
     unsigned int randomSwap1, randomSwap2;
@@ -453,27 +469,30 @@ vector<vector<Package* > > Genetic::mutate() {
 
     // Loop until we get different individuals
     while (randomIndividual1 == randomIndividual2 || different == false) {
-        randomIndividual1 = rand() % rankTotal;
-        randomIndividual2 = rand() % rankTotal;
+        randomIndividual1 = 0;
+        randomIndividual2 = 0;
+
+        rank1 = rankUniform(rng); //rand() % rankTotal;
+        rank2 = rankUniform(rng); //rand() % rankTotal;
 
 
         for (unsigned int i = 0; i < rankingSize; ++i) {
             //std::cout << "In1: " << randomIndividual1 << "/" << ranking[i] << " " << i << std::endl;
-            if (randomIndividual1 < ranking[i]) {
+            if (rank1 < ranking[i]) {
                 randomIndividual1 = i;
                 avgIndividual = avgIndividual * 100 + static_cast<float>(i);
                 //std::cout << "Individual 1: " << i << std::endl;
                 // Done searching.
                 break;
             } else {
-                randomIndividual1 -= ranking[i];
+                rank1 -= ranking[i];
             }
 
         }
 
         for (unsigned int i = 0; i < rankingSize; ++i) {
             //std::cout << "In2: " << randomIndividual2 << "/" << ranking[i] << " " << i << std::endl;
-            if (randomIndividual2 < ranking[i]) {
+            if (rank2 < ranking[i]) {
                 randomIndividual2 = i;
                 avgIndividual = (avgIndividual + static_cast<float>(i)) / 102;
                 //std::cout << "Individual 2: " << randomIndividual2 << std::endl;
@@ -481,7 +500,7 @@ vector<vector<Package* > > Genetic::mutate() {
                 // Done searching.
                 break;
             } else {
-                randomIndividual2 -= ranking[i];
+                rank2 -= ranking[i];
             }
 
         }
@@ -593,9 +612,10 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
         // Size of gene
         unsigned int geneSize = gene.size();
 
-
+        std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
+        std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
         // Where insertion point is
-        unsigned int randomPoint = rand() % geneSize;
+        unsigned int randomPoint = geneUniform(rng); //rand() % geneSize;
 
         unsigned int randomNewGene;
 
@@ -611,7 +631,7 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
             present = false;
 
             // Random package
-            randomNewGene = rand() % numOfPackages;
+            randomNewGene = packageUniform(rng); //rand() % numOfPackages;
 
             // Check gene for duplicates
             for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
@@ -626,9 +646,6 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
         }
 
         if (tries < 200) {
-            // Time to insert, point point
-            randomPoint = rand() % geneSize;
-
             // Jam it in
             gene.insert(gene.begin() + randomPoint, packages[randomNewGene]);
         }
@@ -642,20 +659,24 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
 vector<Package* > Genetic::mutateInversion(vector<Package* > gene) {
     // Size of gene
     unsigned int geneSize = gene.size();
-    vector<Package* > newGene;
-
-    unsigned int randomSwap1 = 0;
-    unsigned int randomSwap2 = 0;
 
     // Swap if we have genes to swap
     if (geneSize >= 2) {
+
+
+        vector<Package* > newGene;
+
+        std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
+
+        unsigned int randomSwap1 = 0;
+        unsigned int randomSwap2 = 0;
 
         //std::cout << "Swapping genes..." << std::endl;
 
         // Find differing indices
         while(randomSwap1 >= randomSwap2) {
-            randomSwap1 = rand() % (geneSize);
-            randomSwap2 = rand() % (geneSize);
+            randomSwap1 = geneUniform(rng); //rand() % (geneSize);
+            randomSwap2 = geneUniform(rng); //rand() % (geneSize);
         }
 
         for (unsigned int i = 0; i < (randomSwap2 - randomSwap1) / 2; ++i) {
@@ -675,15 +696,20 @@ vector<Package* > Genetic::mutateInversion(vector<Package* > gene) {
 vector<Package* > Genetic::mutateDelete(vector<Package* > gene) {
     // Size of gene
     unsigned int geneSize = gene.size();
-    vector<Package* > newGene;
-
-    unsigned int randomPoint;
 
     // Delete a gene.
     // Only delete if there is a spare gene to delete.
     if (geneSize >= 2) {
+
+        vector<Package* > newGene;
+
+        std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
+
         // Random point
-        randomPoint = rand() % geneSize;
+        unsigned int randomPoint = geneUniform(rng);
+
+        //randomPoint = rand() % geneSize;
+
         // Remove gene.
         gene.erase(gene.begin() + randomPoint);
     }
@@ -695,20 +721,23 @@ vector<Package* > Genetic::mutateDelete(vector<Package* > gene) {
 vector<Package* > Genetic::mutateSwapWithin(vector<Package *> gene) {
     // Size of gene
     unsigned int geneSize = gene.size();
-    vector<Package* > newGene;
-
-    unsigned int randomSwap1 = 0;
-    unsigned int randomSwap2 = 0;
 
     // Swap if we have genes to swap
     if (geneSize >= 2) {
+
+        vector<Package* > newGene;
+
+        std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
+
+        unsigned int randomSwap1 = 0;
+        unsigned int randomSwap2 = 0;
 
         //std::cout << "Swapping genes..." << std::endl;
 
         // Find differing indices
         while(randomSwap1 == randomSwap2) {
-            randomSwap1 = rand() % (geneSize);
-            randomSwap2 = rand() % (geneSize);
+            randomSwap1 = geneUniform(rng); //rand() % (geneSize);
+            randomSwap2 = geneUniform(rng); //rand() % (geneSize);
         }
 
         // Swap genes
@@ -723,22 +752,27 @@ vector<Package* > Genetic::mutateSwapWithin(vector<Package *> gene) {
 
 
 vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
+    unsigned int geneSize = gene.size();
+
     if (gene.size() < numOfPackages) {
-        unsigned int geneSize = gene.size();
+
         vector<Package* > newGene;
+
+        std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
+        std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
 
         bool present = true;
         unsigned int tries = 0;
         unsigned int randomNewGene;
 
         // Swap package outside this gene at this index point.
-        unsigned int randomPoint = rand() % geneSize;
+        unsigned int randomPoint = geneUniform(rng); //rand() % geneSize;
 
 
         while(present == true && tries < 200) {
             present = false;
 
-            randomNewGene = rand() % numOfPackages;
+            randomNewGene = packageUniform(rng); //rand() % numOfPackages;
 
             for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
                 if (packages[randomNewGene] == gene[swapIn]) {
