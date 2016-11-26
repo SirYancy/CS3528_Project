@@ -14,7 +14,7 @@ using namespace std;
  \param w Package weight
  \param p Package priority
  */
-Package::Package(Client* s, Client* r, float w, Priority p) : sender(s), receiver(r), priority(p) {
+Package::Package(Client* s, Client* r, float w, Priority p, unsigned int id, int packAge) : sender(s), receiver(r), priority(p), ID(id), age(packAge) {
     //cout << "Package this: " << this << endl;
     setWeight(w);
 

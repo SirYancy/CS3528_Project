@@ -38,28 +38,32 @@ class Genetic {
 
         vector<Package* > getBest() {return bestFit;};
 
-        void evolve_threads();
-
-    protected:
-
-    private:
-
-        int thread1() {return 1;};
-        int thread2() {return 2;};
-        //! Create initial route population.
-        void initPopulation();
-
-        //! Select and create new individuals for the next population.
-        void mate();
-
-        //! Handles mutation of current population based on probabilities passed during creation.
-        vector<vector<Package* > > mutate();
+        vector< pair<vector<Package* >, float> > evolve_threads();
 
         //! Calculates fitness of individual based on route.
         /*! \param individual The route to evaluate the fitness of.
          *  \return A vector of fitness values. Individual fitness score, priority package points, distance traveled, shift time, weight.
          */
         vector<float> fitness(vector<Package* > individual);
+
+        //! Create initial route population.
+        void initPopulation();
+
+        void loadPopulation(vector< pair<vector<Package* >, float> > newPopulation);
+
+        void printGene(vector<Package* > gene);
+
+    protected:
+
+    private:
+
+        void initRanking(float exponent);
+
+        //! Select and create new individuals for the next population.
+        void mate();
+
+        //! Handles mutation of current population based on probabilities passed during creation.
+        vector<vector<Package* > > mutate();
 
         //! Crosses over genes between two parents.
         /*! \param gene1 Gene sequence of parent 1.
@@ -155,6 +159,9 @@ class Genetic {
 
         //! Ranking total for random selection in roulette selection.
         unsigned int rankTotal = 0;
+
+        //! Length of ranking array. Same as population.
+        unsigned int rankingSize;
 
         //! New population individual for threads. Two offspring.
         vector<vector<Package* > > newIndividual1;

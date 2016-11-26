@@ -9,7 +9,7 @@ using namespace std;
 enum Priority{
     REGULAR = 1,
     TWO_DAY = 2,
-    OVERNIGHT = 3
+    OVERNIGHT = 4
 };
 
 class Client;
@@ -26,7 +26,17 @@ class Package{
 
 
         //! Constructor
-        Package(Client* s, Client* r, const float w, const Priority p);
+        /*! Creates a package object to track client info, such as address and coordinates. Also track
+         *  package age and IDs.
+         * \param s Client pointer to sender object.
+         * \param r Client pointer to receiver object.
+         * \param w Weight of package in ounces.
+         * \param p Priority enum of package (overnight, two-day, regular?)
+         * \param ID ID number of package. Used in the future to build adjacency matrix.
+         * \param packAge The age of the package in days. New packages are born at age 1.
+         * \return NULL.
+         */
+        Package(Client* s, Client* r, const float w, const Priority p, unsigned int ID, int packAge);
 
         //! Sender setter
         void setSender(Client*);
@@ -52,6 +62,10 @@ class Package{
 
         Package* getPointer() {return this;};
 
+        unsigned int getID() {return ID;};
+
+        void setID(unsigned int id) {ID = id;};
+
     private:
         //! Pointer to sender client
         Client *sender;
@@ -64,6 +78,17 @@ class Package{
 
         //! Package delivered?
         bool Delivered = false;
+
+        //! Package ID number.
+        unsigned int ID;
+
+        //! Package age in delivery days.
+        /*! Starts life at 1 for first day. 2 is second day, etc.
+         *  Used for packages not previous delivered. If a package is not delivered
+         * (does not make the route cut) it's age is increased. This age is used to
+         * add a weight to the algorithm to favor long delayed packages.
+         */
+        int age;
 
 };
 

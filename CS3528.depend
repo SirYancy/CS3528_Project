@@ -45,7 +45,7 @@
 1479667922 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.h
 	<string>
 
-1479978358 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
+1480138889 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
 	<string>
 	<vector>
 	<sstream>
@@ -53,7 +53,7 @@
 	"Client.h"
 	<iostream>
 
-1479978358 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+1480138889 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
 	<string>
 	<vector>
 
@@ -62,7 +62,7 @@
 	<vector>
 	<utility>
 
-1480031192 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+1480145847 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
 	<iostream>
 	<iomanip>
 	"Client.h"
@@ -76,6 +76,8 @@
 	"Utils.h"
 	"Genetic.h"
 	<future>
+	<random>
+	<algorithm>
 
 1479789919 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.cpp
 	"Utils.h"
@@ -98,14 +100,14 @@
 	<functional>
 	"Utils.h"
 
-1480032678 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+1480138172 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
 	"Genetic.h"
 	<vector>
 	<iostream>
 	<cmath>
 	<future>
 
-1480029926 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+1480126471 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
 	<string>
 	<vector>
 	<utility>

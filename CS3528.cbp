@@ -31,6 +31,19 @@
 					<Add directory="include" />
 				</Compiler>
 			</Target>
+			<Target title="Test">
+				<Option output="bin/Test/CS3528" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Test/" />
+				<Option object_output="obj/Test/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
