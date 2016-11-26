@@ -17,7 +17,30 @@ int Client::count = 0;
 Client::Client(): ID(++count) {
 }
 
-Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z): ID{++count} {
+Client::Client(const string& clientString)
+    : ID{++count}
+{
+    stringstream    clientStream(clientString);
+    string          clientItem;
+    vector<string>  clientVector;
+
+    while(getline(clientStream, clientItem, ','))
+    {
+        clientVector.push_back(clientItem);
+    }
+
+    name =        trim_copy(clientVector[0]);
+    address =     trim_copy(clientVector[1]);
+    city =        trim_copy(clientVector[2]);
+    state =       trim_copy(clientVector[3]);
+    zip =         trim_copy(clientVector[4]);
+
+}
+
+
+Client::Client(const string &nam, const string &add, const string &cit, const string &st, const string &z)
+    : ID{++count} 
+{
 
     // Trim whitespace
     name = trim_copy(nam);
@@ -32,7 +55,7 @@ Client::Client(const string &nam, const string &add, const string &cit, const st
 
 
 void Client::setName(const string& n){
-    name = n;
+    name = trim_copy(n);
 }
 
 
@@ -87,6 +110,7 @@ string Client::toString() const{
     ostringstream output;
 
     output << endl;
+    output << "ID: " << ID << endl;
     output << "Client: " << name << endl;
     output << address << endl;
     output << city << ", " << state << " " << zip << endl;
@@ -357,6 +381,8 @@ void Client::parseAddress() {
  */
 ostream& operator<<(ostream& output, const Client& client)
 {
-    output << client.name << endl << client.address << endl << client.city << ", " << client.state << " " << client.zip << endl;
+    output << client.name << endl << client.address << endl << client.city << ", " << client.state << ", " << client.zip << endl;
     return output;
 }
+
+

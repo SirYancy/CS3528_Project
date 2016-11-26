@@ -22,6 +22,11 @@ client_package: client_test.cpp Client.o Package.o Utils.o
 truck: truck_test.cpp Truck.o Client.o Package.o Utils.o
 	$(CXX) $(FLAGS) truck_test.cpp Client.o Package.o Truck.o Utils.o -o truck_test
 
+addresses: address.cpp
+	$(CXX) $(FLAGS) address.cpp -o address
+
+client_test2: client_test2.cpp Client.o Package.o Utils.o
+	$(CXX) $(FLAGS) client_test2.cpp Client.o Package.o Utils.o -o client_test
 
 clean:
-	rm -f *.o *.exe core package client_package_test truck_test
+	rm -f *.o *.exe core package client_package_test truck_test address client_test

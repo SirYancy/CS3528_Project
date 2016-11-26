@@ -18,9 +18,16 @@ class Client{
     friend std::ostream& operator<<(std::ostream&, const Client&);
 
     public:
+        //! Client Empty Constructor
         Client();
+        
+        //! Client String Constructor
+        /*!
+         Constructs from string of format "First Name, Street Address, City, State, ZIP" comma delimited
+         */
+        Client(const string&);
 
-        //! Client basic constructor
+        //! Client comprehensive constructor
         /*!
          * Basic constructor.
          * \param nam Name of client.
