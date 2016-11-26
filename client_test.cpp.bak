@@ -14,8 +14,8 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 10000
-#define POPULATION 315
+#define GENERATIONS 5000
+#define POPULATION 500
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 
@@ -49,6 +49,11 @@ typedef struct {
     // [10, 40, 50] should as well.
     float priority[3];
 
+    // Clustering creation.
+    // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
+    // Radius [4] and standard deviation [5] in building addresses
+    int cluster[6];
+
 } randomPackageEnum;
 
 struct {
@@ -66,7 +71,7 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
     string token;
     string clientStr;
     float weight;
-    int integer;
+    int integer, age;
     unsigned int clientID = 0;
     unsigned int packageID = 0;
 
@@ -175,10 +180,15 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
 
         // Get package priority by typecasting.
         packagePriority = static_cast<Priority>(integer);
+
+        stringstream convertAge(csvLine[14]);
+
+        // Age of package
+        convertAge >> age;
         //std::cout << "Input package priority int: " << integer << " Priority: " << packagePriority << std::endl;
 
         // Make new persistent package that won't disappear off the stack. Get pointer.
-        Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority, packageID);
+        Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority, packageID, age);
 
         packageID++;
 
@@ -188,10 +198,221 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
     }
 }
 
-void randomPackages(const randomPackageEnum& randomConsts) {
+
+string parseStreet(unsigned int street, unsigned int addressNum) {
+    // Because C++ is broken we need conversion to concatenate numbers to strings.
+    stringstream conversionInt;
+    string tempStr;
+
+    // Seed nice random number generator.
+    std::mt19937 rng(std::random_device{}());
+
+    // Coin flip
+    std::uniform_int_distribution<int> coinFlip(0, 1);
+
+    // Cardinal direction
+    std::uniform_int_distribution<int> cardinalUniform(0, 3);
+
+    string address = "";
+
+    // Toss up if road is street or avenue
+    unsigned int randomNum = coinFlip(rng);
+
+    // What appropriate street name do we have?
+    if (street == 0) {
+        // No 0 street or avenue, choose main or central
+        if (randomNum == 0) {
+            address += "Main St ";
+
+            // North or South?
+            if (coinFlip(rng) == 0) {
+                address += "N";
+            } else {
+                address += "S";
+            }
+        } else {
+            address += "Central Ave ";
+            // East or West?
+            if (coinFlip(rng) == 0) {
+                address += "W";
+            } else {
+                address += "E";
+            }
+        }
+
+        // Add appropriate suffix
+    } else if (street == 1) {
+        conversionInt << street;
+        conversionInt >> tempStr;
+        address += tempStr + "st ";
+    } else if (street == 2) {
+        conversionInt << street;
+        conversionInt >> tempStr;
+        address += tempStr + "nd ";
+    } else if (street == 3) {
+        conversionInt << street;
+        conversionInt >> tempStr;
+        address += tempStr + "rd ";
+    } else {
+        conversionInt << street;
+        conversionInt >> tempStr;
+        address += tempStr + "th ";
+    }
+
+    // If we did not have a main or central
+    if (street != 0) {
+        // Choose street or avenue
+        if (randomNum == 0) {
+            address += "Street ";
+        } else {
+            address += "Avenue ";
+        }
+
+        // Since we did not pick main street or central avenue,
+        // We need to choose our quadrant
+        randomNum = cardinalUniform(rng);
+
+        if (randomNum == 0) {
+            address += "NW";
+        } else if (randomNum == 1) {
+            address += "NE";
+        } else if (randomNum == 2) {
+            address += "SE";
+        } else if (randomNum == 3) {
+            address += "SW";
+        }
+    }
+
+    return address;
+}
+
+
+string streetAddressUniform(const randomPackageEnum randomConsts) {
+    stringstream conversionInt;
+    string tempStr;
+
+    // Holds random ints for address creation
+    unsigned int randomNum;
+
+    // Holds random floats for probabilities and weights
+    float randomFloat;
+
+    // Street number
+    unsigned int street;
+
+    // Round any odd populations down
+    unsigned int halfPop = randomConsts.population / 2;
+
+    // Seed nice random number generator.
+    std::mt19937 rng(std::random_device{}());
+
+    // Uniform distribution of integers for streets
+    std::uniform_int_distribution<unsigned int> streetsUniform(0, randomConsts.maxStreets);
+
+    // Uniform distribution of integers for address numbers
+    std::uniform_int_distribution<unsigned int> addressUniform(1, randomConsts.maxAddress - 1);
+
+    string address = "";
+
+    // Random building number
+    unsigned int addressNum = static_cast<unsigned int>(addressUniform(rng));
+
+    conversionInt << addressNum;
+    conversionInt >> tempStr;
+    address += tempStr + " ";
+
+    // Random street number
+    street = streetsUniform(rng);
+
+    address += parseStreet(street, addressNum);
+    // No variation for this simulation
+    address += ",Bemidji,MN,56601";
+
+    return address;
+}
+
+vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
+    // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
+    // Radius [4] and standard deviation [5] in building addresses
+
+    stringstream conversionInt;
+    string tempStr;
+
+    // Holds random ints for address creation
+    unsigned int randomNum;
+    unsigned int addressNum;
+
+    unsigned int clusterAddress = 0;
+    unsigned int clusterStreet = 0;
+
+    // Holds random floats for probabilities and weights
+    float randomFloat;
+
+    // Street number
+    unsigned int street;
+
+    // Round any odd populations down
+    unsigned int halfPop = randomConsts.population / 2;
+
+    // Seed nice random number generator.
+    std::mt19937 rng(std::random_device{}());
+
+    // Uniform distribution of integers for streets
+    std::uniform_int_distribution<unsigned int> streetsUniform(0, randomConsts.maxStreets);
+
+    // Uniform distribution of integers for address numbers
+    std::uniform_int_distribution<unsigned int> addressUniform(1, randomConsts.maxAddress);
+
+    // Number of clusters to create
+    std::uniform_int_distribution<unsigned int> numClusterUniform(randomConsts.cluster[0], randomConsts.cluster[1]);
+
+    // Number of packages to create in cluster
+    std::uniform_int_distribution<unsigned int> numClusterPackages(randomConsts.cluster[2], randomConsts.cluster[3]);
+
+    // Uniform distribution around cluster point.
+    std::normal_distribution<double> clusterNormal(randomConsts.cluster[4],randomConsts.cluster[5]);
+
+    vector<string> returnAddresses;
+    string tempAddress;
+
+    for (int cluster = 0; cluster < numClusterUniform(rng); ++cluster) {
+
+        // Get the clusters street center
+        clusterStreet = streetsUniform(rng);
+
+        clusterAddress = addressUniform(rng);
+
+        for (int individualPackage = 0; individualPackage < numClusterPackages(rng); ++individualPackage) {
+
+            tempAddress = "";
+
+            // Random building number
+            addressNum = static_cast<unsigned int>(clusterNormal(rng)) + clusterAddress;
+            conversionInt << addressNum;
+            conversionInt >> tempStr;
+
+            tempAddress += tempStr + " ";
+            //std::cout << tempAddress << std::endl;
+            // Random street number
+            street = static_cast<unsigned int>(clusterNormal(rng))/100 + clusterStreet;
+
+            tempAddress += parseStreet(street, addressNum);
+            // No variation for this simulation
+            tempAddress += ",Bemidji,MN,56601";
+
+            returnAddresses.push_back(tempAddress);
+        }
+    }
+
+    return returnAddresses;
+}
+
+void randomPackages(const randomPackageEnum randomConsts) {
     // Holds our names from files
     vector<string> firstNames;
     vector<string> lastNames;
+    vector<string> clusterAddresses;
+
 
     // Output file stream
     ofstream file;
@@ -202,12 +423,32 @@ void randomPackages(const randomPackageEnum& randomConsts) {
     // Holds lines and names from files
     string line;
     string name;
+    string sender, receiver;
 
     // Buffer to extract names from files.
     stringstream buffer;
 
     // Round any odd populations down
     unsigned int halfPop = randomConsts.population / 2;
+
+    // Seed nice random number generator.
+    std::mt19937 rng(std::random_device{}());
+
+    // Uniform distribution of integers for streets
+    std::uniform_int_distribution<int> streetsUniform(0, randomConsts.maxStreets);
+
+    // Uniform distribution of integers for address numbers
+    std::uniform_int_distribution<int> addressUniform(1, randomConsts.maxAddress);
+
+    // Coin flip
+    std::uniform_int_distribution<int> coinFlip(0, 1);
+
+    // Cardinal direction
+    std::uniform_int_distribution<int> cardinalUniform(0, 3);
+
+
+    // Normally distributed package weight around the center of maximum weight. Standard deviation is 1/3 of that half point.
+    std::normal_distribution<double> weightNormal(randomConsts.maxWeight / 2, randomConsts.maxWeight / 6);
 
     // Holds random ints for address creation
     unsigned int randomNum;
@@ -219,7 +460,15 @@ void randomPackages(const randomPackageEnum& randomConsts) {
     unsigned int street;
 
     // Accumulated P or weights for priority package generation.
-    float accumulated_P;
+    float accumulated_P = 0;
+
+
+    // Sum all weights or probabilities
+    for (unsigned int i = 0; i < 3; i++) {
+        accumulated_P += randomConsts.priority[i];
+    }
+
+    std::uniform_real_distribution<double> priorityUniform(0, accumulated_P);
 
     // Open file
     names.open("dist.all.last");
@@ -258,104 +507,36 @@ void randomPackages(const randomPackageEnum& randomConsts) {
 
     names.close();
 
+    // Uniform integer distribution for names.
+    std::uniform_int_distribution<int> nameUniform(0, lastNames.size() - 1);
+
+    // Get cluster addresses
+    clusterAddresses = streetAddressCluster(randomConsts);
+
     // Start on creating random packages
     // Open file
     file.open(randomConsts.fileName);
 
-    // Loop for number of desired packages
-    for (unsigned int i = 0; i < randomConsts.num; i++) {
-
+    // Need to create clusters of packages
+    for (auto iter = clusterAddresses.begin(); iter != clusterAddresses.end(); ++iter) {
         // Need a sender and receiver
-        for (unsigned int j = 0; j < 2; j++) {
-            // Random name
-            file << firstNames[rand() % randomConsts.population] << ',' << lastNames[rand() % randomConsts.population] << ',';
+        sender = streetAddressUniform(randomConsts);
+        std::cout << sender << std::endl;
+        // Grab receiver.
+        receiver = (*iter);
 
-            // Random building number
-            file << (rand() % randomConsts.maxAddress) + 1 << ' ';
-
-            // Random street number
-            street = rand() % randomConsts.maxStreets;
-
-            // Toss up if road is street or avenue
-            randomNum = rand() % 2;
-
-            // What appropriate street name do we have?
-            if (street == 0) {
-                // No 0 street or avenue, choose main or central
-                if (randomNum == 0) {
-                    file << "Main St ";
-
-                    // North or South?
-                    if (rand() % 2 == 0) {
-                        file << "N";
-                    } else {
-                        file << "S";
-                    }
-                } else {
-                    file << "Central Ave ";
-                    // East or West?
-                    if (rand() % 2 == 0) {
-                        file << "W";
-                    } else {
-                        file << "E";
-                    }
-                }
-
-                // Add appropriate suffix
-            } else if (street == 1) {
-                file << street << "st ";
-            } else if (street == 2) {
-                file << street << "nd ";
-            } else if (street == 3) {
-                file << street << "rd ";
-            } else {
-                file << street << "th ";
-            }
-
-            // If we did not have a main or central
-            if (street != 0) {
-                // Choose street or avenue
-                if (randomNum == 0) {
-                    file << "Street ";
-                } else {
-                    file << "Avenue ";
-                }
-
-                // Since we did not pick main street or central avenue,
-                // We need to choose our quadrant
-                randomNum = rand() % 4;
-
-                if (randomNum == 0) {
-                    file << "NW";
-                } else if (randomNum == 1) {
-                    file << "NE";
-                } else if (randomNum == 2) {
-                    file << "SE";
-                } else if (randomNum == 3) {
-                    file << "SW";
-                }
-            }
-
-            // No variation for this simulation
-            file << ",Bemidji,MN,56601,";
-        }
+        file << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << sender << "," << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << receiver << ",";
         // Weight of package. Apply tenth ounce truncation by multiplying
-        unsigned int weight = static_cast<unsigned int>(floor(static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * randomConsts.maxWeight * 10));
+        //unsigned int weight = weightNormal;
 
         // Truncate weight to a tenth of an ounce.
-        file << weight/10 << ',';
+        file << weightNormal(rng) << ',';
 
         // Start Russian roulette selection.
-        // Accumulator is zero
-        accumulated_P = 0;
 
-        // Sum all weights or probabilities
-        for (unsigned int i = 0; i < 3; i++) {
-            accumulated_P += randomConsts.priority[i];
-        }
 
         // Choose a random float up to accumulated_P
-        randomFloat = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * accumulated_P;
+        randomFloat = priorityUniform(rng);
 
         // Start at index 0
         unsigned int index = 0;
@@ -373,7 +554,48 @@ void randomPackages(const randomPackageEnum& randomConsts) {
         }
 
         // Found our priority, since it is an enum, just output integer (moved enum up by 1 to avoid divide by zero).
-        file << index + 1 << endl;
+        // Additionally, all packages start life on age = 1.
+        file << index + 1 << ",1" << std::endl;
+
+    }
+
+    // Loop for number of desired packages
+    for (unsigned int i = 0; i < randomConsts.num - clusterAddresses.size(); ++i) {
+        // Need a sender and receiver
+        sender = streetAddressUniform(randomConsts);
+        receiver = streetAddressUniform(randomConsts);
+
+        file << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << sender << "," << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << receiver << ",";
+        // Weight of package. Apply tenth ounce truncation by multiplying
+        //unsigned int weight = weightNormal;
+
+        // Truncate weight to a tenth of an ounce.
+        file << weightNormal(rng) << ',';
+
+        // Start Russian roulette selection.
+
+
+        // Choose a random float up to accumulated_P
+        randomFloat = priorityUniform(rng);
+
+        // Start at index 0
+        unsigned int index = 0;
+
+        // Subtract priority weights from random until we find one that is less than our random number.
+        while(index < 3) {
+            if (randomFloat < randomConsts.priority[index]) {
+                break;
+            } else {
+                randomFloat -= randomConsts.priority[index];
+            }
+
+            // Not found yet, move on.
+            index++;
+        }
+
+        // Found our priority, since it is an enum, just output integer (moved enum up by 1 to avoid divide by zero).
+        // Additionally, all packages start life on age = 1.
+        file << index + 1 << ",1" << std::endl;
 
     }
 
@@ -510,21 +732,16 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
-    auto f1 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f2 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f3 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f4 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
 
 
     auto res1 = f1.get();
     auto res2 = f2.get();
     auto res3 = f3.get();
     auto res4 = f4.get();
-
-    unsigned int resultSize1 = res1.size();
-    unsigned int resultSize2 = res2.size();
-    unsigned int resultSize3 = res3.size();
-    unsigned int resultSize4 = res4.size();
 
     for (vector< pair<vector<Package* >, float> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
         mixedPopulation.push_back(*iter);
@@ -541,11 +758,6 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     for (vector< pair<vector<Package* >, float> >::iterator iter = res4.begin(); iter != res4.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
-
-    // Fill selection vector with 0s for size of population.
-    //vector<unsigned int > roundRobinSelection {mixedPopulation.size(), 0};
-    // Fill vector with 0, 1, 2, ..., n
-    //std::iota(roundRobinSelection.begin(), roundRobinSelection.end(), 0);
 
     // Seed nice random number generator.
     std::mt19937 rng(std::random_device{}());
@@ -577,10 +789,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
-    auto c1 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop1);
-    auto c2 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop2);
-    auto c3 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop3);
-    auto c4 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop4);
+    auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
+    auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
+    auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
+    auto c4 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop4);
 
 /*
     auto res1 = f1.get();
@@ -595,7 +807,6 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     bestMixed.push_back(c3.get());
     bestMixed.push_back(c4.get());
 
-    unsigned int index = 0;
     float bestSoFar = 0;
 
     for (unsigned int i = 0; i < bestMixed.size(); ++i) {
@@ -610,8 +821,8 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
 
 int main() {
 
-    //srand(time(0));
-    srand(201);
+    srand(time(0));
+    //srand(201);
     vector<Package* > Packages;
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
@@ -619,19 +830,32 @@ int main() {
     pair<vector<Package* >, vector<float> > best;
 
 
-
-                                        // fileName, population, num, maxAddress, maxStreets, maxWeight, priority[REG, TWO, OVER]
-    randomPackageEnum generatePackages = {"Test2.csv", 200, 100, 2000, 20, 160, {4, 2, 1}};
+    // *Filename to open
+    // *Population of names to draw from.
+    // 10 gives 10 first names and 10 last names, 10*10 = 100 combinations.
+    // *Number of random packages
+    // Maximum building address
+    // Maximum streets each direction (20 = 20th St/Ave is furthest out.)
+    // Max random weight
+    // Priority weights of REG, TWO, OVER.
+    // One can place positive probabilities or weights.
+    // [0.1, 0.4, 0.5] would be 10% regular, 40% two-day and 50% overnights.
+    // [1, 4, 5] would give the same percentages
+    // [10, 40, 50] should as well.
+    // Clustering creation.
+    // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
+    // Radius [4] and standard deviation [5] in building addresses
+    randomPackageEnum generatePackages = {"Cluster1.csv", 200, 200, 2000, 20, 320, {3, 2, 1}, {4,7,10,20, 1000, 300}};
 
     // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
-    //randomPackages(generatePackages);
+    randomPackages(generatePackages);
 
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
-    readFile("Test2.csv", Packages, ClientMap);
+    readFile("Cluster1.csv", Packages, ClientMap);
 
     matrix = makeMatrix(ClientMap, Packages);
 
@@ -667,7 +891,7 @@ int main() {
     GA.initPopulation();
     GA.evolve();
 */
-    std::cout << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
+    std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
     // Output file stream
     ofstream file;

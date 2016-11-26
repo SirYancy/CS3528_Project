@@ -163,7 +163,7 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
     shiftTime += distance * driveTime;
 
     if (shiftTime > timeLimit) {
-        indFit -= (pow(shiftTime - timeLimit, 1.8) + 200);
+        indFit -= (pow(shiftTime - timeLimit, 1.9) + 200);
     } else {
         indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
         //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
