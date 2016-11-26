@@ -70,7 +70,7 @@ void Genetic::initPopulation() {
         tries = 0;
 
         // Loop while we still have packages to place, and we're under the limits.
-        while (totalPackages < numOfPackages ) {// && totalPackages < packageLimit && totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
+        while (totalPackages < numOfPackages && totalPackages < packageLimit) { //&& totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
 
             tries++;
 
@@ -114,18 +114,19 @@ void Genetic::initPopulation() {
     }
 
 
-    initRanking();
+    initRanking(2);
 
 }
 
-void Genetic::initRanking() {
+void Genetic::initRanking(float exponent) {
     // Resize the ranking vector to evolution.
     ranking.resize(genes.size());
+    rankingSize = ranking.size();
 
     // Load exponential ranking array. Always the same number to individuals, so same ranking
-    for (unsigned int i = 0; i < ranking.size(); ++i) {
+    for (unsigned int i = 0; i < rankingSize; ++i) {
         // Exponential ranking
-        ranking[i] = pow(i+1, 3);
+        ranking[i] = pow(i+1, exponent);
         //std::cout << "Ranking[" << i << "]=" << ranking[i] << std::endl;
         // Add rank to total
         rankTotal += ranking[i];
@@ -161,13 +162,10 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
 
     shiftTime += distance * driveTime;
 
-    //std::cout << "Distance: " << distance << " Time: " << shiftTime << " Priorities: " << priorities << " Weight: " << weight << " Len: " << individual.size() << std::endl;
-
-    indFit = 0;
     if (shiftTime > timeLimit) {
-        indFit -= (pow(shiftTime - timeLimit, 2.3) + 200);
+        indFit -= (pow(shiftTime - timeLimit, 1.8) + 200);
     } else {
-        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
+        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
         //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
@@ -181,6 +179,7 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
     }
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
+    //std::cout << "F: " << indFit << "D: " << distance << " T: " << shiftTime << " Pri: " << priorities << " Weight: " << weight << " Len: " << individual.size() << std::endl;
     //std::cout.precision(17);
     //std::cout << 1/static_cast<float>(shiftTime) << std::endl;
     //std::cout << "Fit: " << indFit << std::endl;
@@ -192,7 +191,28 @@ vector<float> Genetic::fitness(vector<Package* > individual) {
 void Genetic::loadPopulation(vector< pair<vector<Package* >, float> > newPopulation) {
     genes = newPopulation;
     popNum = newPopulation.size();
-    initRanking();
+
+    // Initialize current fitness.
+    vector<float> currentFitness (5, 0);
+
+    initRanking(1.75);
+
+    /*
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        currentFitness = fitness((*iter).first);
+        (*iter).second = currentFitness[0];
+    }
+
+    mergeSort(0, genes.size() - 1);
+
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        for (auto jitter = iter->first.begin(); jitter != iter->first.end(); ++jitter) {
+            std::cout << (*jitter)->getID() << " ";
+        }
+        std::cout << "   <- " << iter->second << std::endl;
+    }
+    */
+
     return;
 
 }
@@ -203,6 +223,13 @@ vector< pair<vector<Package* >, float> > Genetic::evolve_threads() {
 
 }
 
+void Genetic::printGene(vector<Package* > gene) {
+       for (auto iter = gene.begin(); iter != gene.end(); ++iter) {
+            std::cout << (*iter)->getID() << " ";
+       }
+
+       std::cout << std::endl;
+}
 
 vector<Package * > Genetic::evolve() {
 
@@ -226,15 +253,15 @@ vector<Package * > Genetic::evolve() {
                     bestFit = (*row).first;
                     bestFitInfo = currentFitness;
                 }
-                //std::cout << "Current fitness: " << currentFitness << " Best: " << bestFitScore << std::endl;
+                //std::cout << "Current fitness: " << currentFitness[0] << std::endl;
         }
 
-        if (i % 100 == 0) {
+        if (i % 1000 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
         }
         mate();
     }
-    std::cout << "Best route F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << std::endl;
+    std::cout << "Best  F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << std::endl;
 
     return getBest();
 }
@@ -251,13 +278,7 @@ void Genetic::mate() {
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
     mergeSort(0, genes.size() - 1);
 
-    /*
-    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
-        std::cout << (*iter).second << " ";
-    }
-
-    std::cout << std::endl;
-*/
+    // Create a new population not including save elite individuals.
     for (unsigned int i = 0; i < (popNum - elitist) / 2; ++i) {
 
 
@@ -265,21 +286,6 @@ void Genetic::mate() {
         newPopulation[2 * i] = make_pair(newIndividuals[0], 0);
         newPopulation[2 * i + 1] = make_pair(newIndividuals[1], 0);
 
-        /*
-        thread t1(&Genetic::crossOver, this, 1);
-        thread t2(&Genetic::crossOver, this, 2);
-        thread t3(&Genetic::crossOver, this, 3);
-        thread t4(&Genetic::crossOver, this, 4);
-        t1.join();
-        t2.join();
-        t3.join();
-        t4.join();
-
-        newGenes.push_back(make_pair(newIndividual1, 0));
-        newGenes.push_back(make_pair(newIndividual2, 0));
-        newGenes.push_back(make_pair(newIndividual3, 0));
-        newGenes.push_back(make_pair(newIndividual4, 0));
-        */
     }
 
     //std::cout << "Before elite: " << newPopulation.size();
@@ -294,28 +300,43 @@ void Genetic::mate() {
 }
 
 vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Package* > gene2) {
-    //std::cout << "Doing crossover on " << gene1->getPointer() << " and " << gene2->getPointer() << std::endl;
+    // Do we have genes of size 1?
+    if (gene1.size() <= 1 || gene2.size() <= 1) {
+        return vector<vector<Package* > > {gene1, gene2};
+    }
+
+    // Size of genes.
     unsigned int geneLength1 = gene1.size();
     unsigned int geneLength2 = gene2.size();
 
-    unsigned int smallestLength, longestLength, randomPoint;
+    // Lengths of genes
+    unsigned int smallestLength, longestLength;
 
+    // Random crossover point.
+    unsigned int randomPoint;
+
+    // Gene present in both genomes flag.
     bool present;
 
+    // New genes for the individuals
     vector<Package* > packageGene1;
     vector<Package* > packageGene2;
+
+    // Holders return individuals.
     vector<vector<Package* > > newIndividuals;
 
+    // Resize to save on reallocation
+    newIndividuals.resize(2);
 
+
+    // Which gene is longer? Could be simplified.
     if (geneLength1 < geneLength2) {
         smallestLength = geneLength1;
-        //whichFirst = 0;
 
         longestLength = geneLength2;
 
     } else if (geneLength2 < geneLength1) {
         smallestLength = geneLength2;
-        //whichFirst = 1;
 
         longestLength = geneLength1;
 
@@ -326,18 +347,9 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
     }
 
-    randomPoint = rand() % smallestLength;
-/*
-    std::cout << "Gene1:" << std::endl;
-    for(std::vector<Package*>::iterator iter = gene1.begin(); iter != gene1.end(); ++iter) {
-        std::cout << (*iter) << std::endl;
-    }
+    // Random point to apply crossover. Don't want to cross over at 0
+    randomPoint = (rand() % (smallestLength - 1)) + 1;
 
-    std::cout << std::endl << "Gene2:" << std::endl;
-    for(std::vector<Package*>::iterator iter = gene2.begin(); iter != gene2.end(); ++iter) {
-        std::cout << (*iter) << std::endl;
-    }
-*/
 
 
     //std::cout << std::endl << "Random point: " << randomPoint << std::endl;
@@ -351,15 +363,13 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
     // Fill individual[0] genes based on the size of gene1 in the order they appear
     for (vector<Package* >::iterator gene1_iter = gene1.begin(); gene1_iter != gene1.end(); ++gene1_iter) {
-        //std::cout << "Size: " << newIndividual.size() - 1 << std::endl;
 
         // Assume no duplicates
         present = false;
 
-        // Loop through all genes already places
+        // Loop through all genes already placed
         for (vector<Package* >::iterator package1_iter = packageGene1.begin(); package1_iter != packageGene1.end(); ++package1_iter) {
 
-            //std::cout << i << " " << j << " Ind: " << newIndividual[j] << " Gene: " << gene2[i] << std::endl;
             // Is potential gene a duplicate?
             if (*package1_iter == *gene1_iter) {
                 //std::cout << "Gene already present " << gene2[i] << std::endl;
@@ -382,10 +392,11 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
         // Assume no duplicates
         present = false;
 
-        // Loop through all genes already places
+        // Loop through all genes already placed
         for (vector<Package* >::iterator package2_iter = packageGene2.begin(); package2_iter != packageGene2.end(); ++package2_iter) {
 
             //std::cout << i << " " << j << " Ind: " << newIndividual[j] << " Gene: " << gene2[i] << std::endl;
+
             // Is potential gene a duplicate?
             if (*package2_iter == *gene2_iter) {
                 //std::cout << "Gene already present " << gene2[i] << std::endl;
@@ -412,8 +423,9 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
         std::cout << (*iter)->getPointer() << std::endl;
     }
 */
-    newIndividuals.push_back(packageGene1);
-    newIndividuals.push_back(packageGene2);
+
+    newIndividuals[0] = packageGene1;
+    newIndividuals[1] = packageGene2;
 
     //std::cout << "Returning " << &newIndividuals << std::endl;
     return newIndividuals;
@@ -421,6 +433,7 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
 vector<vector<Package* > > Genetic::mutate() {
     vector<vector<Package* > > newIndividuals;
+    newIndividuals.resize(2);
 
     unsigned int smallestLength;
     unsigned int longestLength;
@@ -435,16 +448,16 @@ vector<vector<Package* > > Genetic::mutate() {
 
     float randomP;
     unsigned int randomSwap1, randomSwap2;
-    bool present = false;
+    bool different = false;
 
 
     // Loop until we get different individuals
-    while (randomIndividual1 == randomIndividual2) {
+    while (randomIndividual1 == randomIndividual2 || different == false) {
         randomIndividual1 = rand() % rankTotal;
         randomIndividual2 = rand() % rankTotal;
 
 
-        for (unsigned int i = 0; i < ranking.size(); ++i) {
+        for (unsigned int i = 0; i < rankingSize; ++i) {
             //std::cout << "In1: " << randomIndividual1 << "/" << ranking[i] << " " << i << std::endl;
             if (randomIndividual1 < ranking[i]) {
                 randomIndividual1 = i;
@@ -458,7 +471,7 @@ vector<vector<Package* > > Genetic::mutate() {
 
         }
 
-        for (unsigned int i = 0; i < ranking.size(); ++i) {
+        for (unsigned int i = 0; i < rankingSize; ++i) {
             //std::cout << "In2: " << randomIndividual2 << "/" << ranking[i] << " " << i << std::endl;
             if (randomIndividual2 < ranking[i]) {
                 randomIndividual2 = i;
@@ -472,6 +485,42 @@ vector<vector<Package* > > Genetic::mutate() {
             }
 
         }
+
+        different = false;
+
+        if (randomIndividual1 != randomIndividual2 && genes[randomIndividual1].first.size() == genes[randomIndividual2].first.size()) {
+
+            for (unsigned int i = 0; i < genes[randomIndividual1].first.size(); ++i) {
+                if (genes[randomIndividual1].first[i] != genes[randomIndividual2].first[i]) {
+                    different = true;
+                    break;
+                }
+            }
+
+            /*if (different == false) {
+                std::cout << "Identical genes!!!" << std::endl;
+                std::cout << "ID1: ";
+                printGene(genes[randomIndividual1].first);
+
+                std::cout << "ID2: ";
+                printGene(genes[randomIndividual2].first);
+
+            }*/
+
+        } else {
+            different = true;
+        }
+
+    }
+
+    if (different == false) {
+                std::cout << "Identical genes!!!" << std::endl;
+                std::cout << "ID1: ";
+                printGene(genes[randomIndividual1].first);
+
+                std::cout << "ID2: ";
+                printGene(genes[randomIndividual2].first);
+
     }
 
     // Grab selected parents genes.
@@ -495,8 +544,8 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.deleteOld) {
 
-        newIndividuals.push_back(mutateDelete(gene1));
-        newIndividuals.emplace_back(mutateDelete(gene2));
+        newIndividuals[0] = mutateDelete(gene1);
+        newIndividuals[1] = mutateDelete(gene2);
         return newIndividuals;
     }
 
@@ -504,8 +553,8 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.insertNew) {
 
-        newIndividuals.emplace_back(mutateInsert(gene1));
-        newIndividuals.emplace_back(mutateInsert(gene2));
+        newIndividuals[0] = mutateInsert(gene1);
+        newIndividuals[1] = mutateInsert(gene2);
         return newIndividuals;
     }
 
@@ -513,24 +562,24 @@ vector<vector<Package* > > Genetic::mutate() {
 
     if (randomP < mutation.inversion) {
 
-        newIndividuals.emplace_back(mutateInversion(gene1));
-        newIndividuals.emplace_back(mutateInversion(gene2));
+        newIndividuals[0] = mutateInversion(gene1);
+        newIndividuals[1] = mutateInversion(gene2);
         return newIndividuals;
     }
 
     randomP -= mutation.inversion;
 
     if (randomP < mutation.swapOut) {
-        newIndividuals.emplace_back(mutateSwapNew(gene1));
-        newIndividuals.emplace_back(mutateSwapNew(gene2));
+        newIndividuals[0] = mutateSwapNew(gene1);
+        newIndividuals[1] = mutateSwapNew(gene2);
         return newIndividuals;
     }
 
     randomP -= mutation.swapOut;
 
     // End of the road. Swap genes within each parent.
-    newIndividuals.emplace_back(mutateSwapWithin(gene1));
-    newIndividuals.emplace_back(mutateSwapWithin(gene2));
+    newIndividuals[0] = mutateSwapWithin(gene1);
+    newIndividuals[1] = mutateSwapWithin(gene2);
 
     return newIndividuals;
 

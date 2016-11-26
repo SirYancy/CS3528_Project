@@ -14,8 +14,8 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 10
-#define POPULATION 10
+#define GENERATIONS 10000
+#define POPULATION 315
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 
@@ -461,8 +461,8 @@ vector< pair<vector<Package* >, float> > simulationIsolation(vector<Package* > P
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
+    mutation.crossOver  = 70;
+    mutation.deleteOld  = 20;
     mutation.insertNew  = 25;
     mutation.inversion  = 20;
     mutation.swapOut    = 25;
@@ -483,8 +483,8 @@ pair<vector<Package* >, vector<float> > simulationCrossover(vector<Package* > Pa
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
+    mutation.crossOver  = 70;
+    mutation.deleteOld  = 20;
     mutation.insertNew  = 25;
     mutation.inversion  = 20;
     mutation.swapOut    = 25;
@@ -510,10 +510,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
-    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f1 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
+    auto f2 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
+    auto f3 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
+    auto f4 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
 
 
     auto res1 = f1.get();
@@ -577,10 +577,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
         }
     }
 
-    auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
-    auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
-    auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
-    auto c4 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop4);
+    auto c1 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop1);
+    auto c2 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop2);
+    auto c3 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop3);
+    auto c4 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop4);
 
 /*
     auto res1 = f1.get();
@@ -650,7 +650,23 @@ int main() {
 
 
     best = runSimulationMixed(Packages, matrix);
+    /*
+    vector< pair<vector<Package* >, float> > result;
+    vector<float > fit;
 
+    mutation_enum mutation;
+    mutation.crossOver  = 60;
+    mutation.deleteOld  = 5;
+    mutation.insertNew  = 25;
+    mutation.inversion  = 20;
+    mutation.swapOut    = 25;
+    mutation.swapWithin = 25;
+    mutation.elite      = 0;
+
+    Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
+    GA.initPopulation();
+    GA.evolve();
+*/
     std::cout << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
     // Output file stream
@@ -741,5 +757,6 @@ int main() {
     cout << c2.toString();
 
 */
+
     return 0;
 }

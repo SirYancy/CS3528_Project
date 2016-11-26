@@ -51,11 +51,13 @@ class Genetic {
 
         void loadPopulation(vector< pair<vector<Package* >, float> > newPopulation);
 
+        void printGene(vector<Package* > gene);
+
     protected:
 
     private:
 
-        void initRanking();
+        void initRanking(float exponent);
 
         //! Select and create new individuals for the next population.
         void mate();
@@ -157,6 +159,9 @@ class Genetic {
 
         //! Ranking total for random selection in roulette selection.
         unsigned int rankTotal = 0;
+
+        //! Length of ranking array. Same as population.
+        unsigned int rankingSize;
 
         //! New population individual for threads. Two offspring.
         vector<vector<Package* > > newIndividual1;

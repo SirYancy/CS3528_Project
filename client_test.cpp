@@ -14,8 +14,8 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 1000
-#define POPULATION 100
+#define GENERATIONS 10000
+#define POPULATION 1000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 
@@ -461,13 +461,13 @@ vector< pair<vector<Package* >, float> > simulationIsolation(vector<Package* > P
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
+    mutation.crossOver  = 70;
+    mutation.deleteOld  = 20;
     mutation.insertNew  = 25;
     mutation.inversion  = 20;
     mutation.swapOut    = 25;
     mutation.swapWithin = 25;
-    mutation.elite      = 0;
+    mutation.elite      = 0.01;
 
     Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
     GA.initPopulation();
@@ -483,13 +483,13 @@ pair<vector<Package* >, vector<float> > simulationCrossover(vector<Package* > Pa
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
+    mutation.crossOver  = 70;
+    mutation.deleteOld  = 20;
     mutation.insertNew  = 25;
     mutation.inversion  = 20;
     mutation.swapOut    = 25;
     mutation.swapWithin = 25;
-    mutation.elite      = 0;
+    mutation.elite      = 0.01;
 
     Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
     GA.loadPopulation(mixedPop);
@@ -667,7 +667,7 @@ int main() {
     GA.initPopulation();
     GA.evolve();
 */
-    std::cout << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
+    std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
     // Output file stream
     ofstream file;
