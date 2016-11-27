@@ -18,7 +18,7 @@
 #define POPULATION 1000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
-#define PACKAGE_LIMIT 8
+#define PACKAGE_LIMIT 200
 
 using namespace std;
 
@@ -673,7 +673,7 @@ vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<
     mutation.insertNew  = 0.001;
     mutation.inversion  = 0.001;
     mutation.swapOut    = 0.001;
-    mutation.swapWithin = 0.001;
+    mutation.swapWithin = 0.005;
     mutation.elite      = 0.01;
 
     Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
@@ -695,7 +695,7 @@ pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > P
     mutation.insertNew  = 0.001;
     mutation.inversion  = 0.001;
     mutation.swapOut    = 0.001;
-    mutation.swapWithin = 0.001;
+    mutation.swapWithin = 0.005;
     mutation.elite      = 0.01;
 
     Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);

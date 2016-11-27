@@ -161,7 +161,7 @@ void Genetic::initPopulation() {
     }
 
 
-    initRanking(4);
+    initRanking(2);
 
 }
 
@@ -229,9 +229,9 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     shiftTime += distance * driveTime;
 
     if (shiftTime > timeLimit) {
-        indFit -= (pow(shiftTime - timeLimit, 1.5) * priorities);
+        indFit -= (pow(shiftTime - timeLimit, 1.5)) * priorities;
     } else {
-        //indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
+        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
         //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
@@ -250,7 +250,7 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
     //std::cout << "Individual length: " << individual->size() << " Distance: " << distance << "Fit: " << indFit << std::endl;
-    //std::cout << "F: " << indFit << "D: " << distance << " T: " << shiftTime << " Pri: " << priorities << " Weight: " << weight << " Len: " << individual->size() << std::endl;
+    //std::cout << "F: " << indFit << "  D: " << distance << "  T: " << shiftTime << "  Pri: " << priorities << "  Weight: " << weight << "  Len: " << individual->size() << std::endl;
     //std::cout.precision(17);
     //std::cout << 1/static_cast<float>(shiftTime) << std::endl;
     //std::cout << "Fit: " << indFit << std::endl;
