@@ -56,7 +56,7 @@ int main()
 {
     string name;
     ifstream names ("names.txt");
-    ofstream addresses ("address.txt");
+    ofstream addresses ("clients.txt");
 
     if(names.is_open() && addresses.is_open())
     {

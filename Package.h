@@ -58,6 +58,8 @@ class Package{
         //! Returns a pointer to this package
         Package* getPointer() {return this;};
 
+        //! Returns a string represntation of this package
+        string tostring() const;
     private:
         //! Pointer to sender client
         Client *sender;

@@ -28,5 +28,7 @@ addresses: address.cpp
 client_test2: client_test2.cpp Client.o Package.o Utils.o
 	$(CXX) $(FLAGS) client_test2.cpp Client.o Package.o Utils.o -o client_test
 
+greedy: greedy.cpp Client.o Package.o Truck.o Utils.o
+	$(CXX) $(FLAGS) greedy.cpp Client.o Package.o Truck.o Utils.o -o greedy
 clean:
-	rm -f *.o *.exe core package client_package_test truck_test address client_test
+	rm -f *.o *.exe core package client_package_test truck_test address client_test greedy

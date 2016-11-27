@@ -125,6 +125,7 @@ string Client::toString() const{
     output << "Client: " << name << endl;
     output << address << endl;
     output << city << ", " << state << " " << zip << endl;
+    output << "Coordinates: (" << coordinates.first << "," << coordinates.second << ")" << endl;
     output << endl << "Sent Packages:" << endl;
 
     for(unsigned int i = 0; i < sentPackages.size(); i++)
