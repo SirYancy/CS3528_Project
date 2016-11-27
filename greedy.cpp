@@ -80,8 +80,8 @@ int main()
     routeFile << "import matplotlib.pyplot as plt\n";
     for(int i = 0; i < order.size()-2; i++)
     {
-        pair<int,int> c1 = stops[i]->getCoords();
-        pair<int,int> c2 = stops[i+1]->getCoords();
+        pair<int,int> c1 = stops[order[i]]->getCoords();
+        pair<int,int> c2 = stops[order[i+1]]->getCoords();
         ostringstream output;
         output << "plt.plot([" << c1.first << ", " << c2.first << "], ["
             << c1.second << ", " << c2.second << "], 'k-', lw=2)\n";
