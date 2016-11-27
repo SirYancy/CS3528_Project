@@ -26,6 +26,13 @@ typedef struct {
 
 class Genetic {
     public:
+
+        typedef struct {
+            vector<double> fitnessValue;
+            size_t hashValue;
+            unsigned int sizeValue;
+        } geneInfo;
+
         //! Creates and initializes a genetic routing object.
         Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
@@ -42,20 +49,23 @@ class Genetic {
 
         vector<Package* > getBest() {return bestFit;};
 
-        vector< pair<vector<Package* >, float> > evolve_threads();
+        vector< pair<vector<Package* >, geneInfo> > evolve_threads();
 
         //! Calculates fitness of individual based on route.
         /*! \param individual The route to evaluate the fitness of.
          *  \return A vector of fitness values. Individual fitness score, priority package points, distance traveled, shift time, weight.
          */
-        vector<float> fitness(vector<Package* >* individual) const;
+        vector<double> fitness(vector<Package* >* individual);
 
         //! Create initial route population.
         void initPopulation();
 
-        void loadPopulation(vector< pair<vector<Package* >, float> > newPopulation);
+        void loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopulation);
 
-        void printGene(vector<Package* > gene);
+        void printGene(vector<Package* >* gene) const;
+
+        size_t hash(vector<Package* >* gene) const;
+
 
     protected:
 
@@ -74,7 +84,7 @@ class Genetic {
          *  \param gene2 Gene sequence of parent 2.
          * \return Two new individuals crossed over from parent inputs in a random crossover point. Genes may be shorter due to removal of duplicate packages.
          */
-        vector<vector<Package*> > crossOver(vector<Package* > gene1, vector<Package* > gene2);
+        vector<vector<Package*> > crossOver(vector<Package* >* gene1, vector<Package* >* gene2);
 
         //! Mutates parent gene by randomly inserting a new package somewhere within the parent.
         /*! \param gene Gene to be mutated.
@@ -108,6 +118,7 @@ class Genetic {
 
         //! Merge lists for merge sort. For packages based on fitness value in route vector.
         void mergeLists(unsigned long i, unsigned long m, unsigned long j);
+
         //! Merge sort for packages based on fitness value in route vector.
         void mergeSort(unsigned long i, unsigned long j);
 
@@ -158,7 +169,7 @@ class Genetic {
          *  This is a vector of the packages in that route.
          *  The second item in the pair is that individual's fitness value.
          */
-        vector< pair<vector<Package* >, float> > genes;
+        vector< pair<vector<Package* >, geneInfo> > genes;
 
 
         //! Ranking vector for population used in parent selection for mutation.
@@ -183,7 +194,7 @@ class Genetic {
         vector<Package* > bestFit;
 
         //! Best route information for console output.
-        vector<float> bestFitInfo;
+        vector<double> bestFitInfo;
 
         //! Mutation probabilities
         mutation_enum mutation;

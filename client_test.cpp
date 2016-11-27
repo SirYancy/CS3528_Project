@@ -14,11 +14,11 @@
 #include <random>
 #include <algorithm>
 
-#define GENERATIONS 2000
-#define POPULATION 100
+#define GENERATIONS 10000
+#define POPULATION 1000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
-#define PACKAGE_LIMIT 200
+#define PACKAGE_LIMIT 8
 
 using namespace std;
 
@@ -663,12 +663,12 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
     return matrix;
 }
 
-vector< pair<vector<Package* >, float> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
-    vector< pair<vector<Package* >, float> > result;
+vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    vector< pair<vector<Package* >, Genetic::geneInfo> > result;
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 0.70;
+    mutation.crossOver  = 0.90;
     mutation.deleteOld  = 0.001;
     mutation.insertNew  = 0.001;
     mutation.inversion  = 0.001;
@@ -685,12 +685,12 @@ vector< pair<vector<Package* >, float> > simulationIsolation(vector<Package* > P
 
 }
 
-pair<vector<Package* >, vector<float> > simulationCrossover(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, float> > mixedPop) {
+pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPop) {
     vector<Package * > result;
-    vector<float > fit;
+    vector<double > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 0.70;
+    mutation.crossOver  = 0.90;
     mutation.deleteOld  = 0.001;
     mutation.insertNew  = 0.001;
     mutation.inversion  = 0.001;
@@ -707,21 +707,21 @@ pair<vector<Package* >, vector<float> > simulationCrossover(vector<Package* > Pa
 
 }
 
-pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
-    vector< pair<vector<Package* >, float> > mixedPopulation;
-    pair<vector<Package* >, float> selected;
+pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+    vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPopulation;
+    pair<vector<Package* >, double> selected;
 
-    vector< pair<vector<Package* >, float> > newPop1, newPop2, newPop3, newPop4;
+    vector< pair<vector<Package* >, Genetic::geneInfo> > newPop1, newPop2, newPop3, newPop4;
 
     // Launch multiple asncronous threads. It seems that one cannot call object methods and get object copies.
     // Launching from within an object requires pointers to that object, leading to collisions and race conditions.
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
     // We launch simulationIsolation which will return the entire population for mixing.
-    auto f1 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f2 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f3 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
-    auto f4 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix);
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
 
     // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();
@@ -730,21 +730,22 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     auto res4 = f4.get();
 
     // Process all results by conglomerating them into one big population.
-    for (vector< pair<vector<Package* >, float> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
+    for (vector< pair<vector<Package* >, Genetic::geneInfo> >::iterator iter = res1.begin(); iter != res1.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
 
-    for (vector< pair<vector<Package* >, float> >::iterator iter = res2.begin(); iter != res2.end(); ++iter) {
+    for (vector< pair<vector<Package* >, Genetic::geneInfo> >::iterator iter = res2.begin(); iter != res2.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
 
-    for (vector< pair<vector<Package* >, float> >::iterator iter = res3.begin(); iter != res3.end(); ++iter) {
+    for (vector< pair<vector<Package* >, Genetic::geneInfo> >::iterator iter = res3.begin(); iter != res3.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
 
-    for (vector< pair<vector<Package* >, float> >::iterator iter = res4.begin(); iter != res4.end(); ++iter) {
+    for (vector< pair<vector<Package* >, Genetic::geneInfo> >::iterator iter = res4.begin(); iter != res4.end(); ++iter) {
         mixedPopulation.push_back(*iter);
     }
+
 
     // Shuffle up the big population.
     std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
@@ -776,10 +777,10 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
 
     // Launch evolution again, with the mixed up and shuffled isolated populations. This time
     // we return only the fittest individual genome.
-    auto c1 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop1);
-    auto c2 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop2);
-    auto c3 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop3);
-    auto c4 = std::async(std::launch::deferred, simulationCrossover, Packages, matrix, newPop4);
+    auto c1 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop1);
+    auto c2 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop2);
+    auto c3 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop3);
+    auto c4 = std::async(std::launch::async, simulationCrossover, Packages, matrix, newPop4);
 
 /*
     auto res1 = f1.get();
@@ -789,7 +790,7 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
     */
 
     // Grab the best route and stuff in here
-    vector<pair<vector<Package* >, vector<float> > > bestMixed;
+    vector<pair<vector<Package* >, vector<double> > > bestMixed;
     bestMixed.push_back(c1.get());
     bestMixed.push_back(c2.get());
     bestMixed.push_back(c3.get());
@@ -809,7 +810,7 @@ pair<vector<Package* >, vector<float> > runSimulationMixed(vector<Package* > Pac
 
 }
 
-void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector<float> >* best, Client* originPtr) {
+void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector<double> >* best, Client* originPtr) {
     // Output file stream
     ofstream file;
 
@@ -1001,7 +1002,7 @@ int main() {
     //vector<Client*> Clients;
     unordered_map<std::string, Client*> ClientMap;
     vector<vector<unsigned int> > matrix;
-    pair<vector<Package* >, vector<float> > best;
+    pair<vector<Package* >, vector<double> > best;
 
 
     // *Filename to open
