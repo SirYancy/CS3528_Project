@@ -9,7 +9,7 @@
 #include <random>
 
 // Seed nice random number generator.
-std::mt19937 rng(std::random_device{}());
+std::mt19937 rngGenetic(std::random_device{}());
 
 Genetic::Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
@@ -21,6 +21,8 @@ Genetic::Genetic(std::vector<Package*> packs,
                  stopTime(stops), driveTime(drive), timeLimit(shiftTime), generations(gens), mutation(mut)
 
 {
+    Priority currentPriority;
+
     // Truncate population to multiples of four for threading.
     //popNum = (population / 4) * 4;
     popNum = population;
@@ -28,7 +30,8 @@ Genetic::Genetic(std::vector<Package*> packs,
     std::cout << "Population: " << popNum << " Generations: " << gens << std::endl;
 
     // Total for roulette selection of mutation.
-    mutation.total = mutation.crossOver + mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
+    //mutation.total = mutation.crossOver + mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
+    mutation.total = mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
 
     // Create the best fitness info vector for later indexing.
     for (unsigned int i = 0; i < 5; ++i) {
@@ -42,7 +45,16 @@ Genetic::Genetic(std::vector<Package*> packs,
     elitist = mutation.elite * popNum;
 
     for (vector<Package* >::iterator iter = packages.begin(); iter != packages.end(); ++iter) {
-        totalPriority += static_cast<unsigned int>((*iter)->getPriority());
+        currentPriority = (*iter)->getPriority();
+
+        // Assign weight.
+        if (currentPriority == Priority::OVERNIGHT) {
+            totalPriority += OVERNIGHT_WEIGHT;
+        } else if (currentPriority == Priority::TWO_DAY) {
+            totalPriority += TWODAY_WEIGHT;
+        } else {
+            totalPriority += REGULAR_WEIGHT;
+        }
     }
 }
 
@@ -57,6 +69,8 @@ void Genetic::initPopulation() {
 
     std::vector<Package* > individual;
 
+    genes.resize(popNum);
+
     float totalWeight = 0;
     unsigned int totalPackages = 0;
     unsigned int maxTries = 1000;
@@ -68,7 +82,7 @@ void Genetic::initPopulation() {
     bool present = false;
 
     for (unsigned int i = 0; i < popNum; i++) {
-        //std::cout << "Individual " << i << std::endl;
+        std::cout << "Individual " << i << std::endl;
 
         // Clear individual
         individual.clear();
@@ -77,18 +91,18 @@ void Genetic::initPopulation() {
         tries = 0;
 
         // Loop while we still have packages to place, and we're under the limits.
-        while (totalPackages < numOfPackages && totalPackages < packageLimit) { //&& totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
+        while (totalPackages < numOfPackages) { // && totalPackages < packageLimit&& totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
 
             tries++;
 
             // Random index to packages
-            //randomPackage = rand() % numOfPackages;
+            randomPackage = packageUniform(rngGenetic);
 
-            //std::cout << "Random package: " << randomPackage << std::endl;
+            //std::cout << "Random package: " << to_string(randomPackage << std::endl;
             // Get the package pointer
-            currentPackage = packages[packageUniform(rng)];
+            currentPackage = packages[randomPackage];
 
-            //std::cout << "Package ptr: " << currentPackage << std::endl;
+            //std::cout << "Package ptr: " << std::to_string(currentPackage->getID()) << std::endl;
             // Assume not present in current individual
             present = false;
 
@@ -97,7 +111,7 @@ void Genetic::initPopulation() {
                 // Check duplicate
                 if (*iter == currentPackage) {
                     present = true;
-                    //std::cout << "Package already present: " << currentPackage << std::endl;
+                    //std::cout << "Package already present: " << std::to_string((*iter)->getID()) << std::endl;
                     break;
                 }
             }
@@ -105,23 +119,34 @@ void Genetic::initPopulation() {
             // If not a duplicate
             if (present == false) {
                 // Over truck limit if added?
-                if (currentPackage->getWeight() + totalWeight <= weightLimit) {
+                //if (currentPackage->getWeight() + totalWeight <= weightLimit) {
                     // Add package to individual
                     individual.push_back(currentPackage);
                     //std::cout << "Adding package ptr: " << currentPackage << std::endl;
                     totalPackages++;
                     totalWeight += currentPackage->getWeight();
 
-                }
+                //}
 
             }
         }
         //std::cout << "Current weight: " << totalWeight << endl;
-        genes.push_back(std::make_pair(individual, 0));
+        //genes.push_back(std::make_pair(individual, 0));
+        genes[i] = std::make_pair(individual, 0);
+
+        /*
+        std::cout << "Adding package of length: " << individual.size() << std::endl;
+
+        for (int i = 0; i < genes.size(); ++i) {
+            std::cout << "Genes: ";
+            printGene(genes[i].first);
+        }
+        std::cout << std::endl;
+*/
     }
 
 
-    initRanking(2);
+    initRanking(4);
 
 }
 
@@ -140,52 +165,76 @@ void Genetic::initRanking(float exponent) {
     }
 }
 
-vector<float> Genetic::fitness(vector<Package* > individual) {
+vector<float> Genetic::fitness(vector<Package* >* individual) const {
     unsigned int distance = 0;
     unsigned int shiftTime = 0;
     unsigned int priorities = 0;
+    Priority currentPriority;
+
     float weight = 0;
 
-    unsigned int previousIndex, currentIndex;
+    unsigned int previousIndex = 0, currentIndex = 0;
 
     float indFit = 0;
 
     previousIndex = 0;
 
-    for (std::vector<Package*>::iterator iter = individual.begin(); iter != individual.end(); ++iter) {
+    for (std::vector<Package*>::iterator iter = (*individual).begin(); iter != (*individual).end(); ++iter) {
         currentIndex = (*iter)->getReceiver()->getID();
-        //std::cout << currentIndex << std::endl;
+        //std::cout << " Current Index: " << currentIndex << std::endl;
+        //if (currentIndex >= numOfPackages) {
+            //std::cout << "Number of packages: " << numOfPackages << " Current Index: " << currentIndex << std::endl;
+        //}
         distance += adMatrix[previousIndex][currentIndex];
 
+        //std::cout << "Distance[" << previousIndex << "][" << currentIndex << "] = " << distance << std::endl;
+
         previousIndex = currentIndex;
-        priorities += static_cast<unsigned int>((*iter)->getPriority());
+        currentPriority = (*iter)->getPriority();
+
+        // Assign weight.
+        if (currentPriority == Priority::OVERNIGHT) {
+            priorities += OVERNIGHT_WEIGHT;
+        } else if (currentPriority == Priority::TWO_DAY) {
+            priorities += TWODAY_WEIGHT;
+        } else {
+            priorities += REGULAR_WEIGHT;
+        }
+
         weight += (*iter)->getWeight();
 
         //std::cout << "Package priority: " << static_cast<int>((*iter)->getPriority()) << std::endl;
         shiftTime += stopTime;
     }
 
-    distance += adMatrix[previousIndex][currentIndex];
+    distance += adMatrix[previousIndex][0];
+
+
 
     shiftTime += distance * driveTime;
 
     if (shiftTime > timeLimit) {
-        indFit -= (pow(shiftTime - timeLimit, 1.9) + 200);
+        indFit -= (pow(shiftTime - timeLimit, 1.5) * priorities);
     } else {
-        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
+        //indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
         //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
     //std::cout << 2.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)) << std::endl;
     //indFit += pow((static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities), 1.5);
-    indFit += pow(static_cast<float>(priorities), 1.8);
+    indFit += pow(static_cast<float>(priorities), 1.5);
 
 
     if (weight > weightLimit) {
-        indFit -= pow(weight - weightLimit, 1.4);
+        indFit -= pow(weight - weightLimit, 1.5) * priorities;
+    }
+
+    if (individual->size() > packageLimit) {
+        indFit -= (pow(individual->size() - packageLimit, 1.5) * priorities);
     }
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
+    //std::cout << "Individual length: " << individual->size() << " Distance: " << distance << "Fit: " << indFit << std::endl;
     //std::cout << "F: " << indFit << "D: " << distance << " T: " << shiftTime << " Pri: " << priorities << " Weight: " << weight << " Len: " << individual.size() << std::endl;
     //std::cout.precision(17);
     //std::cout << 1/static_cast<float>(shiftTime) << std::endl;
@@ -238,19 +287,30 @@ void Genetic::printGene(vector<Package* > gene) {
        std::cout << std::endl;
 }
 
-vector<Package * > Genetic::evolve() {
+vector<Package* > Genetic::evolve() {
 
     //initPopulation();
     vector<float> currentFitness (5, 0);
     vector<float> currentBest (5, 0);
 
-    std::vector<std::pair<std::vector<Package*>, float> >::iterator row;
+    int highestID = 0;
+
+    std::vector<std::pair<std::vector<Package* >, float> >::iterator row;
 
     for (unsigned long i = 0; i < generations; ++i) {
             currentBest[0] = 0;
         for (row = genes.begin(); row != genes.end(); ++row) {
+            for (auto currentGene = (*row).first.begin(); currentGene != (*row).first.end(); ++currentGene) {
+                if ((*currentGene)->getID() > highestID) {
+                    highestID = (*currentGene)->getID();
+                }
+            }
+
+            //std::cout << "Highest ID: " << highestID << std::endl;
+
                 //std::cout << "Current iter ptr: " << (*row) << std::endl;
-                currentFitness = fitness((*row).first);
+                //std::cout << "Before fitness: " << (*row).first.size() << std::endl;
+                currentFitness = fitness(&(*row).first);
                 (*row).second = currentFitness[0];
                 if (currentFitness[0] > currentBest[0] || currentBest[0] == 0) {
                     currentBest = currentFitness;
@@ -263,7 +323,7 @@ vector<Package * > Genetic::evolve() {
                 //std::cout << "Current fitness: " << currentFitness[0] << std::endl;
         }
 
-        if (i % 1000 == 0) {
+        if (i % 100 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
         }
         mate();
@@ -273,11 +333,108 @@ vector<Package * > Genetic::evolve() {
     return getBest();
 }
 
+pair<int, int> Genetic::chooseParents() {
+
+    vector<vector<Package* > > newIndividuals;
+    newIndividuals.resize(2);
+
+    std::uniform_real_distribution<double> rankUniform(0, rankTotal);
+
+
+    unsigned int smallestLength;
+    unsigned int longestLength;
+    unsigned int randomPoint;
+    unsigned int whichFirst;
+    unsigned int randomNewGene;
+    unsigned int tries = 0;
+
+
+    int randomIndividual1 = 0;
+    int randomIndividual2 = 0;
+    double rank1 = 0;
+    double rank2 = 0;
+
+    float randomP;
+    unsigned int randomSwap1, randomSwap2;
+    bool different = false;
+
+
+    // Loop until we get different individuals
+    while (randomIndividual1 == randomIndividual2 || different == false) {
+        randomIndividual1 = 0;
+        randomIndividual2 = 0;
+
+        rank1 = rankUniform(rngGenetic); //rand() % rankTotal;
+        rank2 = rankUniform(rngGenetic); //rand() % rankTotal;
+
+
+        for (unsigned int i = 0; i < rankingSize; ++i) {
+            //std::cout << "In1: " << randomIndividual1 << "/" << ranking[i] << " " << i << std::endl;
+            if (rank1 < ranking[i]) {
+                randomIndividual1 = i;
+                avgIndividual = avgIndividual * 100 + static_cast<float>(i);
+                //std::cout << "Individual 1: " << i << std::endl;
+                // Done searching.
+                break;
+            } else {
+                rank1 -= ranking[i];
+            }
+
+        }
+
+        for (unsigned int i = 0; i < rankingSize; ++i) {
+            //std::cout << "In2: " << randomIndividual2 << "/" << ranking[i] << " " << i << std::endl;
+            if (rank2 < ranking[i]) {
+                randomIndividual2 = i;
+                avgIndividual = (avgIndividual + static_cast<float>(i)) / 102;
+                //std::cout << "Individual 2: " << randomIndividual2 << std::endl;
+
+                // Done searching.
+                break;
+            } else {
+                rank2 -= ranking[i];
+            }
+
+        }
+
+        different = false;
+
+        if (randomIndividual1 != randomIndividual2 && genes[randomIndividual1].first.size() == genes[randomIndividual2].first.size()) {
+
+            for (unsigned int i = 0; i < genes[randomIndividual1].first.size(); ++i) {
+                if (genes[randomIndividual1].first[i] != genes[randomIndividual2].first[i]) {
+                    different = true;
+                    break;
+                }
+            }
+
+            /*if (different == false) {
+                std::cout << "Identical genes!!!" << std::endl;
+                std::cout << "ID1: ";
+                printGene(genes[randomIndividual1].first);
+
+                std::cout << "ID2: ";
+                printGene(genes[randomIndividual2].first);
+
+            }*/
+
+        } else {
+            different = true;
+        }
+
+    }
+
+    return make_pair(randomIndividual1, randomIndividual2);
+
+}
+
 void Genetic::mate() {
     //vector<unsigned int> ranking (genes.size(), 0);
 
     vector< pair<vector<Package* >, float> > newPopulation;
     vector< vector<Package* > > newIndividuals;
+    pair<int, int> choosenParents;
+    vector<Package* >* choosenGene;
 
     // Resize to correct size to increase speed.
     newPopulation.resize(popNum);
@@ -285,25 +442,60 @@ void Genetic::mate() {
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
     mergeSort(0, popNum - 1);
 
-    // Create a new population not including save elite individuals.
-    for (unsigned int i = 0; i < (popNum - elitist) / 2; ++i) {
+    //std::cout << "Before elite: " << genes.size();
 
-
-        newIndividuals = mutate();
+    for (unsigned int i = 0; i < static_cast<int>(mutation.crossOver * popNum) / 2; ++i) {
+        choosenParents = chooseParents();
+        //gene1 = (genes.at(choosenParents.first).first);
+        //gene2 = (genes.at(choosenParents.second).first);
+        //std::cout << "Before cross-over: [" << choosenParents.first << "," << choosenParents.second << "] = " << genes.at(choosenParents.first).first.size() << " " << genes.at(choosenParents.second).first.size() << std::endl;
+/*
+        std::cout << "Gene1: ";
+        printGene(genes.at(choosenParents.first).first);
+        std::cout << "Gene2: ";
+        printGene(genes.at(choosenParents.second).first);
+*/
+        newIndividuals = crossOver(genes.at(choosenParents.first).first, genes.at(choosenParents.second).first);
         newPopulation[2 * i] = make_pair(newIndividuals[0], 0);
+
         newPopulation[2 * i + 1] = make_pair(newIndividuals[1], 0);
 
+        //std::cout << "After cross-over: " << newIndividuals[0].size() << " " << newIndividuals[1].size() << std::endl;
+        /*std::cout << "Gene1: ";
+        printGene(newIndividuals[0]);
+        std::cout << "Gene2: ";
+        printGene(newIndividuals[1]);*/
     }
 
-    //std::cout << "Before elite: " << newPopulation.size();
-    // Save the elite few, the fitest. Save the Queen!
-
-    for (unsigned int i = popNum - elitist - 1; i < popNum; ++i) {
+    for (unsigned int i = static_cast<int>(mutation.crossOver * popNum) / 2; i < static_cast<int>(popNum - elitist); ++i) {
         newPopulation[i] = genes[i];
     }
 
-    //std::cout << " After elite: " << newPopulation.size() << std::endl;
+    // Create a new population not including save elite individuals.
+    for (unsigned int i = 0; i < static_cast<int>(popNum - elitist); ++i) {
+
+        choosenGene = &newPopulation[i].first;
+
+
+        mutate(choosenGene);
+        //newPopulation[i] = make_pair
+
+    }
+
+
+    // Save the elite few, the fitest. Save the Queen!
+
+    for (unsigned int i = (popNum - elitist - 1); i < popNum; ++i) {
+            //std::cout << "Elitist: " << i << std::endl;
+            newPopulation[i] = genes[i];
+            //std::cout << "Transfered Elitist genes: ";
+            //printGene(newPopulation[i].first);
+            //std::cout << std::endl;
+    }
+
+
     genes = newPopulation;
+    //std::cout << " After elite: " << genes.size() << std::endl;
 }
 
 vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Package* > gene2) {
@@ -359,7 +551,7 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
 
     std::uniform_int_distribution<int> pointUniform(1, smallestLength - 1);
     // Random point to apply crossover. Don't want to cross over at 0
-    randomPoint = pointUniform(rng); //(rand() % (smallestLength - 1)) + 1;
+    randomPoint = pointUniform(rngGenetic); //(rand() % (smallestLength - 1)) + 1;
 
 
 
@@ -439,183 +631,82 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* > gene1, vector<Pac
     newIndividuals[1] = packageGene2;
 
     //std::cout << "Returning " << &newIndividuals << std::endl;
+    /*
+    std::cout << "Returning cross-over genes 1:";
+    printGene(newIndividuals[0]);
+    std::cout << std::endl << "Returning cross-over genes 2:";
+    printGene(newIndividuals[1]);
+    std::cout << std::endl;*/
     return newIndividuals;
 }
 
-vector<vector<Package* > > Genetic::mutate() {
-    vector<vector<Package* > > newIndividuals;
-    newIndividuals.resize(2);
+void Genetic::mutate(vector<Package* >* choosen) {
 
     std::uniform_real_distribution<double> rankUniform(0, rankTotal);
+    std::uniform_real_distribution<double> mutationUniform(0, 1);
 
-
-    unsigned int smallestLength;
-    unsigned int longestLength;
-    unsigned int randomPoint;
-    unsigned int whichFirst;
-    unsigned int randomNewGene;
-    unsigned int tries = 0;
-
-
-    int randomIndividual1 = 0;
-    int randomIndividual2 = 0;
-    double rank1 = 0;
-    double rank2 = 0;
 
     float randomP;
     unsigned int randomSwap1, randomSwap2;
     bool different = false;
 
+    for (unsigned int i = 0; i < choosen->size(); ++i) {
+        //std::cout << i << std::endl;
+        randomP = mutationUniform(rngGenetic);
 
-    // Loop until we get different individuals
-    while (randomIndividual1 == randomIndividual2 || different == false) {
-        randomIndividual1 = 0;
-        randomIndividual2 = 0;
+        if (randomP < mutation.deleteOld) {
 
-        rank1 = rankUniform(rng); //rand() % rankTotal;
-        rank2 = rankUniform(rng); //rand() % rankTotal;
-
-
-        for (unsigned int i = 0; i < rankingSize; ++i) {
-            //std::cout << "In1: " << randomIndividual1 << "/" << ranking[i] << " " << i << std::endl;
-            if (rank1 < ranking[i]) {
-                randomIndividual1 = i;
-                avgIndividual = avgIndividual * 100 + static_cast<float>(i);
-                //std::cout << "Individual 1: " << i << std::endl;
-                // Done searching.
-                break;
-            } else {
-                rank1 -= ranking[i];
-            }
-
+            mutateDelete(choosen, i);
+            return;
         }
 
-        for (unsigned int i = 0; i < rankingSize; ++i) {
-            //std::cout << "In2: " << randomIndividual2 << "/" << ranking[i] << " " << i << std::endl;
-            if (rank2 < ranking[i]) {
-                randomIndividual2 = i;
-                avgIndividual = (avgIndividual + static_cast<float>(i)) / 102;
-                //std::cout << "Individual 2: " << randomIndividual2 << std::endl;
+        randomP -= mutation.deleteOld;
 
-                // Done searching.
-                break;
-            } else {
-                rank2 -= ranking[i];
-            }
+        if (randomP < mutation.insertNew) {
 
+            mutateInsert(choosen, i);
+            return;
         }
 
-        different = false;
+        randomP -= mutation.insertNew;
 
-        if (randomIndividual1 != randomIndividual2 && genes[randomIndividual1].first.size() == genes[randomIndividual2].first.size()) {
+        if (randomP < mutation.inversion) {
 
-            for (unsigned int i = 0; i < genes[randomIndividual1].first.size(); ++i) {
-                if (genes[randomIndividual1].first[i] != genes[randomIndividual2].first[i]) {
-                    different = true;
-                    break;
-                }
-            }
+            mutateInversion(choosen, i);
+            return;
+        }
 
-            /*if (different == false) {
-                std::cout << "Identical genes!!!" << std::endl;
-                std::cout << "ID1: ";
-                printGene(genes[randomIndividual1].first);
+        randomP -= mutation.inversion;
 
-                std::cout << "ID2: ";
-                printGene(genes[randomIndividual2].first);
+        if (randomP < mutation.swapOut) {
+            mutateSwapNew(choosen, i);
+            return;
+        }
 
-            }*/
+        randomP -= mutation.swapOut;
 
-        } else {
-            different = true;
+        // End of the road. Swap genes within each parent.
+        if (randomP < mutation.swapWithin) {
+            mutateSwapWithin(choosen, i);
         }
 
     }
-
-    if (different == false) {
-                std::cout << "Identical genes!!!" << std::endl;
-                std::cout << "ID1: ";
-                printGene(genes[randomIndividual1].first);
-
-                std::cout << "ID2: ";
-                printGene(genes[randomIndividual2].first);
-
-    }
-
-    // Grab selected parents genes.
-    vector<Package* > gene1 = genes[randomIndividual1].first;
-    vector<Package* > gene2 = genes[randomIndividual2].first;
-
-    //std::cout << "New baby of " << gene1[0]->getPointer() << " and " << gene2[0]->getPointer() << std::endl;
-
-    randomP = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * mutation.total;
-
-
-    if (randomP < mutation.crossOver) {
-
-        newIndividuals = crossOver(gene1, gene2);
-        return newIndividuals;
-        //std::cout << "Got in return " << newIndividual
-    }
-
-
-    randomP -= mutation.crossOver;
-
-    if (randomP < mutation.deleteOld) {
-
-        newIndividuals[0] = mutateDelete(gene1);
-        newIndividuals[1] = mutateDelete(gene2);
-        return newIndividuals;
-    }
-
-    randomP -= mutation.deleteOld;
-
-    if (randomP < mutation.insertNew) {
-
-        newIndividuals[0] = mutateInsert(gene1);
-        newIndividuals[1] = mutateInsert(gene2);
-        return newIndividuals;
-    }
-
-    randomP -= mutation.insertNew;
-
-    if (randomP < mutation.inversion) {
-
-        newIndividuals[0] = mutateInversion(gene1);
-        newIndividuals[1] = mutateInversion(gene2);
-        return newIndividuals;
-    }
-
-    randomP -= mutation.inversion;
-
-    if (randomP < mutation.swapOut) {
-        newIndividuals[0] = mutateSwapNew(gene1);
-        newIndividuals[1] = mutateSwapNew(gene2);
-        return newIndividuals;
-    }
-
-    randomP -= mutation.swapOut;
-
-    // End of the road. Swap genes within each parent.
-    newIndividuals[0] = mutateSwapWithin(gene1);
-    newIndividuals[1] = mutateSwapWithin(gene2);
-
-    return newIndividuals;
+    return;
 
 }
 
-vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
-    // Do we have any packages to insert?
-    if (gene.size() < numOfPackages) {
-        vector<Package* > newGene;
+void Genetic::mutateInsert(vector<Package *>* gene, unsigned int location) {
+    // Size of gene
+    unsigned int geneSize = gene->size();
 
-        // Size of gene
-        unsigned int geneSize = gene.size();
+    // Do we have any packages to insert?
+    if (geneSize < numOfPackages) {
+        //vector<Package* > newGene;
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
         std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
         // Where insertion point is
-        unsigned int randomPoint = geneUniform(rng); //rand() % geneSize;
+        //unsigned int randomPoint = geneUniform(rngGenetic); //rand() % geneSize;
 
         unsigned int randomNewGene;
 
@@ -631,11 +722,11 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
             present = false;
 
             // Random package
-            randomNewGene = packageUniform(rng); //rand() % numOfPackages;
+            randomNewGene = packageUniform(rngGenetic); //rand() % numOfPackages;
 
             // Check gene for duplicates
             for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
-                if (packages[randomNewGene] == gene[swapIn]) {
+                if (packages[randomNewGene] == (*gene)[swapIn]) {
                     // Duplicate
                     present = true;
                     break;
@@ -647,85 +738,100 @@ vector<Package* > Genetic::mutateInsert(vector<Package *> gene) {
 
         if (tries < 200) {
             // Jam it in
-            gene.insert(gene.begin() + randomPoint, packages[randomNewGene]);
+            gene->insert(gene->begin() + location, packages[randomNewGene]);
         }
 
     }
-    return gene;
+    return;
 
 
 }
 
-vector<Package* > Genetic::mutateInversion(vector<Package* > gene) {
+void Genetic::mutateInversion(vector<Package* >* gene, unsigned int location) {
     // Size of gene
-    unsigned int geneSize = gene.size();
+    unsigned int geneSize = gene->size();
 
     // Swap if we have genes to swap
     if (geneSize >= 2) {
 
 
-        vector<Package* > newGene;
+        //vector<Package* > newGene;
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
 
-        unsigned int randomSwap1 = 0;
-        unsigned int randomSwap2 = 0;
+        //vector<Package* > geneVector = *gene;
+        int randomSwap = location;
+        //unsigned int randomSwap2 = 0;
 
         //std::cout << "Swapping genes..." << std::endl;
 
         // Find differing indices
-        while(randomSwap1 >= randomSwap2) {
-            randomSwap1 = geneUniform(rng); //rand() % (geneSize);
-            randomSwap2 = geneUniform(rng); //rand() % (geneSize);
+        while(randomSwap == location) {
+            randomSwap = geneUniform(rngGenetic);
         }
 
-        for (unsigned int i = 0; i < (randomSwap2 - randomSwap1) / 2; ++i) {
-            // Swap genes
-            Package* temp = gene[randomSwap1 + i];
-            gene[randomSwap1 + i] = gene[randomSwap2 - i];
+        int inversionSize = randomSwap - static_cast<int>(location);
 
-            gene[randomSwap2 - i] = temp;
+        if (inversionSize < 0) {
+            inversionSize *= -1;
+
+            for (unsigned int i = 0; i < inversionSize / 2; ++i) {
+                // Swap genes
+                std::swap(gene->at(randomSwap + i), gene->at(location - i));
+                //geneVector[randomSwap + i] = geneVector[location - i];
+
+                //geneVector[location] = temp;
+            }
+        } else {
+             for (unsigned int i = 0; i < inversionSize / 2; ++i) {
+                // Swap genes
+                //Package* temp = *(gene)[location + i];
+                //*gene[location + i] = *gene[randomSwap - i];
+                std::swap(gene->at(location + i), gene->at(randomSwap - i));
+                //*gene[randomSwap] = temp;
+            }
+
         }
 
     }
     // Return gene
-    return gene;
+    return;
 }
 
 
-vector<Package* > Genetic::mutateDelete(vector<Package* > gene) {
+void Genetic::mutateDelete(vector<Package* >* gene, unsigned int location) {
     // Size of gene
-    unsigned int geneSize = gene.size();
+    unsigned int geneSize = gene->size();
 
     // Delete a gene.
     // Only delete if there is a spare gene to delete.
     if (geneSize >= 2) {
 
-        vector<Package* > newGene;
+        //vector<Package* > newGene;
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
 
         // Random point
-        unsigned int randomPoint = geneUniform(rng);
+        //unsigned int randomPoint = geneUniform(rngGenetic);
 
         //randomPoint = rand() % geneSize;
 
         // Remove gene.
-        gene.erase(gene.begin() + randomPoint);
+        gene->erase(gene->begin() + location);
     }
 
-    return gene;
+    return;
 }
 
 
-vector<Package* > Genetic::mutateSwapWithin(vector<Package *> gene) {
+void Genetic::mutateSwapWithin(vector<Package *>* gene, unsigned int location) {
     // Size of gene
-    unsigned int geneSize = gene.size();
+    unsigned int geneSize = gene->size();
 
     // Swap if we have genes to swap
     if (geneSize >= 2) {
 
-        vector<Package* > newGene;
+        //vector<Package* > newGene;
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
 
@@ -734,29 +840,31 @@ vector<Package* > Genetic::mutateSwapWithin(vector<Package *> gene) {
 
         //std::cout << "Swapping genes..." << std::endl;
 
+        int randomSwap = location;
+        //unsigned int randomSwap2 = 0;
+
+        //std::cout << "Swapping genes..." << std::endl;
+
         // Find differing indices
-        while(randomSwap1 == randomSwap2) {
-            randomSwap1 = geneUniform(rng); //rand() % (geneSize);
-            randomSwap2 = geneUniform(rng); //rand() % (geneSize);
+        while(randomSwap == location) {
+            randomSwap = geneUniform(rngGenetic);
         }
 
         // Swap genes
-        Package* temp = gene[randomSwap1];
-        gene[randomSwap1] = gene[randomSwap2];
+        std::swap(gene->at(randomSwap), gene->at(location));
 
-        gene[randomSwap2] = temp;
     }
     // Return gene
-    return gene;
+    return;
 }
 
 
-vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
-    unsigned int geneSize = gene.size();
+void Genetic::mutateSwapNew(vector<Package* >* gene, unsigned int location) {
+    unsigned int geneSize = gene->size();
 
-    if (gene.size() < numOfPackages) {
+    if (gene->size() < numOfPackages) {
 
-        vector<Package* > newGene;
+        //vector<Package* > newGene;
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
         std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
@@ -766,16 +874,16 @@ vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
         unsigned int randomNewGene;
 
         // Swap package outside this gene at this index point.
-        unsigned int randomPoint = geneUniform(rng); //rand() % geneSize;
+        //unsigned int randomPoint = geneUniform(rngGenetic); //rand() % geneSize;
 
 
         while(present == true && tries < 200) {
             present = false;
 
-            randomNewGene = packageUniform(rng); //rand() % numOfPackages;
+            randomNewGene = packageUniform(rngGenetic); //rand() % numOfPackages;
 
             for(unsigned int swapIn = 0; swapIn < geneSize; ++swapIn) {
-                if (packages[randomNewGene] == gene[swapIn]) {
+                if (packages[randomNewGene] == gene->at(swapIn)) {
                     present = true;
                     break;
                 }
@@ -784,11 +892,11 @@ vector<Package* > Genetic::mutateSwapNew(vector<Package* > gene) {
         }
 
         if (tries < 200) {
-            gene[randomPoint] = packages[randomNewGene];
+            gene->at(location) = packages[randomNewGene];
         }
     }
 
-    return gene;
+    return;
 
 }
 

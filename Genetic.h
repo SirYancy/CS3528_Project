@@ -7,6 +7,10 @@
 #include "Client.h"
 #include "Package.h"
 
+#define OVERNIGHT_WEIGHT  8
+#define TWODAY_WEIGHT     4
+#define REGULAR_WEIGHT    1
+
 //! Mutation structure to ease passing multiple values to genetic algorithm.
 typedef struct {
     float swapWithin;
@@ -44,7 +48,7 @@ class Genetic {
         /*! \param individual The route to evaluate the fitness of.
          *  \return A vector of fitness values. Individual fitness score, priority package points, distance traveled, shift time, weight.
          */
-        vector<float> fitness(vector<Package* > individual);
+        vector<float> fitness(vector<Package* >* individual) const;
 
         //! Create initial route population.
         void initPopulation();
@@ -63,7 +67,7 @@ class Genetic {
         void mate();
 
         //! Handles mutation of current population based on probabilities passed during creation.
-        vector<vector<Package* > > mutate();
+        void mutate(vector<Package* >* choosen);
 
         //! Crosses over genes between two parents.
         /*! \param gene1 Gene sequence of parent 1.
@@ -76,31 +80,31 @@ class Genetic {
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateInsert(vector<Package *> gene);
+        void mutateInsert(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly deleting a gene within the parent.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateDelete(vector<Package* > gene);
+        void mutateDelete(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping two genes somewhere within the parent.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateSwapWithin(vector<Package *> gene);
+        void mutateSwapWithin(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping an existing gene within the parent with a new non-duplicate package.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateSwapNew(vector<Package* > gene);
+        void mutateSwapNew(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly selecting a section of the gene, \f$i\dots\f$, and reversing the genes sequence.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateInversion(vector<Package* > gene);
+        void mutateInversion(vector<Package* >* gene, unsigned int location);
 
         //! Merge lists for merge sort. For packages based on fitness value in route vector.
         void mergeLists(unsigned long i, unsigned long m, unsigned long j);
@@ -121,6 +125,8 @@ class Genetic {
          *  other clients. A completely connected, undirected graph.
          */
         vector<vector<unsigned int> > adMatrix;
+
+        pair<int, int> chooseParents();
 
         //! Population size for evolution. Population size will be rounded down to multiples of 4 (threading.)
         unsigned int popNum;
@@ -153,6 +159,7 @@ class Genetic {
          *  The second item in the pair is that individual's fitness value.
          */
         vector< pair<vector<Package* >, float> > genes;
+
 
         //! Ranking vector for population used in parent selection for mutation.
         vector<double> ranking;

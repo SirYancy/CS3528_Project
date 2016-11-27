@@ -45,7 +45,9 @@
 1479667922 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.h
 	<string>
 
-1480187256 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
+1480227323 ated upstream
+
+1480229155 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
 	<string>
 	<vector>
 	<sstream>
@@ -53,16 +55,50 @@
 	"Client.h"
 	<iostream>
 
-1480187256 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+1480227619 shed changes
 	<string>
 	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+	<iostream>
+	<string>
+	<vector>
+	<iostream>
+	<iomanip>
+	"Client.h"
+	"Package.h"
+	<unordered_map>
+	<functional>
+	<string>
+	<fstream>
+	<sstream>
+	<cmath>
+	"Utils.h"
+	"Genetic.h"
+	<future>
+	<random>
+	<algorithm>
+	"Genetic.h"
+	<vector>
+	<iostream>
+	<cmath>
+	<future>
+	<random>
+	<string>
+	<vector>
+	<utility>
+	"Client.h"
+	"Package.h"
+
+1480213638 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
 
 1479978358 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.h
 	<string>
 	<vector>
 	<utility>
 
-1480195339 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+1480233683 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
 	<iostream>
 	<iomanip>
 	"Client.h"
@@ -100,7 +136,7 @@
 	<functional>
 	"Utils.h"
 
-1480195471 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+1480233496 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
 	"Genetic.h"
 	<vector>
 	<iostream>
@@ -108,7 +144,7 @@
 	<future>
 	<random>
 
-1480193457 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+1480229726 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
 	<string>
 	<vector>
 	<utility>
