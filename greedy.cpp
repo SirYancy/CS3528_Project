@@ -22,6 +22,7 @@ void makePackages(unordered_map<string, Client*> &clientMap, vector<Package*> &p
 void getStops(vector<Client*> &destinations, vector<Package*> &packages);
 Client* getRandomClient(unordered_map<string, Client*> &clientMap);
 vector<vector<unsigned int> > makeMatrix(vector<Client*> &stops);
+void getDistanceAndTime(vector<int> &order, vector<vector<unsigned int> > &matrix);
 vector<int> greedyRoute(vector<vector<unsigned int> > &matrix);
 
 int main()
@@ -40,7 +41,7 @@ int main()
     getClients("clients.txt", clientMap);
     stops.push_back(origin);
 
-    makePackages(clientMap, packages, 40);
+    makePackages(clientMap, packages, 30);
     getStops(stops, packages);
 
     matrix = makeMatrix(stops);
@@ -56,12 +57,13 @@ int main()
     }
 
     order = greedyRoute(matrix);
-
+    cout << "Order of packages: " << endl;
     for(int i: order)
     {
         cout << i << endl;
     }
 
+    getDistanceAndTime(order, matrix);
     
     ofstream stopFile("plotstops.py");
     stopFile << "import matplotlib.pyplot as plt\n";
@@ -70,7 +72,6 @@ int main()
         pair<int,int> coords = c->getCoords();
         ostringstream output;
         output << "plt.plot(" << coords.first << ", " << coords.second << ", 'o')\n";
-        cout << output.str();
         stopFile << output.str();
     }
     stopFile << "plt.show()\n";
@@ -85,7 +86,6 @@ int main()
         ostringstream output;
         output << "plt.plot([" << c1.first << ", " << c2.first << "], ["
             << c1.second << ", " << c2.second << "], 'k-', lw=2)\n";
-        cout << output.str();
         routeFile << output.str();
     }
     routeFile << "plt.show()\n";
@@ -174,6 +174,7 @@ vector<int> greedyRoute(vector<vector<unsigned int> > &matrix)
     
     vector<int> order;
     order.push_back(start);
+    int distance = 0;
 
     while(numVisited < numStops)
     {
@@ -193,5 +194,25 @@ vector<int> greedyRoute(vector<vector<unsigned int> > &matrix)
         start = next;
         numVisited++;
     }
+    order.push_back(0);
     return order;
 }
+
+void getDistanceAndTime(vector<int> &order, vector<vector<unsigned int> > &matrix)
+{
+    int numStops = order.size();
+    int distance = 0;
+    int time = 0;
+
+
+    for(int i = 0; i < numStops-1; i++)
+    {
+        int nextLeg = matrix[order[i]][order[i+1]];
+        distance += nextLeg;
+        time += (nextLeg + 5);
+    }
+
+    cout << "Distance of route: " << distance << endl;
+    cout << "Time of route: " << (time/60) << " hours, " << (time%60) << " minutes." << endl;
+}
+
