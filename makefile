@@ -30,5 +30,8 @@ client_test2: client_test2.cpp Client.o Package.o Utils.o
 
 greedy: greedy.cpp Client.o Package.o Truck.o Utils.o
 	$(CXX) $(FLAGS) greedy.cpp Client.o Package.o Truck.o Utils.o -o greedy
+
+pack_test: packageTest.cpp Client.o Package.o Utils.o
+	$(CXX) $(FLAGS) packageTest.cpp Client.o Package.o Utils.o -o pack_test
 clean:
-	rm -f *.o *.exe core package client_package_test truck_test address client_test greedy
+	rm -f *.o *.exe core package client_package_test truck_test address client_test greedy pack_test

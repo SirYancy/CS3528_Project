@@ -149,3 +149,32 @@ ostream& operator<<(ostream& output, const Package& pack)
     return output;
 }
 
+//Comparison Operators
+
+//! Greater than operator
+/*!
+ * \return bool true if higher priority
+ */
+bool Package::operator>(const Package& right) const
+{
+    return getPriority() > right.getPriority();
+}
+
+//! Less than operator
+/*!
+ * \return bool true if lower priority
+ */
+bool Package::operator<(const Package& right) const
+{
+    return getPriority() < right.getPriority();
+}
+
+//! Equals operator
+/*!
+ * \return bool true of both have same priority
+ */
+bool Package::operator==(const Package& right) const
+{
+    return !(*this > right || *this < right);
+}
+

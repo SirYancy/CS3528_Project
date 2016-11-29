@@ -19,7 +19,7 @@ class Client;
  * This Package class defines a package which was sent by a Client and received by a Client. Each package has a priority, a weight, and two clients (a sender and receiver).
  */
 class Package{
-    //! Insertion Operator Override
+    //! Extraction Operator Override
     friend std::ostream& operator<<(std::ostream&, const Package&);
 
     public:
@@ -60,6 +60,13 @@ class Package{
 
         //! Returns a string represntation of this package
         string tostring() const;
+
+        //Relational operators to compare priorities
+        bool operator==(const Package&) const;
+        bool operator>(const Package&) const;
+        bool operator<(const Package&) const;
+
+
     private:
         //! Pointer to sender client
         Client *sender;
