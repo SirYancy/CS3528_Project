@@ -66,6 +66,24 @@ void Truck::setDirections(vector<string*> direct)
     directions = direct;
 }
 
+//! Getter for list of stops as cartesian coordinates
+/*!
+ * \return vector<int,int> > a vector of pair<int, int> >
+ */
+vector<pair<int,int> > Truck::getStops() const
+{
+    return stops;
+}
+
+//! Setter for list of stops as cartesian coordinates
+/*!
+ * \param s vector of stops as cartesian coordinates
+ */
+void Truck::setStops(const vector<pair<int,int> > &s)
+{
+    stops = s;
+}
+
 //! Add a package to the truck
 /*!
  * Adds a package to the truck. If this would go over the weight limit of the truck, then it throws an error. It also adds the weight of the package to the truck if the package fits.

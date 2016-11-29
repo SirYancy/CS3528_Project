@@ -114,7 +114,7 @@ Truck& makeTruck(const double w)
  */
 void loadTrucks()
 {
-    //TODO - Implement this business
+    
 }
 
 //! dispatchTrucks()

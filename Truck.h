@@ -53,6 +53,12 @@ class Truck{
          */
         void setDirections(vector<string*>);
 
+        //! getter for vector of stops as cartesian coordinates
+        vector<pair<int,int> > getStops() const;
+
+        //! setter for vector of stops as cartesian coordinates
+        void setStops(const vector<pair<int,int> >&);
+
         //! Adds a package to the truck
         /*!
          * Adds a package to the truck and adds its weight to the current load
@@ -79,11 +85,15 @@ class Truck{
         //! The current weight of the truck's load of packages
         double currentWeight = 0;
 
-        //! Vector storing the truck's current load of packages
+        // Vector storing the truck's current load of packages
         vector<Package*> packages;
+        
+        //! Vector of addresses as cartesian coordinates
+        vector<pair<int,int> > stops;
 
         //! Vector of strings storing the directions for this truck
         vector<string*> directions;
+
 
 };
 #endif //TRUCK_H
