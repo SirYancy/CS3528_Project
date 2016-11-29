@@ -25,9 +25,18 @@ class Warehouse
         //! Basic constructor builds an empty warehouse
         Warehouse();
 
+        //! Setter for client map
+        void setClients(const unordered_map<string, Client*>&);
+
+        //! Add client
+        void addClient(const Client&);
+       
         //! Returns the map of all clients in the system
         unordered_map<string, Client*> getClients() const;
-
+    
+        //! Deliver Packages to warehouse
+        void addPackages(const vector<Package*>);
+        
         //! Returns a vector of all currently undelivered packages
         vector<Package*> getUndelivered() const;
 
@@ -41,16 +50,13 @@ class Warehouse
         vector<Truck*> getTrucks() const;
 
         //! Creates a new truck, adds it to the fleet, and then returns a pointer to that truck.
-        Truck* makeTruck() const;
+        Truck& makeTruck(const double);
 
-        //! Adds a new undelivered package to the warehouse
-        void addPackage(const Package&);
-
-        //! Adds a new client to the system
-        void addClient(const Client&);
-
+        //! Load Trucks
+        void loadTrucks();
         
-
+        //! Dispatch Trucks
+        void dispatchTrucks();
 
     private:
         //! Map of clients
