@@ -1,14 +1,6 @@
 var searchData=
 [
-  ['id',['ID',['../classClient.html#a08c0686b646ab315da55e7f910af7a28',1,'Client']]],
-  ['idlist',['IdList',['../structIdList.html',1,'']]],
-  ['idlist_5fitem',['IdList_item',['../structIdList_1_1IdList__item.html',1,'IdList']]],
-  ['idxcover',['IdxCover',['../structIdxCover.html',1,'']]],
-  ['importctx',['ImportCtx',['../structImportCtx.html',1,'']]],
-  ['incrblob',['Incrblob',['../structIncrblob.html',1,'']]],
-  ['incrmerger',['IncrMerger',['../structIncrMerger.html',1,'']]],
-  ['index',['Index',['../structIndex.html',1,'']]],
-  ['indexsample',['IndexSample',['../structIndexSample.html',1,'']]],
-  ['initdata',['InitData',['../structInitData.html',1,'']]],
-  ['integrityck',['IntegrityCk',['../structIntegrityCk.html',1,'']]]
+  ['package',['Package',['../classPackage.html',1,'Package'],['../classPackage.html#a6f2281022fae8a3a539fc4c37e6fece1',1,'Package::Package()']]],
+  ['parseaddress',['parseAddress',['../classClient.html#a6953fb1cd2e5a4fa87ee08479072a402',1,'Client']]],
+  ['priority',['priority',['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package']]]
 ];

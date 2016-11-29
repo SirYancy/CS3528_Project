@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['name',['name',['../classClient.html#a456e36f9972a8bf3ecdb5f0e70b3bd5d',1,'Client']]]
+  ['loadedpackages',['loadedPackages',['../classWarehouse.html#a3265c69eeb18c52668cee48b120122b6',1,'Warehouse']]]
 ];

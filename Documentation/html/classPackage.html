@@ -101,7 +101,6 @@ Collaboration diagram for Package:</div>
 <div class="dyncontent">
 <div class="center"><img src="classPackage__coll__graph.png" border="0" usemap="#Package_coll__map" alt="Collaboration graph"/></div>
 <map name="Package_coll__map" id="Package_coll__map">
-<area shape="rect" id="node2" href="classClient.html" title="Client class. " alt="" coords="14,5,70,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -148,6 +147,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <a class="el" href="classPackage.html">Package</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a77c9ac0d3d435ce001757fe9f7ffdd98">getPointer</a> ()</td></tr>
 <tr class="memdesc:a77c9ac0d3d435ce001757fe9f7ffdd98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to this package. <br /></td></tr>
 <tr class="separator:a77c9ac0d3d435ce001757fe9f7ffdd98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba7495aba6e005ce71161414e31716e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ba7495aba6e005ce71161414e31716e"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a9ba7495aba6e005ce71161414e31716e">toString</a> () const </td></tr>
+<tr class="memdesc:a9ba7495aba6e005ce71161414e31716e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string represntation of this package. <br /></td></tr>
+<tr class="separator:a9ba7495aba6e005ce71161414e31716e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67d3bc2651fb17c51221b60621f3f113"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a67d3bc2651fb17c51221b60621f3f113">operator==</a> (const <a class="el" href="classPackage.html">Package</a> &amp;) const </td></tr>
+<tr class="memdesc:a67d3bc2651fb17c51221b60621f3f113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equals operator.  <a href="#a67d3bc2651fb17c51221b60621f3f113">More...</a><br /></td></tr>
+<tr class="separator:a67d3bc2651fb17c51221b60621f3f113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05700020296721dc8ad5779b9fc6b2a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a05700020296721dc8ad5779b9fc6b2a5">operator&gt;</a> (const <a class="el" href="classPackage.html">Package</a> &amp;) const </td></tr>
+<tr class="memdesc:a05700020296721dc8ad5779b9fc6b2a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater than operator.  <a href="#a05700020296721dc8ad5779b9fc6b2a5">More...</a><br /></td></tr>
+<tr class="separator:a05700020296721dc8ad5779b9fc6b2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90efbf1205aee33c7b38beafdcf2b90b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a90efbf1205aee33c7b38beafdcf2b90b">operator&lt;</a> (const <a class="el" href="classPackage.html">Package</a> &amp;) const </td></tr>
+<tr class="memdesc:a90efbf1205aee33c7b38beafdcf2b90b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than operator.  <a href="#a90efbf1205aee33c7b38beafdcf2b90b">More...</a><br /></td></tr>
+<tr class="separator:a90efbf1205aee33c7b38beafdcf2b90b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -176,7 +188,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 Friends</h2></td></tr>
 <tr class="memitem:a597c8930017d318dc99060084653366d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a597c8930017d318dc99060084653366d"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPackage.html#a597c8930017d318dc99060084653366d">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="classPackage.html">Package</a> &amp;)</td></tr>
-<tr class="memdesc:a597c8930017d318dc99060084653366d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insertion Operator Override. <br /></td></tr>
+<tr class="memdesc:a597c8930017d318dc99060084653366d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extraction Operator Override. <br /></td></tr>
 <tr class="separator:a597c8930017d318dc99060084653366d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -340,6 +352,63 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="
 <p>Weight getter. </p>
 <p><a class="el" href="classPackage.html" title="Package class. ">Package</a> Weight getter.</p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classPackage.html" title="Package class. ">Package</a> weight </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a90efbf1205aee33c7b38beafdcf2b90b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Package::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPackage.html">Package</a> &amp;&#160;</td>
+          <td class="paramname"><em>right</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Less than operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool true if lower priority </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a67d3bc2651fb17c51221b60621f3f113"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Package::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPackage.html">Package</a> &amp;&#160;</td>
+          <td class="paramname"><em>right</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Equals operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool true of both have same priority </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a05700020296721dc8ad5779b9fc6b2a5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Package::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPackage.html">Package</a> &amp;&#160;</td>
+          <td class="paramname"><em>right</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Greater than operator. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool true if higher priority </dd></dl>
 
 </div>
 </div>

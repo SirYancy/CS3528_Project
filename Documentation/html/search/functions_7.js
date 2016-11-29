@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['tostring',['toString',['../classClient.html#a994ff91075daf477725ca055874e3e22',1,'Client::toString()'],['../classTruck.html#afc282688d1ad6a3ad79a0060c4e7d63c',1,'Truck::toString()']]],
-  ['truck',['Truck',['../classTruck.html#a139a26bbf66738685b66a5747bffdc2c',1,'Truck']]]
+  ['package',['Package',['../classPackage.html#a6f2281022fae8a3a539fc4c37e6fece1',1,'Package']]],
+  ['parseaddress',['parseAddress',['../classClient.html#a6953fb1cd2e5a4fa87ee08479072a402',1,'Client']]]
 ];

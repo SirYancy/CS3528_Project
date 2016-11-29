@@ -3,41 +3,37 @@
 #include <unordered_map>
 #include <iostream>
 #include <iomanip>
+#include <functional>
+#include <algorithm>
 #include "Client.h"
 #include "Package.h"
 #include "Truck.h"
+#include "Warehouse.h"
 
 using namespace std;
 
-Warehouse::Warehouse(){}
+void sortPackages(vector<Package*>&);
+bool compare(Package*, Package*);
 
-//! setClients()
-/*!
- * Replaces entire contact list. Use with caution!  Really only for testing.
- \param c unordered_map of clients
- */
-void Warehouse::setClients(const unordered_map<string, Client*> c)
-{
-    clients = c;
-}
+Warehouse::Warehouse(){}
 
 //! addClient()
 /*!
  * Adds a client to the client map. Checks if it already exists first.
  \param c a reference to a client
  */
-void Warehouse::addClient(const Client &c)
+void Warehouse::addClient(Client* c)
 {
-    if(clients.find(c.getName()) == clients.end())
+    if(clients.find(c->getName()) == clients.end())
     {
-        clients.emplace(c.getName(), c);
+        clients.insert(make_pair(c->getName(), c));
     }
 }
 
 //! getClients()
 /*!
  * Returns the entire map of clients
- \return unordered_map of clients
+ \return unordered_map<string, Client*> > map of clients
  */
 unordered_map<string, Client*> Warehouse::getClients() const
 {
@@ -49,12 +45,13 @@ unordered_map<string, Client*> Warehouse::getClients() const
  * The preferred way to add any packages is to pass a vector containing pointers to the packages to this funciton
  \param vector<Package*> a vector containing new packages
  */
-void Warehouse::addPackages(vector<Package*> packs)
+void Warehouse::addPackages(const vector<Package*> &packs)
 {
     for(Package* p : packs)
     {
         undeliveredPackages.push_back(p);
     }
+    sortPackages();
 }
 
 //! getUndelivered()
@@ -103,7 +100,7 @@ vector<Truck*> Warehouse::getTrucks() const
  \param int weight limit of truck
  \return a reference to the truck
  */
-Truck& makeTruck(const double w)
+Truck& Warehouse::makeTruck(const double w)
 {
     trucks.push_back(new Truck(w));
 }
@@ -112,16 +109,18 @@ Truck& makeTruck(const double w)
 /*!
  * Uses some sort of algorithm to decide which packages go into each truck. It must divide up the map and then prioritize packages to be loaded and then add them to the trucks in the fleet. This is currently unimplemented
  */
-void loadTrucks()
+void Warehouse::loadTrucks()
 {
-  //TODO  
+    //TODO - Implement this
 }
 
 //! dispatchTrucks()
 /*!
  * In essence, this method should force a day of deliveries to go by. It should empty out all trucks, deliver all packages, increment age of all packages still in the warehouse after the trucks leave, and set everything up for the next day.
  */
-void dispatchTrucks()
+void Warehouse::dispatchTrucks()
 {
     //TODO - Implement this business
 }
+
+

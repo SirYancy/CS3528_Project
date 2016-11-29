@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['packages',['packages',['../classTruck.html#a56932c0950c2a2a129e557f003980ffc',1,'Truck']]],
-  ['priority',['priority',['../classPackage.html#a4ba73df5afb3cdd936d297652ce9af99',1,'Package']]]
+  ['name',['name',['../classClient.html#a456e36f9972a8bf3ecdb5f0e70b3bd5d',1,'Client']]]
 ];

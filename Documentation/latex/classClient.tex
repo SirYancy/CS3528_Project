@@ -12,14 +12,22 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{classClient_ae51af7aa6b8f591496a8f6a4a87a14bf}{Client} ()\hypertarget{classClient_ae51af7aa6b8f591496a8f6a4a87a14bf}{}\label{classClient_ae51af7aa6b8f591496a8f6a4a87a14bf}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} Empty Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classClient_a98a182defc2726dfa8796062cebb199c}{Client} (const string \&)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} String Constructor. \end{DoxyCompactList}\item 
 \hyperlink{classClient_a2581a22e25217aafda77c410ee67092c}{Client} (const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)
-\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} basic constructor. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classClient}{Client} comprehensive constructor. \end{DoxyCompactList}\item 
 void \hyperlink{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{set\+Name} (const string \&)\hypertarget{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}{}\label{classClient_ab78b7ecbedb2d6fc0e0df3dfa8c973bc}
 
 \begin{DoxyCompactList}\small\item\em Setter for name. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a28a677584ad4793b50b31c2e75039e2c}{get\+Name} () const \hypertarget{classClient_a28a677584ad4793b50b31c2e75039e2c}{}\label{classClient_a28a677584ad4793b50b31c2e75039e2c}
 
 \begin{DoxyCompactList}\small\item\em Getter for name. \end{DoxyCompactList}\item 
+void \hyperlink{classClient_a8a035b3e170849283f8b130965c5fa75}{set\+Address} (const string \&)\hypertarget{classClient_a8a035b3e170849283f8b130965c5fa75}{}\label{classClient_a8a035b3e170849283f8b130965c5fa75}
+
+\begin{DoxyCompactList}\small\item\em Setter for address with single string. \end{DoxyCompactList}\item 
 void \hyperlink{classClient_a69b7a62c15ec787ae86bb66ce4ad312a}{set\+Address} (const string \&add, const string \&cit, const string \&st, const string \&z)
 \begin{DoxyCompactList}\small\item\em Setter for address. \end{DoxyCompactList}\item 
 string \hyperlink{classClient_a291fb22c4fccb2a6b182c355078553ed}{get\+Address} () const 
@@ -111,6 +119,17 @@ This client class defines a citizen of the town who can send and receive package
 \subsection{Constructor \& Destructor Documentation}
 \index{Client@{Client}!Client@{Client}}
 \index{Client@{Client}!Client@{Client}}
+\subsubsection[{\texorpdfstring{Client(const string \&)}{Client(const string &)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{client\+String}
+\end{DoxyParamCaption}
+)}\hypertarget{classClient_a98a182defc2726dfa8796062cebb199c}{}\label{classClient_a98a182defc2726dfa8796062cebb199c}
+
+
+\hyperlink{classClient}{Client} String Constructor. 
+
+Constructs from string of format \char`\"{}\+First Name, Street Address, City, State, Z\+I\+P\char`\"{} comma delimited \index{Client@{Client}!Client@{Client}}
+\index{Client@{Client}!Client@{Client}}
 \subsubsection[{\texorpdfstring{Client(const string \&nam, const string \&add, const string \&cit, const string \&st, const string \&z)}{Client(const string &nam, const string &add, const string &cit, const string &st, const string &z)}}]{\setlength{\rightskip}{0pt plus 5cm}Client\+::\+Client (
 \begin{DoxyParamCaption}
 \item[{const string \&}]{nam, }
@@ -122,7 +141,7 @@ This client class defines a citizen of the town who can send and receive package
 )}\hypertarget{classClient_a2581a22e25217aafda77c410ee67092c}{}\label{classClient_a2581a22e25217aafda77c410ee67092c}
 
 
-\hyperlink{classClient}{Client} basic constructor. 
+\hyperlink{classClient}{Client} comprehensive constructor. 
 
 Basic constructor. 
 \begin{DoxyParams}{Parameters}

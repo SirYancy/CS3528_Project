@@ -117,6 +117,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad08c796603bfc23896abe4d71ac7a9ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#ad08c796603bfc23896abe4d71ac7a9ac">setDirections</a> (vector&lt; string * &gt;)</td></tr>
 <tr class="memdesc:ad08c796603bfc23896abe4d71ac7a9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter for directions vector.  <a href="#ad08c796603bfc23896abe4d71ac7a9ac">More...</a><br /></td></tr>
 <tr class="separator:ad08c796603bfc23896abe4d71ac7a9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a511bd8447763c46b25a131b4decb04c5"><td class="memItemLeft" align="right" valign="top">vector&lt; pair&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#a511bd8447763c46b25a131b4decb04c5">getStops</a> () const </td></tr>
+<tr class="memdesc:a511bd8447763c46b25a131b4decb04c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">getter for vector of stops as cartesian coordinates  <a href="#a511bd8447763c46b25a131b4decb04c5">More...</a><br /></td></tr>
+<tr class="separator:a511bd8447763c46b25a131b4decb04c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d021abea77aac57190922a78279edcd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#a7d021abea77aac57190922a78279edcd">setStops</a> (const vector&lt; pair&lt; int, int &gt; &gt; &amp;)</td></tr>
+<tr class="memdesc:a7d021abea77aac57190922a78279edcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">setter for vector of stops as cartesian coordinates  <a href="#a7d021abea77aac57190922a78279edcd">More...</a><br /></td></tr>
+<tr class="separator:a7d021abea77aac57190922a78279edcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4c15f435c3e7f7851b7ffa018ac198e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#ad4c15f435c3e7f7851b7ffa018ac198e">addPackage</a> (<a class="el" href="classPackage.html">Package</a> *)</td></tr>
 <tr class="memdesc:ad4c15f435c3e7f7851b7ffa018ac198e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a package to the truck.  <a href="#ad4c15f435c3e7f7851b7ffa018ac198e">More...</a><br /></td></tr>
 <tr class="separator:ad4c15f435c3e7f7851b7ffa018ac198e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,9 +154,12 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memdesc:af1817d5b13eecfd5f3a6037eb76de31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current weight of the truck's load of packages. <br /></td></tr>
 <tr class="separator:af1817d5b13eecfd5f3a6037eb76de31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56932c0950c2a2a129e557f003980ffc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56932c0950c2a2a129e557f003980ffc"></a>
-vector&lt; <a class="el" href="classPackage.html">Package</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#a56932c0950c2a2a129e557f003980ffc">packages</a></td></tr>
-<tr class="memdesc:a56932c0950c2a2a129e557f003980ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector storing the truck's current load of packages. <br /></td></tr>
+vector&lt; <a class="el" href="classPackage.html">Package</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>packages</b></td></tr>
 <tr class="separator:a56932c0950c2a2a129e557f003980ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e3a307480578a189c8446f16556be8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72e3a307480578a189c8446f16556be8"></a>
+vector&lt; pair&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#a72e3a307480578a189c8446f16556be8">stops</a></td></tr>
+<tr class="memdesc:a72e3a307480578a189c8446f16556be8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of addresses as cartesian coordinates. <br /></td></tr>
+<tr class="separator:a72e3a307480578a189c8446f16556be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62316796e456b748a80c870e41e058f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62316796e456b748a80c870e41e058f4"></a>
 vector&lt; string * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTruck.html#a62316796e456b748a80c870e41e058f4">directions</a></td></tr>
 <tr class="memdesc:a62316796e456b748a80c870e41e058f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of strings storing the directions for this truck. <br /></td></tr>
@@ -279,6 +288,25 @@ vector&lt;string*&gt; </dd></dl>
 
 </div>
 </div>
+<a class="anchor" id="a511bd8447763c46b25a131b4decb04c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; pair&lt; int, int &gt; &gt; Truck::getStops </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>getter for vector of stops as cartesian coordinates </p>
+<p>Getter for list of stops as cartesian coordinates.</p>
+<dl class="section return"><dt>Returns</dt><dd>vector&lt;int,int&gt; &gt; a vector of pair&lt;int, int&gt; &gt; </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac6d9654486fdae70caaecad8ff6ec561"></a>
 <div class="memitem">
 <div class="memproto">
@@ -339,6 +367,31 @@ double </dd></dl>
   <table class="params">
     <tr><td class="paramname">directions</td><td>a pointer to a vector contianing the truck's assigned directions</td></tr>
     <tr><td class="paramname">direct</td><td>pointer to directions vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7d021abea77aac57190922a78279edcd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Truck::setStops </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; pair&lt; int, int &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>setter for vector of stops as cartesian coordinates </p>
+<p>Setter for list of stops as cartesian coordinates.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>vector of stops as cartesian coordinates </td></tr>
   </table>
   </dd>
 </dl>

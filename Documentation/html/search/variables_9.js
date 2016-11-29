@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['weight',['weight',['../classPackage.html#ae45dfddbca19f89d50d3ea0960ed0a11',1,'Package::weight()'],['../classTruck.html#a51f90c7e56b08f4ad92436233326f746',1,'Truck::weight()']]]
+  ['truckcount',['truckCount',['../classTruck.html#a7435e6c1e97d263f36897f8ade5d4c41',1,'Truck']]],
+  ['truckid',['truckID',['../classTruck.html#a7552538334822cb0526b3b714fcc09fc',1,'Truck']]],
+  ['trucks',['trucks',['../classWarehouse.html#ac32a0befb13262eff0ac228d0ec714a7',1,'Warehouse']]]
 ];

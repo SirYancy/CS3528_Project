@@ -54,8 +54,7 @@ int main()
             cout << setw(3) << matrix[i][j] << " ";
         }
         cout << endl;
-    }
-
+    } 
     order = greedyRoute(matrix);
     cout << "Order of packages: " << endl;
     for(int i: order)
@@ -125,6 +124,7 @@ void makePackages(unordered_map<string, Client*> &clientMap, vector<Package*> &p
         packages.push_back(new Package(sender, receiver, weight, priority));
     }
 }
+
 void getStops(vector<Client*> &stops, vector<Package*> &packages)
 {
     cout << packages.size();

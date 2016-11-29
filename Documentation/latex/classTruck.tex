@@ -24,6 +24,10 @@ vector$<$ string $\ast$ $>$ \hyperlink{classTruck_a80092b55170e601b68dd2cd184933
 \begin{DoxyCompactList}\small\item\em Getter for directions vector. \end{DoxyCompactList}\item 
 void \hyperlink{classTruck_ad08c796603bfc23896abe4d71ac7a9ac}{set\+Directions} (vector$<$ string $\ast$ $>$)
 \begin{DoxyCompactList}\small\item\em Setter for directions vector. \end{DoxyCompactList}\item 
+vector$<$ pair$<$ int, int $>$ $>$ \hyperlink{classTruck_a511bd8447763c46b25a131b4decb04c5}{get\+Stops} () const 
+\begin{DoxyCompactList}\small\item\em getter for vector of stops as cartesian coordinates \end{DoxyCompactList}\item 
+void \hyperlink{classTruck_a7d021abea77aac57190922a78279edcd}{set\+Stops} (const vector$<$ pair$<$ int, int $>$ $>$ \&)
+\begin{DoxyCompactList}\small\item\em setter for vector of stops as cartesian coordinates \end{DoxyCompactList}\item 
 void \hyperlink{classTruck_ad4c15f435c3e7f7851b7ffa018ac198e}{add\+Package} (\hyperlink{classPackage}{Package} $\ast$)
 \begin{DoxyCompactList}\small\item\em Adds a package to the truck. \end{DoxyCompactList}\item 
 void \hyperlink{classTruck_a51d480fbf34068dcd6512f8fd43aadf9}{deliver\+Package} (\hyperlink{classPackage}{Package} $\ast$pack)
@@ -47,9 +51,12 @@ double \hyperlink{classTruck_a51f90c7e56b08f4ad92436233326f746}{weight}\hypertar
 double \hyperlink{classTruck_af1817d5b13eecfd5f3a6037eb76de31f}{current\+Weight} = 0\hypertarget{classTruck_af1817d5b13eecfd5f3a6037eb76de31f}{}\label{classTruck_af1817d5b13eecfd5f3a6037eb76de31f}
 
 \begin{DoxyCompactList}\small\item\em The current weight of the truck\textquotesingle{}s load of packages. \end{DoxyCompactList}\item 
-vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ \hyperlink{classTruck_a56932c0950c2a2a129e557f003980ffc}{packages}\hypertarget{classTruck_a56932c0950c2a2a129e557f003980ffc}{}\label{classTruck_a56932c0950c2a2a129e557f003980ffc}
+vector$<$ \hyperlink{classPackage}{Package} $\ast$ $>$ {\bfseries packages}\hypertarget{classTruck_a56932c0950c2a2a129e557f003980ffc}{}\label{classTruck_a56932c0950c2a2a129e557f003980ffc}
 
-\begin{DoxyCompactList}\small\item\em Vector storing the truck\textquotesingle{}s current load of packages. \end{DoxyCompactList}\item 
+\item 
+vector$<$ pair$<$ int, int $>$ $>$ \hyperlink{classTruck_a72e3a307480578a189c8446f16556be8}{stops}\hypertarget{classTruck_a72e3a307480578a189c8446f16556be8}{}\label{classTruck_a72e3a307480578a189c8446f16556be8}
+
+\begin{DoxyCompactList}\small\item\em Vector of addresses as cartesian coordinates. \end{DoxyCompactList}\item 
 vector$<$ string $\ast$ $>$ \hyperlink{classTruck_a62316796e456b748a80c870e41e058f4}{directions}\hypertarget{classTruck_a62316796e456b748a80c870e41e058f4}{}\label{classTruck_a62316796e456b748a80c870e41e058f4}
 
 \begin{DoxyCompactList}\small\item\em Vector of strings storing the directions for this truck. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -153,7 +160,23 @@ Getter for package vector.
 
 Gets truck\textquotesingle{}s currently loaded packages.
 
-return vector$<$\+Package$\ast$$>$ \index{Truck@{Truck}!get\+Truck\+ID@{get\+Truck\+ID}}
+return vector$<$\+Package$\ast$$>$ \index{Truck@{Truck}!get\+Stops@{get\+Stops}}
+\index{get\+Stops@{get\+Stops}!Truck@{Truck}}
+\subsubsection[{\texorpdfstring{get\+Stops() const }{getStops() const }}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ pair$<$ int, int $>$ $>$ Truck\+::get\+Stops (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classTruck_a511bd8447763c46b25a131b4decb04c5}{}\label{classTruck_a511bd8447763c46b25a131b4decb04c5}
+
+
+getter for vector of stops as cartesian coordinates 
+
+Getter for list of stops as cartesian coordinates.
+
+\begin{DoxyReturn}{Returns}
+vector$<$int,int$>$ $>$ a vector of pair$<$int, int$>$ $>$ 
+\end{DoxyReturn}
+\index{Truck@{Truck}!get\+Truck\+ID@{get\+Truck\+ID}}
 \index{get\+Truck\+ID@{get\+Truck\+ID}!Truck@{Truck}}
 \subsubsection[{\texorpdfstring{get\+Truck\+I\+D() const }{getTruckID() const }}]{\setlength{\rightskip}{0pt plus 5cm}int Truck\+::get\+Truck\+ID (
 \begin{DoxyParamCaption}
@@ -203,6 +226,24 @@ Setter for directions vector.
 {\em directions} & a pointer to a vector contianing the truck\textquotesingle{}s assigned directions\\
 \hline
 {\em direct} & pointer to directions vector \\
+\hline
+\end{DoxyParams}
+\index{Truck@{Truck}!set\+Stops@{set\+Stops}}
+\index{set\+Stops@{set\+Stops}!Truck@{Truck}}
+\subsubsection[{\texorpdfstring{set\+Stops(const vector$<$ pair$<$ int, int $>$ $>$ \&)}{setStops(const vector< pair< int, int > > &)}}]{\setlength{\rightskip}{0pt plus 5cm}void Truck\+::set\+Stops (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ pair$<$ int, int $>$ $>$ \&}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{classTruck_a7d021abea77aac57190922a78279edcd}{}\label{classTruck_a7d021abea77aac57190922a78279edcd}
+
+
+setter for vector of stops as cartesian coordinates 
+
+Setter for list of stops as cartesian coordinates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & vector of stops as cartesian coordinates \\
 \hline
 \end{DoxyParams}
 \index{Truck@{Truck}!to\+String@{to\+String}}

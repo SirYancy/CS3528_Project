@@ -1,11 +1,4 @@
 var searchData=
 [
-  ['randompackageenum',['randomPackageEnum',['../structrandomPackageEnum.html',1,'']]],
-  ['receivedpackages',['receivedPackages',['../classClient.html#ae0b61b806652c0dd46a5ef3e0308fb51',1,'Client']]],
-  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]],
-  ['receiver',['receiver',['../classPackage.html#a9331feb10443764e6992894866731eb8',1,'Package']]],
-  ['reusablespace',['ReusableSpace',['../structReusableSpace.html',1,'']]],
-  ['rowset',['RowSet',['../structRowSet.html',1,'']]],
-  ['rowsetchunk',['RowSetChunk',['../structRowSetChunk.html',1,'']]],
-  ['rowsetentry',['RowSetEntry',['../structRowSetEntry.html',1,'']]]
+  ['_7egenetic',['~Genetic',['../classGenetic.html#a1a441ff7125fb70aeb0ad279474af9a6',1,'Genetic']]]
 ];

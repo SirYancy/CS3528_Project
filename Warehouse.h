@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include "Client.h"
 #include "Package.h"
 #include "Truck.h"
@@ -13,7 +14,7 @@ using namespace std;
 
 class Client;
 class Package;
-class Truck
+class Truck;
 
 //! Warehouse Class
 /*!
@@ -25,17 +26,14 @@ class Warehouse
         //! Basic constructor builds an empty warehouse
         Warehouse();
 
-        //! Setter for client map
-        void setClients(const unordered_map<string, Client*>&);
-
         //! Add client
-        void addClient(const Client&);
+        void addClient(Client*);
        
         //! Returns the map of all clients in the system
         unordered_map<string, Client*> getClients() const;
     
         //! Deliver Packages to warehouse
-        void addPackages(const vector<Package*>);
+        void addPackages(const vector<Package*>&);
         
         //! Returns a vector of all currently undelivered packages
         vector<Package*> getUndelivered() const;
@@ -69,8 +67,18 @@ class Warehouse
         vector<Package*> deliveredPackages;
         //! Vector of trucks
         vector<Truck*> trucks;
+        
+        //! Private method to sort packages
+        void sortPackages()
+        {
+            std::sort(undeliveredPackages.begin(), undeliveredPackages.end(), comparePriority);
+        }
 
-
+        //! Private comparator
+        static bool comparePriority(Package* left, Package* right)
+        {
+            return (*left > *right);
+        }
 };
 
 #endif //WARHOUSE_H

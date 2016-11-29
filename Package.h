@@ -7,9 +7,10 @@ using namespace std;
 
 //! Priority enum for package type
 enum Priority{
-    REGULAR = 0,
+    REGULAR,
     TWO_DAY,
-    OVERNIGHT
+    OVERNIGHT,
+    NONE
 };
 
 class Client;
@@ -18,7 +19,8 @@ class Client;
 /*!
  * This Package class defines a package which was sent by a Client and received by a Client. Each package has a priority, a weight, and two clients (a sender and receiver).
  */
-class Package{
+class Package
+{
     //! Extraction Operator Override
     friend std::ostream& operator<<(std::ostream&, const Package&);
 
@@ -59,7 +61,7 @@ class Package{
         Package* getPointer() {return this;};
 
         //! Returns a string represntation of this package
-        string tostring() const;
+        string toString() const;
 
         //Relational operators to compare priorities
         bool operator==(const Package&) const;

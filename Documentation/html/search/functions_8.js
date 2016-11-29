@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7egenetic',['~Genetic',['../classGenetic.html#a1a441ff7125fb70aeb0ad279474af9a6',1,'Genetic']]]
+  ['receivepackage',['receivePackage',['../classClient.html#a1726c784a1c19701a13e12333cf906e5',1,'Client']]]
 ];
