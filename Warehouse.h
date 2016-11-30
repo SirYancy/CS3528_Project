@@ -35,7 +35,7 @@ class Warehouse
         unordered_map<string, Client*> getClients() const;
    
         //! Add a single package
-        void addPackage(const Package*);
+        void addPackage(Package*);
 
         //! Deliver Packages to warehouse
         void addPackages(const vector<Package*>&);
@@ -59,7 +59,7 @@ class Warehouse
         Truck& makeTruck(const double);
 
         //! Load Trucks
-        vector<string*> loadTrucks();
+        void loadTrucks();
         
         //! Dispatch Trucks
         void dispatchTrucks();

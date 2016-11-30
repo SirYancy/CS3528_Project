@@ -56,9 +56,9 @@ unordered_map<string, Client*> Warehouse::getClients() const
  * This adds a single package to the warehouse
  * \param Package* a pointer to a pcakge.
  */
-void Warehouse::addPackage(const Package* p)
+void Warehouse::addPackage(Package* p)
 {
-    undeliveredPackages.push_back(*p);
+    undeliveredPackages.push_back(p);
 }
 
 //! addPackages() adds several packages
@@ -95,16 +95,6 @@ vector<Package*> Warehouse::getDelivered() const
     return deliveredPackages;
 }
 
-//! getLoaded()
-/*!
- * Returns a vector of all of the packages that are currently loaded in trucks. Any package here should not also be in undeliveredPackages.
- \return vector<Package*> loaded packages. Presumably out for delivery
- */
-vector<Package*> Warehouse::getLoaded() const
-{
-    return loadedPackages;
-}
-
 //! getTrucks()
 /*!
  * Returns a vector of all of the trucks currently in the fleet.
@@ -131,7 +121,7 @@ Truck& Warehouse::makeTruck(const double w)
  * Uses some sort of algorithm to decide which packages go into each truck. It must divide up the map and then prioritize packages to be loaded and then add them to the trucks in the fleet. For now, it only loads one truck.
  * \return vector<string*> the order that packages must be delivered.
  */
-vector<string*> Warehouse::loadTrucks()
+void Warehouse::loadTrucks()
 {
     Truck* truck = trucks[0];
     double weight = truck->getWeight();             //working weight limit
@@ -150,17 +140,17 @@ vector<string*> Warehouse::loadTrucks()
         }
     }
 
-    greedy = new Greedy();
-    greedy->setPackages(truck->getPackages());
-    greedy->makeRoute();
+    myGreedy = new Greedy();
+    myGreedy->setPackages(truck->getPackages());
+    myGreedy->makeRoute();
 
-    for(Package* p : greedy->getUnload())
+    for(Package* p : myGreedy->getUnload())
     {
         truck->removePackage(p);
         this->addPackage(p);
     }
 
-    truck->setDirections(greedy->getDirections());
+    truck->setDirections(myGreedy->getDirections());
 }
 
 //! dispatchTrucks()

@@ -2,6 +2,8 @@ CXX = g++
 CC = g++
 FLAGS = -std=c++11
 
+all: main
+
 Utils.o: Utils.h Utils.cpp
 	$(CXX) $(FLAGS) -c Utils.cpp
 
@@ -40,6 +42,9 @@ pack_test: packageTest.cpp Client.o Package.o Utils.o
 
 warehouse: warehouse_test.cpp Client.o Package.o Truck.o Warehouse.o Utils.o
 	$(CXX) $(FLAGS) warehouse_test.cpp Client.o Package.o Truck.o Warehouse.o Utils.o -o warehouse
+
+main: main.cpp Client.o Package.o Truck.o Warehouse.o Greedy.o Utils.o
+	$(CXX) $(FLAGS) main.cpp Client.o Package.o Truck.o Warehouse.o Greedy.o Utils.o -o main.o
 
 clean:
 	rm -f *.o *.exe core package client_package_test truck_test address client_test greedy pack_test warehouse

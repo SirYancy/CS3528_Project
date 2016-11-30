@@ -38,13 +38,15 @@ int main()
 
     w->addPackages(packages);
     w->makeTruck(100);
-    
-    vector<Package*> packs = w->getUndelivered();
-    for(Package* p : packs)
+    w->loadTrucks();
+
+    Truck* t = w->getTrucks()[0];
+
+    for(string* s: t->getDirections())
     {
-        cout << p->getPriorityString() << endl;
+        cout << *s << endl;
     }
-    
+
 
     return 0;
 }
@@ -73,7 +75,7 @@ void makePackages(vector<Client*> clients, vector<Package*> &packages, int numPa
 
         Client* sender = getRandomClient(clients);
         Client* receiver = getRandomClient(clients);
-        
+
         float weight = (rand() / (float)RAND_MAX * 24) + 1;
         Priority priority = static_cast<Priority>(rand() % Priority::NONE);
 
@@ -88,5 +90,6 @@ Client* getRandomClient(vector<Client*> clients)
     advance(clientIter, rand_index);
     return *clientIter;
 }
+
 
 
