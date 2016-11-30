@@ -46,12 +46,18 @@ class Warehouse
 
         //! Returns a vector of all trucks in the fleet
         vector<Truck*> getTrucks() const;
+    
+        //! Returns the client that represents this warehouse's location
+        Client getMyAddress() const;
+
+        //! Sets thie client's address location
+        void setMyAddress(const Client&);
 
         //! Creates a new truck, adds it to the fleet, and then returns a pointer to that truck.
         Truck& makeTruck(const double);
 
         //! Load Trucks
-        void loadTrucks();
+        vector<string*> loadTrucks();
         
         //! Dispatch Trucks
         void dispatchTrucks();
@@ -67,6 +73,8 @@ class Warehouse
         vector<Package*> deliveredPackages;
         //! Vector of trucks
         vector<Truck*> trucks;
+        //! The client information for this warehouse
+        Client* myAddress;
         
         //! Private method to sort packages
         void sortPackages()

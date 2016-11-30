@@ -67,13 +67,14 @@ void getClients(const string &filename, vector<Client*> &clients)
 
 void makePackages(vector<Client*> clients, vector<Package*> &packages, int numPackages)
 {
+    srand(static_cast<unsigned> (time(0)));
     for(int i = 0; i < numPackages; i++)
     {
 
         Client* sender = getRandomClient(clients);
         Client* receiver = getRandomClient(clients);
-
-        float weight = rand() % 25;
+        
+        float weight = (rand() / (float)RAND_MAX * 24) + 1;
         Priority priority = static_cast<Priority>(rand() % Priority::NONE);
 
         packages.push_back(new Package(sender, receiver, weight, priority));
