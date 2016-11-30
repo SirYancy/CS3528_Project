@@ -17,6 +17,9 @@ Package.o: Package.h Package.cpp
 Warehouse.o: Warehouse.h Warehouse.cpp
 	$(CXX) $(FLAGS) -c Warehouse.cpp
 
+Greedy.o: Greedy.h Greedy.cpp
+	$(CXX) $(FLAGS) -c Greedy.cpp
+
 client_package: client_test.cpp Client.o Package.o Utils.o
 	$(CXX) $(FLAGS) client_test.cpp Client.o Package.o Utils.o -o client_package_test
 

@@ -34,6 +34,12 @@ class Truck{
          * \return double Truck's weight limit
          */
         double getWeight() const;
+
+        //! Getter for truck's current weight
+        /*!
+         * \return double Truck's current weight
+         */
+        double getCurrentWeight() const;
         
         //! Getter for package vector
         /*
@@ -53,12 +59,6 @@ class Truck{
          */
         void setDirections(vector<string*>);
 
-        //! getter for vector of stops as cartesian coordinates
-        vector<pair<int,int> > getStops() const;
-
-        //! setter for vector of stops as cartesian coordinates
-        void setStops(const vector<pair<int,int> >&);
-
         //! Adds a package to the truck
         /*!
          * Adds a package to the truck and adds its weight to the current load
@@ -66,11 +66,20 @@ class Truck{
          */
         void addPackage(Package*);
 
-        //! Delivers a package
+        //! Removes a package from the truck (no flag)
+        /*!
+         * Removes a package from the truck, subtracts its weight, does not set the package's delivered flag
+         */
+        void removePackage(Package*);
+
+        //! Removes a package from the truck (sets flag)
         /*!
          * Removes a package from the truck, subtracts its weight, and sets the package's delivered flag.
          */
-        void deliverPackage(Package *pack);
+        void deliverPackage(Package*);
+        
+        //! Delivers all packages, sets their flags, resets weight
+        void deliverPackages();
 
         //! Returns a string representation of the truck and its contents
         string toString() const;
@@ -88,12 +97,8 @@ class Truck{
         // Vector storing the truck's current load of packages
         vector<Package*> packages;
         
-        //! Vector of addresses as cartesian coordinates
-        vector<pair<int,int> > stops;
-
         //! Vector of strings storing the directions for this truck
         vector<string*> directions;
-
 
 };
 #endif //TRUCK_H

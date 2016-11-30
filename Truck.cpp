@@ -39,6 +39,11 @@ double Truck::getWeight() const
     return weight;
 }
 
+double Truck::getCurrentWeight() const
+{
+    return currentWeight;
+}
+
 //! Gets truck's currently loaded packages
 /*!
  * return vector<Package*>
@@ -66,30 +71,12 @@ void Truck::setDirections(vector<string*> direct)
     directions = direct;
 }
 
-//! Getter for list of stops as cartesian coordinates
-/*!
- * \return vector<int,int> > a vector of pair<int, int> >
- */
-vector<pair<int,int> > Truck::getStops() const
-{
-    return stops;
-}
-
-//! Setter for list of stops as cartesian coordinates
-/*!
- * \param s vector of stops as cartesian coordinates
- */
-void Truck::setStops(const vector<pair<int,int> > &s)
-{
-    stops = s;
-}
-
 //! Add a package to the truck
 /*!
  * Adds a package to the truck. If this would go over the weight limit of the truck, then it throws an error. It also adds the weight of the package to the truck if the package fits.
  * \param *pack Pointer to package
  */
-void Truck::addPackage(Package *pack)
+void Truck::addPackage(Package* pack)
 {
     if (currentWeight + pack->getWeight() > weight)
     {
@@ -97,6 +84,23 @@ void Truck::addPackage(Package *pack)
     }
     packages.push_back(pack);
     currentWeight += pack->getWeight();
+}
+
+//! Removes package from truck (no flag)
+/*!
+ * Removes package from the truck, leaves it unaltered. Has some small error correction. Throws error if package is not on the truck.
+ * \param pack a pointer to a Package object
+ */
+void Truck::removePackage(Package* pack)
+{
+   if(find(packages.begin(), packages.end(), pack) != packages.end())
+   {
+       packages.erase(remove(packages.begin(), packages.end(), pack), packages.end());
+   }
+   else
+   {
+       throw invalid_argument("Package not on truck");
+   }
 }
 
 //! Delivers package
@@ -119,6 +123,20 @@ void Truck::deliverPackage(Package *pack)
     {
         throw invalid_argument("That package is not on this truck and can't be delivered");
     }
+}
+
+//! Delivers all packages
+/*!
+ * Delivers all packages, sets their delivered flags, resets weight, reinitializes packages vector.
+ */
+void Truck::deliverPackages()
+{
+    for(Package* p: packages)
+    {
+        p->deliver();
+    }
+    packages = vector<Package*>();
+    weight = 0;
 }
 
 //! To string

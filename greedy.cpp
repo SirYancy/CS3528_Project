@@ -63,7 +63,7 @@ int main()
     }
 
     getDistanceAndTime(order, matrix);
-    
+
     ofstream stopFile("plotstops.py");
     stopFile << "import matplotlib.pyplot as plt\n";
     for(Client* c : stops)
@@ -148,8 +148,7 @@ vector<vector<unsigned int> > makeMatrix(vector<Client*> &stops)
         {
             receiver1 = stops[i]->getCoords();
             receiver2 = stops[j]->getCoords();
-            matrix[i][j] = abs(receiver1.first - receiver2.first) + 
-                abs(receiver1.second - receiver2.second);
+            matrix[i][j] = abs(receiver1.first - receiver2.first) + abs(receiver1.second - receiver2.second);
         }
     }
     return matrix;
@@ -171,7 +170,7 @@ vector<int> greedyRoute(vector<vector<unsigned int> > &matrix)
     unsigned int start = 0;
     visited[start] = true;
     int numVisited = 0;
-    
+
     vector<int> order;
     order.push_back(start);
     int distance = 0;

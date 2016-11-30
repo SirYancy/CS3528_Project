@@ -10,11 +10,13 @@
 #include "Client.h"
 #include "Package.h"
 #include "Truck.h"
+#include "Greedy.h"
 using namespace std;
 
 class Client;
 class Package;
 class Truck;
+class Greedy;
 
 //! Warehouse Class
 /*!
@@ -31,7 +33,10 @@ class Warehouse
        
         //! Returns the map of all clients in the system
         unordered_map<string, Client*> getClients() const;
-    
+   
+        //! Add a single package
+        void addPackage(const Package*);
+
         //! Deliver Packages to warehouse
         void addPackages(const vector<Package*>&);
         
@@ -40,9 +45,6 @@ class Warehouse
 
         //! Returns a vector of all packages previously delivered
         vector<Package*> getDelivered() const;
-
-        //! Returns a vector of all packages that have been loaded onto a truck
-        vector<Package*> getLoaded() const;
 
         //! Returns a vector of all trucks in the fleet
         vector<Truck*> getTrucks() const;
@@ -67,15 +69,15 @@ class Warehouse
         unordered_map<string, Client*> clients;
         //! Vector of undelivered packages
         vector<Package*> undeliveredPackages;
-        //! Vector of packages currently loaded on trucks
-        vector<Package*> loadedPackages;
         //! Vector of packages that are delivered
         vector<Package*> deliveredPackages;
         //! Vector of trucks
         vector<Truck*> trucks;
         //! The client information for this warehouse
         Client* myAddress;
-        
+        //! Pointer to Greedy Program
+        Greedy* myGreedy;
+
         //! Private method to sort packages
         void sortPackages()
         {

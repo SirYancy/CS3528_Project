@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <functional>
 #include <algorithm>
+#include "Greedy.h"
 #include "Client.h"
 #include "Package.h"
 #include "Truck.h"
@@ -50,7 +51,17 @@ unordered_map<string, Client*> Warehouse::getClients() const
     return clients;
 }
 
-//! addPackages()
+//! addPackage() adds a single package
+/*!
+ * This adds a single package to the warehouse
+ * \param Package* a pointer to a pcakge.
+ */
+void Warehouse::addPackage(const Package* p)
+{
+    undeliveredPackages.push_back(*p);
+}
+
+//! addPackages() adds several packages
 /*!
  * The preferred way to add any packages is to pass a vector containing pointers to the packages to this funciton
  \param vector<Package*> a vector containing new packages
@@ -122,14 +133,10 @@ Truck& Warehouse::makeTruck(const double w)
  */
 vector<string*> Warehouse::loadTrucks()
 {
-    vector<Client*> stops;
-    vector<string*> directions;
-    vector<vector<unsigned int> > adjMat;           //adjacency matrixa
-    vector<int> order;
-
-    double weight = trucks[0]->getWeight();         //working weight limit
+    Truck* truck = trucks[0];
+    double weight = truck->getWeight();             //working weight limit
     auto packIter = undeliveredPackages.begin();    //iterator for vector of packages
-    
+
     // Greedily load the truck with all of the highest priority packages.
     while(weight > 0)
     {
@@ -137,50 +144,23 @@ vector<string*> Warehouse::loadTrucks()
         weight -= w;
         if(weight > 0)
         {
-            loadedPackages.push_back(*packIter);
+            truck->addPackage(*packIter);
             packIter++;
             undeliveredPackages.erase(undeliveredPackages.begin());
         }
     }
-    
-    //adds the warehouse to the vector
-    stops.push_back(myAddress);
 
-    //Make the adjacency matrix
-    adjMat = makeMatrix(loadedPackages);
+    greedy = new Greedy();
+    greedy->setPackages(truck->getPackages());
+    greedy->makeRoute();
 
-    //Generate the Greedy Route
-    order = greedyRoute(adjMat);
-
-    //Add the warehouse to the end of the route.
-    order.push_back(0);
-
-    //Get distance and time as a pair of ints <blocks, minutes>
-    pair<int,int> dt = getDistanceAndTime(order, adjMat);
-    
-    vector<Package*> toUnload;
-    //Determine time of route and if it can be completed in one shift.
-    while(dt.second > (8*60))
+    for(Package* p : greedy->getUnload())
     {
-        toUnload.push_back(loadedPackages[order[order.size()-2]]);
-        order.erase(order.begin() + order.size()-2);
-    }
-    
-    this->addPackages(toUnload);
-    for(Package* p : toUnload)
-    {
-        loadedPackages.erase(remove(loadedPackages.begin(), loadedPackages.end(), p), loadedPackages.end());
+        truck->removePackage(p);
+        this->addPackage(p);
     }
 
-    stops.push_back(myAddress);
-    getStops(stops, loadedPackages);
-    stops.push_back(myAddress);
-
-    makeDirections(order, stops, directions);
-    for(string* d : directions)
-    {
-        cout << *d << endl;
-    }
+    truck->setDirections(greedy->getDirections());
 }
 
 //! dispatchTrucks()
@@ -189,110 +169,13 @@ vector<string*> Warehouse::loadTrucks()
  */
 void Warehouse::dispatchTrucks()
 {
-    //TODO - Implement this business
-}
-
-/**************STATIC METHODS*****************/
-
-static void getStops(vector<Client*> &stops, vector<Package*> &packages)
-{
-    cout << packages.size();
-    for(Package* p : packages)
+    for(Truck* t: trucks)
     {
-        stops.push_back(p->getReceiver());
-    }
-}
-
-static void makeDirections(vector<int> &order, vector<Client*> &stops, vector<string*> &directions)
-{
-    string direct;
-    for(int i = 0; i < order.size(); i++)
-    {
-        direct = stops[order[i]]->getAddress();
-        directions.push_back(&direct);
-    }
-}
-
-//! makeMatrix()
-/*! Generates an adjacency matrix for the vector of stops
- * \param &stops vecotr of pointers to clients
- * \return vector<vector<unsigned int> > the adjacency matrix
- */
-static vector<vector<unsigned int> > makeMatrix(vector<Package*> &stops)
-{
-    pair<int, int> receiver1, receiver2;
-    int numStops = stops.size();
-    vector<vector<unsigned int> > matrix(numStops, vector<unsigned int>(numStops,0));
-
-    for(int i = 0; i < numStops; i++)
-    {
-        pair<int,int> r = stops[i]->getReceiver()->getCoords();
-        cout << "" << r.first << "," << r.second << "\n";
-        for(int j = 0; j < numStops; j++)
+        for(Package* p : t->getPackages())
         {
-            receiver1 = stops[i]->getReceiver()->getCoords();
-            receiver2 = stops[j]->getReceiver()->getCoords();
-            matrix[i][j] = abs(receiver1.first - receiver2.first) + 
-                abs(receiver1.second - receiver2.second);
+            deliveredPackages.push_back(p);
         }
+        t->deliverPackages();
     }
-    return matrix;
-}
-
-//! greedyRoute()
-/*! A greedy algorithm which generates a route as a vector of indices for the sotps list
- * \param &matrix the adjacency matrix
- * \return vector<int> a list of indices for the client list
- */
-static vector<int> greedyRoute(vector<vector<unsigned int> > &matrix)
-{
-    int numStops = matrix.size();
-    vector<bool> visited(numStops, false);
-
-    unsigned int start = 0;
-    visited[start] = true;
-    int numVisited = 0;
-    
-    vector<int> order;
-    order.push_back(start);
-    int distance = 0;
-
-    while(numVisited < numStops)
-    {
-        unsigned int shortest = numeric_limits<unsigned int>::max();
-        int next = 0;
-
-        for (int i = 0; i < numStops; i++)
-        {
-            if(i != start && !visited[i] && matrix[start][i] < shortest)
-            {
-                shortest = matrix[start][i];
-                next = i;
-            }
-        }
-        order.push_back(next);
-        visited[next] = true;
-        start = next;
-        numVisited++;
-    }
-    order.push_back(0);
-    return order;
-}
-
-static pair<int,int> getDistanceAndTime(vector<int> &order, vector<vector<unsigned int> > &matrix)
-{
-    int numStops = order.size();
-    int distance = 0;
-    int time = 0;
-
-
-    for(int i = 0; i < numStops-1; i++)
-    {
-        int nextLeg = matrix[order[i]][order[i+1]];
-        distance += nextLeg;
-        time += (nextLeg + 5);
-    }
-    
-    return make_pair(distance,time);
 }
 
