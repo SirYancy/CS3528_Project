@@ -98,7 +98,7 @@ void Genetic::initPopulation() {
         geneInfo currentGeneInfo;
 
         // Loop while we still have packages to place, and we're under the limits.
-        while (totalPackages < numOfPackages) { // && totalPackages < packageLimit&& totalWeight < weightLimit && (totalPackages * stopTime) < (timeLimit / 2) && tries < maxTries) {
+        while (totalPackages < numOfPackages && totalPackages < packageLimit && totalWeight < weightLimit && (totalPackages * stopTime) < timeLimit / 2) {
 
             tries++;
 
@@ -181,11 +181,11 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     unsigned int priorities = 0;
     Priority currentPriority;
 
-    float weight = 0;
+    double weight = 0;
 
     unsigned int previousIndex = 0, currentIndex = 0;
 
-    float indFit = 0;
+    double indFit = 0;
 
     previousIndex = 0;
 
@@ -219,29 +219,80 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
 
     distance += adMatrix[previousIndex][0];
 
-
-
     shiftTime += distance * driveTime;
 
-    if (shiftTime > timeLimit) {
-        indFit -= (pow((shiftTime - timeLimit), 1.5)) * priorities;
+    double generationRatio;
+
+    if (currentGeneration < generations / 2) {
+        generationRatio = static_cast<double>(currentGeneration + generations/2)/static_cast<double>(generations);
     } else {
-        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
-        //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
+        generationRatio = 1;
     }
 
-    //std::cout << 2.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)) << std::endl;
-    //indFit += pow((static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities), 1.5);
-    indFit += pow(static_cast<float>(priorities), 2);
+    //std::cout << generationRatio << std::endl;
+
+    if (numOfPackages > 20) {
+            /*
+        indFit += pow(static_cast<double>(priorities), 2.5);
 
 
-    if (weight > weightLimit) {
-        indFit -= pow((weight - weightLimit) * priorities, 1.5);
+        if (shiftTime > timeLimit) {
+            indFit -= (pow((shiftTime - timeLimit), 1.5) * static_cast<double>(priorities)) * generationRatio;
+        } else {
+            indFit += pow(static_cast<double>(timeLimit) - static_cast<double>(shiftTime), 1.10) * static_cast<double>(priorities);
+        }
+
+        if (weight > weightLimit) {
+            indFit -= (pow((weight - weightLimit), 1.5) * static_cast<double>(priorities)) * generationRatio;
+        }
+
+        if (individual->size() > packageLimit) {
+            indFit -= (pow(individual->size() - packageLimit, 1.5) * static_cast<double>(priorities)) * generationRatio;
+        }*/
+
+        indFit = pow(2, static_cast<double>(priorities) / static_cast<double>(totalPriority)) * pow(2, (static_cast<double>(driveTime)) / static_cast<double>(shiftTime));
+
+        if (shiftTime > timeLimit) {
+            indFit -= (pow(2, 1 + (static_cast<double>(shiftTime) - static_cast<double>(timeLimit)) / static_cast<double>(timeLimit)) * generationRatio);
+        } //else {
+          //  indFit *= pow(2, 1 + (static_cast<double>(stopTime)) / static_cast<double>(shiftTime)) * 2 * generationRatio;
+        //}
+
+        if (weight > weightLimit) {
+            indFit -= pow(2, 1 + (static_cast<double>(weight) - static_cast<double>(weightLimit)) / static_cast<double>(weightLimit)) * generationRatio;
+        }
+
+        if (individual->size() > packageLimit) {
+            indFit -= pow(2, 1 + (static_cast<double>(individual->size()) - static_cast<double>(packageLimit)) / static_cast<double>(packageLimit)) * generationRatio;
+        }
+
+    } else {
+
+        indFit += pow(static_cast<double>(priorities), 3) * generationRatio;
+
+
+        if (shiftTime > timeLimit) {
+            indFit -= (pow((shiftTime - timeLimit), 2)) * static_cast<double>(priorities) * generationRatio;
+        } else {
+            indFit += pow(static_cast<double>(timeLimit) - static_cast<double>(shiftTime), 0.7) * static_cast<double>(priorities) * generationRatio;
+        }
+
+        if (weight > weightLimit) {
+            indFit -= pow((weight - weightLimit) * static_cast<double>(priorities), 2) * generationRatio;
+        }
+
+        if (individual->size() > packageLimit) {
+            indFit -= pow((individual->size() - packageLimit) * static_cast<double>(priorities), 2) * generationRatio;
+        }
+
     }
 
-    if (individual->size() > packageLimit) {
-        indFit -= (pow((individual->size() - packageLimit) * priorities, 1.5) );
+    if (indFit < 0) {
+        indFit = -1 * pow(indFit, 2);
+    } else {
+        indFit = pow(indFit, 2);
     }
+
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
     //std::cout << "Individual length: " << individual->size() << " Distance: " << distance << "Fit: " << indFit << std::endl;
@@ -250,7 +301,7 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     //std::cout << 1/static_cast<float>(shiftTime) << std::endl;
     //std::cout << "Fit: " << indFit << std::endl;
     //std::cout << "OVERNIGHT: " << static_cast<int>(OVERNIGHT) << std::endl;
-    vector<double> fit {indFit, priorities, distance, shiftTime, weight};
+    vector<double> fit {indFit, static_cast<double>(priorities), static_cast<double>(distance), static_cast<double>(shiftTime), static_cast<double>(weight)};
     return fit;
 }
 
@@ -271,8 +322,16 @@ void Genetic::loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopu
     }
 */
 
+    // Recompute the fitness value
+    currentGeneration = 1;
+
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        (*iter).second.fitnessValue = fitness(&(*iter).first);
+    }
+
     //mergeSort(0, genes.size() - 1);
     std::sort(genes.begin(), genes.end(), [] (pair<vector<Package* >, Genetic::geneInfo> const& left, pair<vector<Package* >, Genetic::geneInfo> const& right) {return left.second.fitnessValue < right.second.fitnessValue;});
+
 /*
     for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
         for (auto jitter = iter->first.begin(); jitter != iter->first.end(); ++jitter) {
@@ -310,8 +369,11 @@ vector<Package* > Genetic::evolve() {
 
     std::vector<std::pair<std::vector<Package* >, geneInfo> >::iterator row;
 
-    for (unsigned long i = 0; i < generations; ++i) {
-            currentBest[0] = 0;
+    for (unsigned long i = 1; i < generations - 1; ++i) {
+
+        currentGeneration = i;
+
+        currentBest[0] = 0;
         for (row = genes.begin(); row != genes.end(); ++row) {
             /*
             for (auto currentGene = (*row).first.begin(); currentGene != (*row).first.end(); ++currentGene) {
@@ -645,7 +707,6 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
         smallestLength = geneLength2;
 
         longestLength = geneLength1;
-
 
     } else {
         smallestLength = geneLength1;

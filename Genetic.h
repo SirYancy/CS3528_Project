@@ -130,12 +130,6 @@ class Genetic {
         void mergeSort(unsigned long i, unsigned long j);
 
 
-
-        //! Vector of pointers to all potential packages to consider routing.
-        vector<Package* > packages;
-        //! Size of vector of potential packages. Saves from expensive .size() calls.
-        unsigned int numOfPackages;
-
         //! Adjacency matrix of clients in package list.
         /*! Holds the matrix for all packages being considered. Currently indexed
          *  via client ID numbers, with smallest client ID as lower indices.
@@ -169,6 +163,9 @@ class Genetic {
         //! Number of desired generations.
         unsigned long generations;
 
+        //! Current generation number
+        unsigned long currentGeneration = 0;
+
         //! The current population of "routes."
         /*! A list (vector) of individuals in the population.
          *  Each entry in the vector is a pair.
@@ -178,6 +175,11 @@ class Genetic {
          */
         vector< pair<vector<Package* >, geneInfo> > genes;
 
+
+        //! Vector of pointers to all potential packages to consider routing.
+        vector<Package* > packages;
+        //! Size of vector of potential packages. Saves from expensive .size() calls.
+        unsigned int numOfPackages;
 
         //! Ranking vector for population used in parent selection for mutation.
         vector<double> ranking;

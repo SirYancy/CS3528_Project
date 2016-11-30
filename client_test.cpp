@@ -18,7 +18,7 @@
 #define POPULATION 1000
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
-#define PACKAGE_LIMIT 1000
+#define PACKAGE_LIMIT 100
 
 using namespace std;
 
@@ -34,7 +34,7 @@ struct {
 } warehouse;
 
 
-void readFile(string fileName, vector<Package*> &packageList, unordered_map<std::string, Client*> &clientMap) {//vector<Client*> &clientList) {
+int readFile(string fileName, vector<Package*> &packageList, unordered_map<std::string, Client*> &clientMap) {//vector<Client*> &clientList) {
     vector<string> csvLine;
     string line;
     string token;
@@ -53,6 +53,10 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
     // Create a SS object to extract values
     ifstream file;
     file.open(fileName);
+
+    if (!file) {
+        return 1;
+    }
 
     // Toss first header line if using spreadsheet
     //getline(file, line);
@@ -168,6 +172,8 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
 
 
     }
+
+    return 0;
 }
 
 
@@ -245,20 +251,20 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
     return matrix;
 }
 
-vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix, unsigned int numOfGenerations) {
     vector< pair<vector<Package* >, Genetic::geneInfo> > result;
     vector<float > fit;
 
     mutation_enum mutation;
-    mutation.crossOver  = 0.70;
-    mutation.deleteOld  = 0.002;
-    mutation.insertNew  = 0.002;
+    mutation.crossOver  = 0.90;
+    mutation.deleteOld  = 0.001;
+    mutation.insertNew  = 0.001;
     mutation.inversion  = 0.005;
-    mutation.swapOut    = 0.002;
+    mutation.swapOut    = 0.001;
     mutation.swapWithin = 0.005;
     mutation.elite      = 0.01;
 
-    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
+    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, POPULATION, 5, 1, MAXTIME, numOfGenerations, mutation);
     GA.initPopulation();
     result = GA.evolve_threads();
 
@@ -266,41 +272,41 @@ vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<
 
 }
 
-vector< pair<vector<Package* >, Genetic::geneInfo> >  simulationIntermingle(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPop) {
+vector< pair<vector<Package* >, Genetic::geneInfo> >  simulationIntermingle(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPop, unsigned int numOfGenerations) {
     vector< pair<vector<Package* >, Genetic::geneInfo> > resultPopulation;
 
     vector<double > fit;
 
     mutation_enum mutation;
     mutation.crossOver  = 0.90;
-    mutation.deleteOld  = 0.002;
-    mutation.insertNew  = 0.002;
+    mutation.deleteOld  = 0.001;
+    mutation.insertNew  = 0.001;
     mutation.inversion  = 0.005;
-    mutation.swapOut    = 0.002;
+    mutation.swapOut    = 0.001;
     mutation.swapWithin = 0.005;
     mutation.elite      = 0.01;
 
-    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, mixedPop.size(), 5, 1, MAXTIME, GENERATIONS, mutation);
+    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, mixedPop.size(), 5, 1, MAXTIME, numOfGenerations, mutation);
     GA.loadPopulation(mixedPop);
     resultPopulation = GA.evolve_threads();
     return resultPopulation;
 
 }
 
-pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPop) {
+pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > Packages, vector<vector<unsigned int> > matrix, vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPop, unsigned int numOfGenerations) {
     vector<Package * > resultFitest;
     vector<double > fit;
 
     mutation_enum mutation;
     mutation.crossOver  = 0.90;
-    mutation.deleteOld  = 0.002;
-    mutation.insertNew  = 0.002;
-    mutation.inversion  = 0.005;
-    mutation.swapOut    = 0.002;
-    mutation.swapWithin = 0.005;
+    mutation.deleteOld  = 0.001;
+    mutation.insertNew  = 0.001;
+    mutation.inversion  = 0.02;
+    mutation.swapOut    = 0.001;
+    mutation.swapWithin = 0.02;
     mutation.elite      = 0.01;
 
-    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, mixedPop.size(), 5, 1, MAXTIME, GENERATIONS, mutation);
+    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, mixedPop.size(), 5, 1, MAXTIME, numOfGenerations, mutation);
 
     GA.loadPopulation(mixedPop);
     resultFitest = GA.evolve();
@@ -320,10 +326,10 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
     // We launch simulationIsolation which will return the entire population for mixing.
-    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
-    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix);
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
 
     // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();
@@ -351,7 +357,7 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     std::cout << std::endl << "Intermingling islands..." << std::endl << std::endl;
 
     // Mix the population up, and run a combined simulation (eg, land bridges allow population to intermingle.
-    mixedPopulation = simulationIntermingle(Packages, matrix, mixedPopulation);
+    mixedPopulation = simulationIntermingle(Packages, matrix, mixedPopulation, GENERATIONS/4);
 
     // Shuffle up the big intermixed population.
     std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
@@ -385,10 +391,10 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
 
     // Launch evolution again, with the mixed up and shuffled isolated populations. This time
     // we return only the fittest individual genome.
-    auto c1 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop1);
-    auto c2 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop2);
-    auto c3 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop3);
-    auto c4 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop4);
+    auto c1 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop1, GENERATIONS);
+    auto c2 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop2, GENERATIONS);
+    auto c3 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop3, GENERATIONS);
+    auto c4 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop4, GENERATIONS);
 
     res1 = c1.get();
     res2 = c2.get();
@@ -417,7 +423,7 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     std::cout << std::endl << "Intermingling islands..." << std::endl << std::endl;
 
     // Mix the population up, and run a combined simulation (eg, land bridges allow population to intermingle.
-    selected = simulationCrossover(Packages, matrix, mixedPopulation);
+    selected = simulationCrossover(Packages, matrix, mixedPopulation, GENERATIONS/4);
     /*
     // Grab the best route and stuff in here
     vector<pair<vector<Package* >, vector<double> > > bestMixed;
@@ -638,6 +644,8 @@ int main() {
     vector<vector<unsigned int> > matrix;
     pair<vector<Package* >, vector<double> > best;
 
+    int returnValue;
+
 
 
 
@@ -646,7 +654,12 @@ int main() {
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
-    readFile("Cluster5.csv", Packages, ClientMap);
+    returnValue = readFile("Cluster5.csv", Packages, ClientMap);
+
+    if (returnValue != 0) {
+        std::cout << "*** File specified client input file was not found... Exiting ***" << std::endl;
+        return 1;
+    }
 
     matrix = makeMatrix(ClientMap, Packages);
 
