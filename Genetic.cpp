@@ -1,12 +1,7 @@
 #include "Genetic.h"
 //#include "Client.h"
 //#include "Package.h"
-#include <vector>
-#include <iostream>
-#include <cmath>
-//#include <thread>
-#include <future>
-#include <random>
+
 
 // Seed nice random number generator.
 std::mt19937 rngGenetic(std::random_device{}());
@@ -229,23 +224,23 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     shiftTime += distance * driveTime;
 
     if (shiftTime > timeLimit) {
-        indFit -= (pow(shiftTime - timeLimit, 1.5)) * priorities;
+        indFit -= (pow((shiftTime - timeLimit), 1.5)) * priorities;
     } else {
-        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.15);
+        indFit += pow(static_cast<float>(timeLimit) - static_cast<float>(shiftTime), 1.05);
         //indFit += pow(priorities, 1.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)));
     }
 
     //std::cout << 2.0 + ((static_cast<float>(timeLimit) - static_cast<float>(shiftTime)) / static_cast<float>(shiftTime)) << std::endl;
     //indFit += pow((static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities), 1.5);
-    indFit += pow(static_cast<float>(priorities), 1.5);
+    indFit += pow(static_cast<float>(priorities), 2);
 
 
     if (weight > weightLimit) {
-        indFit -= pow(weight - weightLimit, 1.5) * priorities;
+        indFit -= pow((weight - weightLimit) * priorities, 1.5);
     }
 
     if (individual->size() > packageLimit) {
-        indFit -= (pow(individual->size() - packageLimit, 1.5) * priorities);
+        indFit -= (pow((individual->size() - packageLimit) * priorities, 1.5) );
     }
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
@@ -276,7 +271,8 @@ void Genetic::loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopu
     }
 */
 
-    mergeSort(0, genes.size() - 1);
+    //mergeSort(0, genes.size() - 1);
+    std::sort(genes.begin(), genes.end(), [] (pair<vector<Package* >, Genetic::geneInfo> const& left, pair<vector<Package* >, Genetic::geneInfo> const& right) {return left.second.fitnessValue < right.second.fitnessValue;});
 /*
     for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
         for (auto jitter = iter->first.begin(); jitter != iter->first.end(); ++jitter) {
@@ -294,6 +290,7 @@ vector< pair<vector<Package* >, Genetic::geneInfo> > Genetic::evolve_threads() {
     return genes;
 
 }
+
 
 void Genetic::printGene(vector<Package* >* gene) const {
        for (auto iter = gene->begin(); iter != gene->end(); ++iter) {
@@ -341,7 +338,7 @@ vector<Package* > Genetic::evolve() {
                 //std::cout << "Current fitness: " << currentFitness[0] << std::endl;
         }
 
-        if (i % 1000 == 0) {
+        if (i % 100 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
         }
         mate();
@@ -461,7 +458,8 @@ void Genetic::mate() {
     newPopulation.resize(popNum);
 
     // Sort "in-place" based on fitness value. Least fit routes first in the vector, most fit last.
-    mergeSort(0, popNum - 1);
+    std::sort(genes.begin(), genes.end(), [] (pair<vector<Package* >, Genetic::geneInfo> const& left, pair<vector<Package* >, Genetic::geneInfo> const& right) {return left.second.fitnessValue < right.second.fitnessValue;});
+    //mergeSort(0, popNum - 1);
 
     bool different = false;
     unsigned int shortest;
@@ -509,6 +507,10 @@ void Genetic::mate() {
 
             if (different == false) {
                 std::cout << "Crossover identical" << std::endl;
+                printGene(&newIndividuals[0]);
+                std::cout << std::endl;
+                printGene(&newIndividuals[1]);
+                std::cout << std::endl;
             }
         }
 
@@ -591,10 +593,27 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
     if (gene1->size() <= 1 || gene2->size() <= 1) {
         return vector<vector<Package* > > {*gene1, *gene2};
     }
-
+/*
+    std::cout << "Incoming gene1: ";
+    printGene(gene1);
+    std::cout << std::endl << "Incoming gene2: ";
+    printGene(gene2);
+    std::cout << std::endl;
+*/
     // Size of genes.
     unsigned int geneLength1 = gene1->size();
     unsigned int geneLength2 = gene2->size();
+
+    // Maps to hold what genes are within each vector for excluding duplicate genes.
+    std::unordered_map<Package*,bool> gene1Map;
+    std::unordered_map<Package*,bool> gene2Map;
+
+
+    std::unordered_map<Package*,bool>::const_iterator gene1MapIter;
+    std::unordered_map<Package*,bool>::const_iterator gene2MapIter;
+
+    std::vector<Package* >::iterator gene1End = gene1->end();
+    std::vector<Package* >::iterator gene2End = gene2->end();
 
     // Lengths of genes
     unsigned int smallestLength, longestLength;
@@ -634,27 +653,50 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
 
     }
 
+    // Size the hash table appropriately for the max number of elements.
+    gene1Map.reserve(longestLength);
+    gene2Map.reserve(longestLength);
+
     std::uniform_int_distribution<int> pointUniform(1, smallestLength - 1);
+
     // Random point to apply crossover. Don't want to cross over at 0
     randomPoint = pointUniform(rngGenetic); //(rand() % (smallestLength - 1)) + 1;
 
-
+    // Resize to eliminate push-backs during initial crossover
+    packageGene1.resize(randomPoint + 1);
+    packageGene2.resize(randomPoint + 1);
 
     //std::cout << std::endl << "Random point: " << randomPoint << std::endl;
     //std::cout << "G1 size: " << geneLength1 << " G2 size: " << geneLength2 << std::endl;
 
     // Genes crosses over from 0 to randomPoint in genes
     for (unsigned int i = 0; i <= randomPoint; ++i) {
-        packageGene1.push_back((*gene2)[i]);
-        packageGene2.push_back((*gene1)[i]);
+        packageGene1[i] = (*gene2)[i];
+        gene1Map.insert({packageGene1[i], true});
+        //std::cout << "Copying into New gene 1 " << packageGene1[i]->getID() << std::endl;
+        packageGene2[i] = (*gene1)[i];
+        gene2Map.insert({packageGene2[i], true});
+        //std::cout << "Copying into New gene 2 " << packageGene2[i]->getID() << std::endl;
     }
 
+
+    // Fill map
     // Fill individual[0] genes based on the size of gene1 in the order they appear
-    for (vector<Package* >::iterator gene1_iter = gene1->begin(); gene1_iter != gene1->end(); ++gene1_iter) {
+    for (vector<Package* >::iterator gene1_iter = gene1->begin(); gene1_iter != gene1End; ++gene1_iter) {
 
         // Assume no duplicates
-        present = false;
+        //present = false;
 
+        gene1MapIter = gene1Map.find(*gene1_iter);
+
+        if (gene1MapIter == gene1Map.end()) {
+            packageGene1.push_back(*gene1_iter);
+            gene1Map.insert({*gene1_iter, true});
+            //std::cout << "Inserting crossover into New gene 1: " << (*gene1_iter)->getID() << std::endl;
+        } //else {
+        //    std::cout << "New Gene 1 " << (*gene1_iter)->getID() << " already present" << std::endl;
+        //}
+        /*
         // Loop through all genes already placed
         for (vector<Package* >::iterator package1_iter = packageGene1.begin(); package1_iter != packageGene1.end(); ++package1_iter) {
 
@@ -671,15 +713,26 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
             packageGene1.push_back(*gene1_iter);
             //std::cout << "Adding G1: " << (*gene1_iter)->getPointer() << std::endl;
         }
+        */
     }
 
     // Fill individual[0] genes based on the size of gene1 in the order they appear
-    for (vector<Package* >::iterator gene2_iter = gene2->begin(); gene2_iter != gene2->end(); ++gene2_iter) {
+    for (vector<Package* >::iterator gene2_iter = gene2->begin(); gene2_iter != gene2End; ++gene2_iter) {
         //std::cout << "Size: " << newIndividual.size() - 1 << std::endl;
 
         // Assume no duplicates
         present = false;
 
+        gene2MapIter = gene2Map.find(*gene2_iter);
+
+        if (gene2MapIter == gene2Map.end()) {
+            packageGene2.push_back(*gene2_iter);
+            gene2Map.insert({*gene2_iter, true});
+            //std::cout << "Inserting crossover New gene 2: " << (*gene2_iter)->getID() << std::endl;
+        } //else {
+          //      std::cout << "New Gene 2 " << (*gene2_iter)->getID() << " already present" << std::endl;
+        //}
+        /*
         // Loop through all genes already placed
         for (vector<Package* >::iterator package2_iter = packageGene2.begin(); package2_iter != packageGene2.end(); ++package2_iter) {
 
@@ -698,6 +751,7 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
             packageGene2.push_back(*gene2_iter);
             //std::cout << "Adding G2: " << (*gene2_iter)->getPointer() << std::endl;
         }
+        */
     }
 
 /*
@@ -712,16 +766,30 @@ vector<vector<Package*> > Genetic::crossOver(vector<Package* >* gene1, vector<Pa
     }
 */
 
+
     newIndividuals[0] = packageGene1;
     newIndividuals[1] = packageGene2;
 
+
     //std::cout << "Returning " << &newIndividuals << std::endl;
-    /*
+/*
     std::cout << "Returning cross-over genes 1: ";
-    printGene(newIndividuals[0]);
+    printGene(&newIndividuals[0]);
+
+    std::cout << std::endl << "Map 1: ";
+    for (auto iter = gene1Map.begin(); iter != gene1Map.end(); ++iter) {
+        std::cout << (*iter).first->getID() << " ";
+    }
+
     std::cout << std::endl << "Returning cross-over genes 2: ";
-    printGene(newIndividuals[1]);
-    std::cout << std::endl;*/
+    printGene(&newIndividuals[1]);
+    std::cout << std::endl << "Map 2: ";
+    for (auto iter = gene2Map.begin(); iter != gene2Map.end(); ++iter) {
+        std::cout << (*iter).first->getID() << " ";
+    }
+    std::cout << std::endl;
+*/
+
     return newIndividuals;
 }
 

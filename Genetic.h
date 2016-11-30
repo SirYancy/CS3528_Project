@@ -6,6 +6,13 @@
 #include <utility>
 #include "Client.h"
 #include "Package.h"
+#include <iostream>
+#include <cmath>
+//#include <thread>
+#include <future>
+#include <random>
+#include <algorithm>
+#include <unordered_map>
 
 #define OVERNIGHT_WEIGHT  8
 #define TWODAY_WEIGHT     4
