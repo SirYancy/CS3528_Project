@@ -1,6 +1,6 @@
 CXX = g++
 CC = g++
-FLAGS = -std=c++11
+FLAGS = -std=c++11 -g
 
 all: main
 

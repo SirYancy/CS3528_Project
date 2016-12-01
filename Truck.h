@@ -51,13 +51,13 @@ class Truck{
         /*!
          * \return the vector containing the truck's current list of directions
          */
-        vector<string*> getDirections() const;
+        vector<string> getDirections() const;
         
         //! Setter for directions vector
         /*!
          * \param directions a pointer to a vector contianing the truck's assigned directions
          */
-        void setDirections(vector<string*>);
+        void setDirections(vector<string>);
 
         //! Adds a package to the truck
         /*!
@@ -98,7 +98,7 @@ class Truck{
         vector<Package*> packages;
         
         //! Vector of strings storing the directions for this truck
-        vector<string*> directions;
+        vector<string> directions;
 
 };
 #endif //TRUCK_H

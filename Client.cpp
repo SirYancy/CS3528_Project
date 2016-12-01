@@ -21,9 +21,7 @@ Client::Client(const string& clientString)
     : ID{++count}
 {
     int nameLoc = clientString.find_first_of(",");
-
     name = clientString.substr(0, nameLoc);
-
     setAddress(clientString.substr(nameLoc+1));
 }
 

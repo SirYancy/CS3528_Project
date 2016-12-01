@@ -57,7 +57,7 @@ vector<Package*> Truck::getPackages() const
 /*!
  * \return vector<string*>
  */
-vector<string*> Truck::getDirections() const
+vector<string> Truck::getDirections() const
 {
     return directions;
 }
@@ -66,7 +66,7 @@ vector<string*> Truck::getDirections() const
 /*!
  * \param direct pointer to directions vector
  */
-void Truck::setDirections(vector<string*> direct)
+void Truck::setDirections(vector<string> direct)
 {
     directions = direct;
 }

@@ -33,7 +33,7 @@ class Greedy
         void setOrigin(Client*);
         Client* getOrigin() const;
         void makeRoute();
-        vector<string*> getDirections() const;
+        vector<string> getDirections() const;
         int getDistance() const;
         int getTime() const;
 
@@ -52,7 +52,7 @@ class Greedy
         //! The order of the indices in the packages
         vector<int> order;
         //! strings that represent the text directions for the truck
-        vector<string*> directions;
+        vector<string> directions;
         //! Distance of route
         int distance;
         //! Time of route

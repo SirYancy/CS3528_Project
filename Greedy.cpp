@@ -27,6 +27,7 @@ void Greedy::setPackages(const vector<Package*> &p)
 vector<Package*> Greedy::getPackages() const
 {
     return packages;
+
 }
 
 vector<Package*> Greedy::getUnload() const
@@ -49,13 +50,10 @@ void Greedy::makeRoute()
     getStops();
     makeMatrix();
     greedyRoute();
-
-    verifyTime();
-
     makeDirections();
 }
 
-vector<string*> Greedy::getDirections() const
+vector<string> Greedy::getDirections() const
 {
     return directions;
 }
@@ -101,14 +99,19 @@ void Greedy::makeMatrix()
 
 void Greedy::greedyRoute()
 {
+    order = vector<int>();
     int numStops = matrix.size();
+    int timeLimit = 8 * 60;
     vector<bool> visited(numStops, false);
 
+    order.push_back(0);
     unsigned int start = 0;
     visited[start] = true;
     int numVisited = 0;
 
-    int distance = 0;
+    distance = 0;
+    time = 0;
+    int thisDistance = 0;
 
     while(numVisited < numStops)
     {
@@ -121,52 +124,31 @@ void Greedy::greedyRoute()
             {
                 shortest = matrix[start][i];
                 next = i;
+                thisDistance = shortest;
             }
         }
         order.push_back(next);
         visited[next] = true;
         start = next;
         numVisited++;
+        time += thisDistance + 5;
+        distance += thisDistance;
+        if(time + matrix[0][start] >= timeLimit)
+            break;
     }
-    order.push_back(0);
-}
-
-void Greedy::getDistanceAndTime()
-{
-    int numStops = order.size();
-    distance = 0;
-    time = 0;
-
-    for(int i = 0; i < numStops; i++)
-    {
-        int nextLeg = matrix[order[i]][order[i+1]];
-        distance += nextLeg;
-        time += (nextLeg + 5);
-    }
+    thisDistance = matrix[0][start];
+    time += thisDistance + 5;
+    distance += thisDistance;
 }
 
 void Greedy::makeDirections()
 {
     string originAddress = origin->getAddress();
-    directions.push_back(&originAddress);
-    for(Client* c : stops)
+    for (int i = 0; i < order.size(); i++)
     {
-        string address = c->getAddress();
-        directions.push_back(&address);
-    }
-    directions.push_back(&originAddress);
-}
-
-void Greedy:: verifyTime()
-{
-    getDistanceAndTime();
-
-    while(time > (8*60))
-    {
-        int index = order.end()[-2];
-        packages.erase(packages.begin() + index);
-        stops.erase(stops.begin() + index-1);
-        order.erase(order.begin() + order.size()-2);
-        getDistanceAndTime();
+        Client* c = stops[order[i]];
+        string address = c->getName() + "\n" + c->getAddress() + "\n";
+        directions.push_back(address);
     }
 }
+

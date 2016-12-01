@@ -25,7 +25,7 @@ static pair<int,int> getDistanceAndTime(vector<int>&, vector<vector<unsigned int
 
 Warehouse::Warehouse()
 {
-    myAddress = new Client("WAREHOUSE, 123 Maint St. N, Bemidji, MN, 56601");
+    myAddress = new Client("WAREHOUSE, 123 MAIN ST. W, BEMIDJI, MN, 56601");
 }
 
 //! addClient()
@@ -125,22 +125,24 @@ void Warehouse::loadTrucks()
 {
     Truck* truck = trucks[0];
     double weight = truck->getWeight();             //working weight limit
-    auto packIter = undeliveredPackages.begin();    //iterator for vector of packages
+    int index = 0;
 
     // Greedily load the truck with all of the highest priority packages.
-    while(weight > 0)
+    while(weight > 0 && index < undeliveredPackages.size())
     {
-        double w = (*packIter)->getWeight();
+        Package* p = undeliveredPackages[index];
+        double w = p->getWeight();
         weight -= w;
         if(weight > 0)
         {
-            truck->addPackage(*packIter);
-            packIter++;
+            truck->addPackage(p);
+            index++;
             undeliveredPackages.erase(undeliveredPackages.begin());
         }
     }
 
     myGreedy = new Greedy();
+    myGreedy->setOrigin(myAddress);
     myGreedy->setPackages(truck->getPackages());
     myGreedy->makeRoute();
 
