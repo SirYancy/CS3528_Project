@@ -17,6 +17,7 @@ using namespace std;
 // Seed nice random number generator.
 std::mt19937 rng(std::random_device{}());
 
+// Structure for holding random generation parameters
 typedef struct {
 
     // Filename to open
@@ -50,17 +51,11 @@ typedef struct {
     // Radius [4] and standard deviation [5] in building addresses
     int cluster[6];
 
-} randomPackageEnum;
-
-struct {
-    string name = "WAREHOUSE";
-    string address = "2240 21 ST NW";
-    string city = "BEMIDJI";
-    string state = "MN";
-    string zip = "56601";
-} warehouse;
+} struct_randomPackage;
 
 string parseStreet(unsigned int street, unsigned int addressNum) {
+    // Take address and street number, and create a random string address.
+
     // Coin flip
     std::uniform_int_distribution<int> coinFlip(0, 1);
 
@@ -138,18 +133,11 @@ string parseStreet(unsigned int street, unsigned int addressNum) {
 }
 
 
-string streetAddressUniform(const randomPackageEnum randomConsts) {
-    // Holds random ints for address creation
-    unsigned int randomNum;
-
-    // Holds random floats for probabilities and weights
-    float randomFloat;
+string streetAddressUniform(const struct_randomPackage randomConsts) {
+    // Creates a uniformly distributed address string
 
     // Street number
     unsigned int street;
-
-    // Round any odd populations down
-    unsigned int halfPop = randomConsts.population / 2;
 
     // Uniform distribution of integers for streets
     std::uniform_int_distribution<int> streetsUniform(0, randomConsts.maxStreets);
@@ -174,25 +162,18 @@ string streetAddressUniform(const randomPackageEnum randomConsts) {
     return address;
 }
 
-vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
+vector<string > streetAddressCluster(const struct_randomPackage randomConsts) {
     // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
     // Radius [4] and standard deviation [5] in building addresses
 
     // Holds random ints for address creation
-    int randomNum;
     int addressNum;
 
     int clusterAddress = 0;
     int clusterStreet = 0;
 
-    // Holds random floats for probabilities and weights
-    float randomFloat;
-
     // Street number
     int street;
-
-    // Round any odd populations down
-    int halfPop = randomConsts.population / 2;
 
     // Uniform distribution of integers for streets
     std::uniform_int_distribution<int> streetsUniform(0, randomConsts.maxStreets);
@@ -242,7 +223,7 @@ vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
     return returnAddresses;
 }
 
-void randomPackages(const randomPackageEnum randomConsts) {
+void randomPackages(const struct_randomPackage randomConsts) {
     // Holds our names from files
     std::vector<string> firstNames;
     std::vector<string> lastNames;
@@ -284,14 +265,8 @@ void randomPackages(const randomPackageEnum randomConsts) {
     // Normally distributed package weight around the center of maximum weight. Standard deviation is 1/3 of that half point.
     std::normal_distribution<double> weightNormal(randomConsts.maxWeight / 2, randomConsts.maxWeight / 6);
 
-    // Holds random ints for address creation
-    unsigned int randomNum;
-
     // Holds random floats for probabilities and weights
     float randomFloat;
-
-    // Street number
-    unsigned int street;
 
     // Accumulated P or weights for priority package generation.
     float accumulated_P = 0;
@@ -445,6 +420,8 @@ void randomPackages(const randomPackageEnum randomConsts) {
 }
 
 void printHelp(char *argv[]) {
+    // Program help usage
+
     std::cout << "Usage: " << argv[0] << " filename [options]" << std::endl << std::endl;
     std::cout << "Options" << std::endl;
     std::cout << "=======" << std::endl;
@@ -497,29 +474,40 @@ int main(int argc, char *argv[]) {
     ofstream file;
     string outputFile;
 
+    // Do we have enough arguments?
     if (argc == 1) {
+        // No
         printHelp(argv);
         return 1;
     } else {
+        // Output filename string converter
         istringstream outputFileSS(argv[1]);
 
         try {
+            // Test if we can extract a string
             if (!(outputFileSS>>outputFile)) {
+                // Nope
                 std::cout << "Error parsing filename to string" << std::endl;
                 printHelp(argv);
                 return 1;
             } else if (outputFile == "-help" || outputFile == "--help" || outputFile == "-h" || outputFile == "--h") {
+                // Test if second argument was not the file, but a cry for help!
                 printHelp(argv);
+                // Help is acceptable?
                 return 0;
             }
 
+            // Try opening file
             file.open(outputFile);
 
+            // Test if successful
             if (!file) {
+                // Nope
                 std::cout << "File " << outputFile << " cannot be opened!" << std::endl;
                 return 1;
             }
 
+            // Close test
             file.close();
 
         }
@@ -531,7 +519,7 @@ int main(int argc, char *argv[]) {
         }
 
         // Parse the rest of the options.
-        for (unsigned int i = 2; i < argc; ++i) {
+        for (int i = 2; i < argc; ++i) {
             istringstream cmdSwitch(argv[i]);
             string strSwitch;
 
@@ -727,6 +715,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // Check for sane option values!
     if (population <= 0) {
         std::cout << std::endl << "*** Invalid population! ***" << std::endl;
         population = 100;
@@ -813,9 +802,10 @@ int main(int argc, char *argv[]) {
     // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
     // Radius [4] and standard deviation [5] in building addresses
 
-    randomPackageEnum generatePackages = {outputFile, static_cast<unsigned int>(population), static_cast<unsigned int>(numberPackages), maxAddress, static_cast<unsigned int>(maxStreet), maxWeight, {pReg, pTwo, pOver}, {clusterNMin,clusterNMax,clusterPackMin,clusterPackMax, radius, SD}};
+    // Create structure for passing to generator
+    struct_randomPackage generatePackages = {outputFile, static_cast<unsigned int>(population), static_cast<unsigned int>(numberPackages), maxAddress, static_cast<unsigned int>(maxStreet), maxWeight, {pReg, pTwo, pOver}, {clusterNMin,clusterNMax,clusterPackMin,clusterPackMax, radius, SD}};
 
-    // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
+    // Not guaranteed name unique yet (eg, may send package to same name, but with different address with small population due to small random space.)
     randomPackages(generatePackages);
 
     return 0;

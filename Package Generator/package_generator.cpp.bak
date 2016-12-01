@@ -50,7 +50,7 @@ typedef struct {
     // Radius [4] and standard deviation [5] in building addresses
     int cluster[6];
 
-} randomPackageEnum;
+} struct_randomPackage;
 
 struct {
     string name = "WAREHOUSE";
@@ -138,7 +138,7 @@ string parseStreet(unsigned int street, unsigned int addressNum) {
 }
 
 
-string streetAddressUniform(const randomPackageEnum randomConsts) {
+string streetAddressUniform(const struct_randomPackage randomConsts) {
     // Holds random ints for address creation
     unsigned int randomNum;
 
@@ -174,7 +174,7 @@ string streetAddressUniform(const randomPackageEnum randomConsts) {
     return address;
 }
 
-vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
+vector<string > streetAddressCluster(const struct_randomPackage randomConsts) {
     // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
     // Radius [4] and standard deviation [5] in building addresses
 
@@ -242,7 +242,7 @@ vector<string > streetAddressCluster(const randomPackageEnum randomConsts) {
     return returnAddresses;
 }
 
-void randomPackages(const randomPackageEnum randomConsts) {
+void randomPackages(const struct_randomPackage randomConsts) {
     // Holds our names from files
     std::vector<string> firstNames;
     std::vector<string> lastNames;
@@ -366,7 +366,7 @@ void randomPackages(const randomPackageEnum randomConsts) {
         weight = weightNormal(rng);
 
         while (weight < 0) {
-            weightNormal(rng);
+            weight = weightNormal(rng);
         }
 
         file << weight << ',';
@@ -395,6 +395,7 @@ void randomPackages(const randomPackageEnum randomConsts) {
 
     }
 
+
     // Loop for number of desired packages
     if (randomConsts.num > clusterAddresses.size()) {
         for (unsigned int i = 0; i < randomConsts.num - clusterAddresses.size(); ++i) {
@@ -403,13 +404,13 @@ void randomPackages(const randomPackageEnum randomConsts) {
             receiver = streetAddressUniform(randomConsts);
 
             file << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << sender << "," << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << receiver << ",";
+
             // Weight of package. Apply tenth ounce truncation by multiplying
             //unsigned int weight = weightNormal;
-
             weight = weightNormal(rng);
 
             while (weight < 0) {
-                weightNormal(rng);
+                weight = weightNormal(rng);
             }
 
             file << weight << ',';
@@ -444,6 +445,8 @@ void randomPackages(const randomPackageEnum randomConsts) {
 }
 
 void printHelp(char *argv[]) {
+    // Program help usage
+
     std::cout << "Usage: " << argv[0] << " filename [options]" << std::endl << std::endl;
     std::cout << "Options" << std::endl;
     std::cout << "=======" << std::endl;
@@ -496,29 +499,40 @@ int main(int argc, char *argv[]) {
     ofstream file;
     string outputFile;
 
+    // Do we have enough arguments?
     if (argc == 1) {
+        // No
         printHelp(argv);
         return 1;
     } else {
+        // Output filename string converter
         istringstream outputFileSS(argv[1]);
 
         try {
+            // Test if we can extract a string
             if (!(outputFileSS>>outputFile)) {
+                // Nope
                 std::cout << "Error parsing filename to string" << std::endl;
                 printHelp(argv);
                 return 1;
             } else if (outputFile == "-help" || outputFile == "--help" || outputFile == "-h" || outputFile == "--h") {
+                // Test if second argument was not the file, but a cry for help!
                 printHelp(argv);
+                // Help is acceptable?
                 return 0;
             }
 
+            // Try opening file
             file.open(outputFile);
 
+            // Test if successful
             if (!file) {
+                // Nope
                 std::cout << "File " << outputFile << " cannot be opened!" << std::endl;
                 return 1;
             }
 
+            // Close test
             file.close();
 
         }
@@ -726,6 +740,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // Check for sane option values!
     if (population <= 0) {
         std::cout << std::endl << "*** Invalid population! ***" << std::endl;
         population = 100;
@@ -812,9 +827,10 @@ int main(int argc, char *argv[]) {
     // Number of clusters (min[0], max[1]), package num in cluster (min [2], max[3]),
     // Radius [4] and standard deviation [5] in building addresses
 
-    randomPackageEnum generatePackages = {outputFile, static_cast<unsigned int>(population), static_cast<unsigned int>(numberPackages), maxAddress, static_cast<unsigned int>(maxStreet), maxWeight, {pReg, pTwo, pOver}, {clusterNMin,clusterNMax,clusterPackMin,clusterPackMax, radius, SD}};
+    // Create structure for passing to generator
+    struct_randomPackage generatePackages = {outputFile, static_cast<unsigned int>(population), static_cast<unsigned int>(numberPackages), maxAddress, static_cast<unsigned int>(maxStreet), maxWeight, {pReg, pTwo, pOver}, {clusterNMin,clusterNMax,clusterPackMin,clusterPackMax, radius, SD}};
 
-    // Not guaranteed unique yet (eg, may send package to self, but with different address with small population.)
+    // Not guaranteed name unique yet (eg, may send package to same name, but with different address with small population due to small random space.)
     randomPackages(generatePackages);
 
     return 0;
