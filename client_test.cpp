@@ -712,7 +712,7 @@ int main(int argc, char *argv[]) {
         }
 
         // Parse the rest of the options.
-        for (unsigned int i = 2; i < argc; ++i) {
+        for (int i = 2; i < argc; ++i) {
             istringstream cmdSwitch(argv[i]);
             string strSwitch;
 
