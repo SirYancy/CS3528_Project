@@ -152,3 +152,57 @@
 	<algorithm>
 	<unordered_map>
 
+1479978358 source:/home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
+
+1479978358 /home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.h
+	<string>
+	<vector>
+	<utility>
+
+1480213638 /home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+	<string>
+	<vector>
+
+1479789919 /home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.h
+	<string>
+
+1480229155 source:/home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
+	<string>
+	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+	<iostream>
+
+1479789919 source:/home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.cpp
+	"Utils.h"
+	<string>
+	<locale>
+
+1480541809 source:/home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+	"Genetic.h"
+
+1480483162 /home/rasusmilch/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+	<string>
+	<vector>
+	<utility>
+	"Client.h"
+	"Package.h"
+	<iostream>
+	<cmath>
+	<future>
+	<random>
+	<algorithm>
+	<unordered_map>
+

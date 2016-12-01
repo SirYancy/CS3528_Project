@@ -54,6 +54,8 @@
 		<Unit filename="Genetic.h" />
 		<Unit filename="Package.cpp" />
 		<Unit filename="Package.h" />
+		<Unit filename="Truck.cpp" />
+		<Unit filename="Truck.h" />
 		<Unit filename="Utils.cpp" />
 		<Unit filename="Utils.h" />
 		<Unit filename="client_test.cpp" />

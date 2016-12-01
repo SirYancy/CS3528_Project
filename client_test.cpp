@@ -13,6 +13,7 @@
 #include <future>
 #include <random>
 #include <algorithm>
+#include <ctime>
 
 #define GENERATIONS 10000
 #define POPULATION 1000
@@ -462,6 +463,12 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     int packages = 0;
     int index = 0;
 
+    // Get date and time right now
+    time_t now = time(0);
+
+    // Convert to string
+    char* dateTime = ctime(&now);
+
     file.open("route.gnu");
 
     // Index 0, OVERNIGHT
@@ -615,7 +622,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << "set mytics 10" << std::endl;
     file << "set label \"Pop: " << POPULATION << ", Gen: " << GENERATIONS << ", Fit: " << best->second[0] << "\"  at graph 0.8, 0.05" << std::endl;
     file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << MAXTIME << ", P: " << best->first.size() - 2 << "/" << Packages->size() << "\" at graph 0.8, graph 0.03" << std::endl;
-
+    file << "set label \"Date/Time: " << dateTime << "\"  at graph 0.05, 0.05" << std::endl;
     file << "plot \'route.gnu\' index " << std::to_string(routeIndex) << " with lines ls 5 title \'Route\',\\" << std::endl;
     if (overnightIndex != -1) {
         file << "\'route.gnu\' index " << std::to_string(overnightIndex) << " with points ls 3 title \'Overnight\',\\" << std::endl;
@@ -654,7 +661,7 @@ int main() {
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
-    returnValue = readFile("Cluster5.csv", Packages, ClientMap);
+    returnValue = readFile("Quad-100.csv", Packages, ClientMap);
 
     if (returnValue != 0) {
         std::cout << "*** File specified client input file was not found... Exiting ***" << std::endl;

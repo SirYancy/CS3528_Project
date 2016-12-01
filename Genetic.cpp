@@ -223,7 +223,7 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
 
     double generationRatio;
 
-    if (currentGeneration < generations / 2) {
+    if (currentGeneration < 3 * generations / 4) {
         generationRatio = static_cast<double>(currentGeneration + generations/2)/static_cast<double>(generations);
     } else {
         generationRatio = 1;
@@ -287,11 +287,11 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
 
     }
 
-    if (indFit < 0) {
-        indFit = -1 * pow(indFit, 2);
-    } else {
-        indFit = pow(indFit, 2);
-    }
+    //if (indFit < 0) {
+    //    indFit = -1 * pow(indFit, 3);
+    //} else {
+        indFit = pow(indFit, 3);
+    //}
 
     //indFit = pow(timeLimit/static_cast<float>(shiftTime),2) + (static_cast<float>(OVERNIGHT) * static_cast<float>(individual.size()))/static_cast<float>(priorities);// + pow(static_cast<float>(weightLimit - weight), 2);
 
