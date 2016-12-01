@@ -64,7 +64,7 @@ class Package{
 
         Package* getPointer() {return this;};
 
-        unsigned int getID() {return ID;};
+        unsigned int getID() const {return ID;};
 
         void setID(unsigned int id) {ID = id;};
 

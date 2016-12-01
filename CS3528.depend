@@ -91,14 +91,16 @@
 	"Client.h"
 	"Package.h"
 
-1480213638 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+1480555439 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+	<string>
+	<vector>
 
 1479978358 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.h
 	<string>
 	<vector>
 	<utility>
 
-1480554187 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+1480554417 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
 	<iostream>
 	<iomanip>
 	"Client.h"

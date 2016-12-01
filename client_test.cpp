@@ -254,7 +254,7 @@ vector<vector<unsigned int> > makeMatrix(unordered_map<std::string, Client*> &Cl
     return matrix;
 }
 
-vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix, unsigned int numOfGenerations) {
+vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<Package* > Packages, vector<vector<unsigned int> > matrix, unsigned int numOfGenerations, unsigned int population) {
     vector< pair<vector<Package* >, Genetic::geneInfo> > result;
     vector<float > fit;
 
@@ -267,7 +267,7 @@ vector< pair<vector<Package* >, Genetic::geneInfo> > simulationIsolation(vector<
     mutation.swapWithin = 0.005;
     mutation.elite      = 0.01;
 
-    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, POPULATION, 5, 1, MAXTIME, numOfGenerations, mutation);
+    Genetic GA(Packages, matrix, MAXWEIGHT, PACKAGE_LIMIT, population, 5, 1, MAXTIME, numOfGenerations, mutation);
     GA.initPopulation();
     result = GA.evolve_threads();
 
@@ -319,7 +319,7 @@ pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > P
 
 }
 
-pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Packages, vector<vector<unsigned int> > matrix) {
+pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Packages, vector<vector<unsigned int> > matrix, unsigned int population, unsigned int generations) {
     vector< pair<vector<Package* >, Genetic::geneInfo> > mixedPopulation, returnedPopulation, newPop1, newPop2, newPop3, newPop4;
     pair<vector<Package* >, vector<double> > selected;
 
@@ -329,10 +329,10 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
     // We launch simulationIsolation which will return the entire population for mixing.
-    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
-    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
-    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
-    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix, GENERATIONS);
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population);
 
     // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();
@@ -360,7 +360,7 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     std::cout << std::endl << "Intermingling islands..." << std::endl << std::endl;
 
     // Mix the population up, and run a combined simulation (eg, land bridges allow population to intermingle.
-    mixedPopulation = simulationIntermingle(Packages, matrix, mixedPopulation, GENERATIONS/4);
+    mixedPopulation = simulationIntermingle(Packages, matrix, mixedPopulation, generations/4);
 
     // Shuffle up the big intermixed population.
     std::shuffle(mixedPopulation.begin(), mixedPopulation.end(), rng);
@@ -394,10 +394,10 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
 
     // Launch evolution again, with the mixed up and shuffled isolated populations. This time
     // we return only the fittest individual genome.
-    auto c1 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop1, GENERATIONS);
-    auto c2 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop2, GENERATIONS);
-    auto c3 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop3, GENERATIONS);
-    auto c4 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop4, GENERATIONS);
+    auto c1 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop1, generations);
+    auto c2 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop2, generations);
+    auto c3 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop3, generations);
+    auto c4 = std::async(std::launch::async, simulationIntermingle, Packages, matrix, newPop4, generations);
 
     res1 = c1.get();
     res2 = c2.get();
@@ -426,7 +426,7 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     std::cout << std::endl << "Intermingling islands..." << std::endl << std::endl;
 
     // Mix the population up, and run a combined simulation (eg, land bridges allow population to intermingle.
-    selected = simulationCrossover(Packages, matrix, mixedPopulation, GENERATIONS/4);
+    selected = simulationCrossover(Packages, matrix, mixedPopulation, generations/4);
     /*
     // Grab the best route and stuff in here
     vector<pair<vector<Package* >, vector<double> > > bestMixed;
@@ -643,7 +643,16 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file.close();
 }
 
-int main() {
+void printHelp(char *argv[]) {
+    std::cout << "Usage: " << argv[0] << " filename [options]" << std::endl << std::endl;
+    std::cout << "Options" << std::endl;
+    std::cout << "=======" << std::endl;
+    std::cout << "filename           CSV file of packages from delivery clients" << std::endl;
+    std::cout << "-pop #             Population size in GA to use" << std::endl;
+    std::cout << "-g #               Number of generations in GA" << std::endl;
+}
+
+int main(int argc, char *argv[]) {
 
     srand(time(0));
     //srand(201);
@@ -655,18 +664,107 @@ int main() {
 
     int returnValue;
 
+    unsigned int population = 0;
+    unsigned int generations = 0;
 
-
+    // Test if file exists
+    ifstream file;
+    string inputFile;
 
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
-    returnValue = readFile("Quad-100.csv", Packages, ClientMap);
+
+    if (argc == 1) {
+        printHelp(argv);
+        return 1;
+    } else {
+        istringstream inputFileSS(argv[1]);
+
+
+        try {
+            if (!(inputFileSS>>inputFile)) {
+                std::cout << "Error parsing filename to string" << std::endl;
+                printHelp(argv);
+                return 1;
+            } else if (inputFile == "-help" || inputFile == "--help" || inputFile == "-h" || inputFile == "--h") {
+                printHelp(argv);
+                return 0;
+            }
+
+            file.open(inputFile);
+
+            if (!file) {
+                std::cout << "File " << inputFile << " does not exist!" << std::endl;
+                return 1;
+            }
+
+            file.close();
+
+        }
+
+        catch (exception& e) {
+            std::cout << "Invalid file parameter: " << argv[2] << std::endl;
+            std::cout << "Exception: " << e.what() << std::endl;
+            return 1;
+        }
+
+        // Parse the rest of the options.
+        for (unsigned int i = 2; i < argc; ++i) {
+            istringstream cmdSwitch(argv[i]);
+            string strSwitch;
+
+            if (!(cmdSwitch >> strSwitch)) {
+                std::cerr << "Bad switch: " << argv[i] << std::endl;
+                return 1;
+            }
+
+            if (strSwitch == "-pop") {
+                try {
+                    istringstream ss(argv[i+1]);
+                    if (!(ss >> population)) {
+                        cerr << "Invalid number for population: " << argv[i+1] << std::endl;
+                        return 1;
+                    }
+                }
+                catch (exception& e) {
+                    std::cout << "Invalid population parameter: " << argv[i + 1] << std::endl;
+                    std::cout << "Exception: " << e.what() << std::endl;
+                    return 1;
+                }
+            } else if (strSwitch == "-g") {
+                try {
+                    istringstream ss(argv[i+1]);
+                    if (!(ss >> generations)) {
+                        cerr << "Invalid number for generations: " << argv[i+1] << std::endl;
+                    }
+                }
+                catch (exception& e) {
+                    std::cout << "Invalid generations parameter: " << argv[i + 1] << std::endl;
+                    std::cout << "Exception: " << e.what() << std::endl;
+                    return 1;
+                }
+            }
+
+        }
+    }
+
+    if (population == 0) {
+        std::cout << std::endl << "*** No population given... using default population. ***" << std::endl;
+        population = POPULATION;
+    }
+
+    if (generations == 0) {
+        std::cout << std::endl << "*** No generations given... using default number of generations. ***" << std::endl;
+        generations = GENERATIONS;
+    }
+
+    returnValue = readFile(inputFile, Packages, ClientMap);
 
     if (returnValue != 0) {
-        std::cout << "*** File specified client input file was not found... Exiting ***" << std::endl;
+        std::cout << std::endl << "*** File specified client input file was not found... Exiting ***" << std::endl;
         return 1;
     }
 
@@ -686,7 +784,7 @@ int main() {
     std::cout << "Evolving best route, please wait..." << std::endl;
 
 
-    best = runSimulationMixed(Packages, matrix);
+    best = runSimulationMixed(Packages, matrix, population, generations);
 
     std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
