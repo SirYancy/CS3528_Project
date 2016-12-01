@@ -6,6 +6,17 @@
 #include <utility>
 #include "Client.h"
 #include "Package.h"
+#include <iostream>
+#include <cmath>
+//#include <thread>
+#include <future>
+#include <random>
+#include <algorithm>
+#include <unordered_map>
+
+#define OVERNIGHT_WEIGHT  8
+#define TWODAY_WEIGHT     4
+#define REGULAR_WEIGHT    1
 
 //! Mutation structure to ease passing multiple values to genetic algorithm.
 typedef struct {
@@ -22,6 +33,13 @@ typedef struct {
 
 class Genetic {
     public:
+
+        typedef struct {
+            vector<double> fitnessValue;
+            size_t hashValue;
+            unsigned int sizeValue;
+        } geneInfo;
+
         //! Creates and initializes a genetic routing object.
         Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
@@ -38,20 +56,23 @@ class Genetic {
 
         vector<Package* > getBest() {return bestFit;};
 
-        vector< pair<vector<Package* >, float> > evolve_threads();
+        vector< pair<vector<Package* >, geneInfo> > evolve_threads();
 
         //! Calculates fitness of individual based on route.
         /*! \param individual The route to evaluate the fitness of.
          *  \return A vector of fitness values. Individual fitness score, priority package points, distance traveled, shift time, weight.
          */
-        vector<float> fitness(vector<Package* > individual);
+        vector<double> fitness(vector<Package* >* individual);
 
         //! Create initial route population.
         void initPopulation();
 
-        void loadPopulation(vector< pair<vector<Package* >, float> > newPopulation);
+        void loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopulation);
 
-        void printGene(vector<Package* > gene);
+        void printGene(vector<Package* >* gene) const;
+
+        size_t hash(vector<Package* >* gene) const;
+
 
     protected:
 
@@ -63,56 +84,51 @@ class Genetic {
         void mate();
 
         //! Handles mutation of current population based on probabilities passed during creation.
-        vector<vector<Package* > > mutate();
+        void mutate(vector<Package* >* choosen);
 
         //! Crosses over genes between two parents.
         /*! \param gene1 Gene sequence of parent 1.
          *  \param gene2 Gene sequence of parent 2.
          * \return Two new individuals crossed over from parent inputs in a random crossover point. Genes may be shorter due to removal of duplicate packages.
          */
-        vector<vector<Package*> > crossOver(vector<Package* > gene1, vector<Package* > gene2);
+        vector<vector<Package*> > crossOver(vector<Package* >* gene1, vector<Package* >* gene2);
 
         //! Mutates parent gene by randomly inserting a new package somewhere within the parent.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateInsert(vector<Package *> gene);
+        void mutateInsert(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly deleting a gene within the parent.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateDelete(vector<Package* > gene);
+        void mutateDelete(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping two genes somewhere within the parent.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateSwapWithin(vector<Package *> gene);
+        void mutateSwapWithin(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping an existing gene within the parent with a new non-duplicate package.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateSwapNew(vector<Package* > gene);
+        void mutateSwapNew(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly selecting a section of the gene, \f$i\dots\f$, and reversing the genes sequence.
         /*! \param gene Gene to be mutated.
          *  \return Gene that has been mutated.
          */
-        vector<Package* > mutateInversion(vector<Package* > gene);
+        void mutateInversion(vector<Package* >* gene, unsigned int location);
 
         //! Merge lists for merge sort. For packages based on fitness value in route vector.
         void mergeLists(unsigned long i, unsigned long m, unsigned long j);
+
         //! Merge sort for packages based on fitness value in route vector.
         void mergeSort(unsigned long i, unsigned long j);
 
-
-
-        //! Vector of pointers to all potential packages to consider routing.
-        vector<Package* > packages;
-        //! Size of vector of potential packages. Saves from expensive .size() calls.
-        unsigned int numOfPackages;
 
         //! Adjacency matrix of clients in package list.
         /*! Holds the matrix for all packages being considered. Currently indexed
@@ -121,6 +137,8 @@ class Genetic {
          *  other clients. A completely connected, undirected graph.
          */
         vector<vector<unsigned int> > adMatrix;
+
+        pair<int, int> chooseParents();
 
         //! Population size for evolution. Population size will be rounded down to multiples of 4 (threading.)
         unsigned int popNum;
@@ -145,6 +163,9 @@ class Genetic {
         //! Number of desired generations.
         unsigned long generations;
 
+        //! Current generation number
+        unsigned long currentGeneration = 0;
+
         //! The current population of "routes."
         /*! A list (vector) of individuals in the population.
          *  Each entry in the vector is a pair.
@@ -152,13 +173,19 @@ class Genetic {
          *  This is a vector of the packages in that route.
          *  The second item in the pair is that individual's fitness value.
          */
-        vector< pair<vector<Package* >, float> > genes;
+        vector< pair<vector<Package* >, geneInfo> > genes;
+
+
+        //! Vector of pointers to all potential packages to consider routing.
+        vector<Package* > packages;
+        //! Size of vector of potential packages. Saves from expensive .size() calls.
+        unsigned int numOfPackages;
 
         //! Ranking vector for population used in parent selection for mutation.
-        vector<unsigned int> ranking;
+        vector<double> ranking;
 
         //! Ranking total for random selection in roulette selection.
-        unsigned int rankTotal = 0;
+        double rankTotal = 0;
 
         //! Length of ranking array. Same as population.
         unsigned int rankingSize;
@@ -176,7 +203,7 @@ class Genetic {
         vector<Package* > bestFit;
 
         //! Best route information for console output.
-        vector<float> bestFitInfo;
+        vector<double> bestFitInfo;
 
         //! Mutation probabilities
         mutation_enum mutation;

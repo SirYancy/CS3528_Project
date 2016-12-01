@@ -1,0 +1,137 @@
+# depslib dependency file v1.0
+1479673113 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
+
+1479673183 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Client.h
+	<string>
+	<vector>
+	<utility>
+
+1479664485 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.h
+	<string>
+	<vector>
+
+1479598244 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/client_test.cpp
+	<iostream>
+	<iomanip>
+	"Client.h"
+	"Package.h"
+	<unordered_map>
+	<functional>
+	<string>
+
+1479392721 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Package.cpp
+	<string>
+	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+
+1479667942 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.cpp
+	"Utils.h"
+	<string>
+	<locale>
+
+1479667922 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/CS3528/Utils.h
+	<string>
+
+<<<<<<< Updated upstream
+1480187256 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
+=======
+1480213780 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.cpp
+>>>>>>> Stashed changes
+	<string>
+	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+	<iostream>
+
+<<<<<<< Updated upstream
+1480187256 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+=======
+1480213638 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Package.h
+>>>>>>> Stashed changes
+	<string>
+	<vector>
+
+1479978358 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.h
+	<string>
+	<vector>
+	<utility>
+
+<<<<<<< Updated upstream
+1480195339 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+=======
+1480227323 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+>>>>>>> Stashed changes
+	<iostream>
+	<iomanip>
+	"Client.h"
+	"Package.h"
+	<unordered_map>
+	<functional>
+	<string>
+	<fstream>
+	<sstream>
+	<cmath>
+	"Utils.h"
+	"Genetic.h"
+	<future>
+	<random>
+	<algorithm>
+
+1479789919 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.cpp
+	"Utils.h"
+	<string>
+	<locale>
+
+1479789919 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.h
+	<string>
+
+1479978358 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Client.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
+
+<<<<<<< Updated upstream
+1480195471 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+=======
+1480227323 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+>>>>>>> Stashed changes
+	"Genetic.h"
+	<vector>
+	<iostream>
+	<cmath>
+	<future>
+	<random>
+
+<<<<<<< Updated upstream
+1480193457 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+=======
+1480227619 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+>>>>>>> Stashed changes
+	<string>
+	<vector>
+	<utility>
+	"Client.h"
+	"Package.h"
+
