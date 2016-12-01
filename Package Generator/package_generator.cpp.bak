@@ -366,7 +366,7 @@ void randomPackages(const randomPackageEnum randomConsts) {
         weight = weightNormal(rng);
 
         while (weight < 0) {
-            weight = weightNormal(rng);
+            weightNormal(rng);
         }
 
         file << weight << ',';
@@ -395,7 +395,6 @@ void randomPackages(const randomPackageEnum randomConsts) {
 
     }
 
-
     // Loop for number of desired packages
     if (randomConsts.num > clusterAddresses.size()) {
         for (unsigned int i = 0; i < randomConsts.num - clusterAddresses.size(); ++i) {
@@ -404,13 +403,13 @@ void randomPackages(const randomPackageEnum randomConsts) {
             receiver = streetAddressUniform(randomConsts);
 
             file << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << sender << "," << firstNames[nameUniform(rng)] << "," << lastNames[nameUniform(rng)] << "," << receiver << ",";
-
             // Weight of package. Apply tenth ounce truncation by multiplying
             //unsigned int weight = weightNormal;
+
             weight = weightNormal(rng);
 
             while (weight < 0) {
-                weight = weightNormal(rng);
+                weightNormal(rng);
             }
 
             file << weight << ',';
