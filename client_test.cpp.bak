@@ -664,8 +664,8 @@ int main(int argc, char *argv[]) {
 
     int returnValue;
 
-    int population = 0;
-    int generations = 0;
+    unsigned int population = 0;
+    unsigned int generations = 0;
 
     // Test if file exists
     ifstream file;
@@ -717,7 +717,7 @@ int main(int argc, char *argv[]) {
             string strSwitch;
 
             if (!(cmdSwitch >> strSwitch)) {
-                std::cout << "Bad switch: " << argv[i] << std::endl;
+                std::cerr << "Bad switch: " << argv[i] << std::endl;
                 return 1;
             }
 
@@ -725,12 +725,8 @@ int main(int argc, char *argv[]) {
                 try {
                     istringstream ss(argv[i+1]);
                     if (!(ss >> population)) {
-                        std::cout << "Invalid number for population: " << argv[i+1] << std::endl;
+                        cerr << "Invalid number for population: " << argv[i+1] << std::endl;
                         return 1;
-                    }
-                    if (population < 0) {
-                        std::cout << std::endl << "*** Negative population is not allowed! ***" << std::endl;
-                        population = 0;
                     }
                 }
                 catch (exception& e) {
@@ -742,11 +738,7 @@ int main(int argc, char *argv[]) {
                 try {
                     istringstream ss(argv[i+1]);
                     if (!(ss >> generations)) {
-                        std::cout << "Invalid number for generations: " << argv[i+1] << std::endl;
-                    }
-
-                    if (generations < 0) {
-                        std::cout << std::endl << "*** Negative generations are not allowed! ***" << std::endl;
+                        cerr << "Invalid number for generations: " << argv[i+1] << std::endl;
                     }
                 }
                 catch (exception& e) {
@@ -789,7 +781,7 @@ int main(int argc, char *argv[]) {
     }
     */
 
-    std::cout << std::endl << "Evolving best route, please wait..." << std::endl;
+    std::cout << "Evolving best route, please wait..." << std::endl;
 
 
     best = runSimulationMixed(Packages, matrix, population, generations);
