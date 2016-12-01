@@ -2,21 +2,23 @@
 #include <iomanip>
 #include "Client.h"
 #include "Package.h"
+#include "Utils.h"
+#include "Genetic.h"
+#include "Truck.h"
 #include <unordered_map>
 #include <functional>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <cmath>
-#include "Utils.h"
-#include "Genetic.h"
+
 #include <future>
 #include <random>
 #include <algorithm>
 #include <ctime>
 
-#define GENERATIONS 10000
-#define POPULATION 1000
+#define GENERATIONS 5000
+#define POPULATION 500
 #define MAXTIME 60*8
 #define MAXWEIGHT 16*2000
 #define PACKAGE_LIMIT 100
@@ -464,10 +466,10 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     int index = 0;
 
     // Get date and time right now
-    time_t now = time(0);
+    auto now = time(nullptr);
 
     // Convert to string
-    char* dateTime = ctime(&now);
+    auto dateTime = *std::localtime(&now);
 
     file.open("route.gnu");
 
@@ -622,7 +624,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << "set mytics 10" << std::endl;
     file << "set label \"Pop: " << POPULATION << ", Gen: " << GENERATIONS << ", Fit: " << best->second[0] << "\"  at graph 0.8, 0.05" << std::endl;
     file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << MAXTIME << ", P: " << best->first.size() - 2 << "/" << Packages->size() << "\" at graph 0.8, graph 0.03" << std::endl;
-    file << "set label \"Date/Time: " << dateTime << "\"  at graph 0.05, 0.05" << std::endl;
+    file << "set label \"Date/Time: " << std::put_time(&dateTime, "%d-%m-%Y %H:%M:%S") << "\"  at graph 0.05, 0.05" << std::endl;
     file << "plot \'route.gnu\' index " << std::to_string(routeIndex) << " with lines ls 5 title \'Route\',\\" << std::endl;
     if (overnightIndex != -1) {
         file << "\'route.gnu\' index " << std::to_string(overnightIndex) << " with points ls 3 title \'Overnight\',\\" << std::endl;
@@ -687,6 +689,15 @@ int main() {
     best = runSimulationMixed(Packages, matrix);
 
     std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
+
+    Truck truck(16*2000);
+
+    truck.addPackageVector(&best.first);
+
+    truck.processPackages();
+    string directions = truck.getDirections();
+
+    std::cout << std::endl << "Directions\r\n==========" << std::endl << directions;
 
     createGraphFile(&Packages, &best, originPtr);
 

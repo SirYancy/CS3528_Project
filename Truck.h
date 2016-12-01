@@ -34,7 +34,7 @@ class Truck{
          * \return double Truck's weight limit
          */
         double getWeight() const;
-        
+
         //! Getter for package vector
         /*
          * \return packages a vector containing pointers to packages loaded in the truck
@@ -45,13 +45,13 @@ class Truck{
         /*!
          * \return the vector containing the truck's current list of directions
          */
-        vector<string*> getDirections() const;
-        
+        string getDirections() const;
+
         //! Setter for directions vector
         /*!
          * \param directions a pointer to a vector contianing the truck's assigned directions
          */
-        void setDirections(vector<string*>);
+        void setDirections(string);
 
         //! Adds a package to the truck
         /*!
@@ -59,6 +59,14 @@ class Truck{
          * \param pack A package object
          */
         void addPackage(Package*);
+
+        void addPackageVector(vector<Package* >* packs);
+
+        //! Processes packages held by the truck into addresses.
+        /*! Processes the packages held by the truck.
+         * Currently converts packages into vector string for print out.
+         */
+        void processPackages();
 
         //! Delivers a package
         /*!
@@ -72,7 +80,7 @@ class Truck{
     private:
         //! This truck's identification number
         const int truckID;
-        
+
         //! This truck's weight limit
         double weight;
 
@@ -80,10 +88,10 @@ class Truck{
         double currentWeight = 0;
 
         //! Vector storing the truck's current load of packages
-        vector<Package*> packages;
+        vector<Package* > packages;
 
         //! Vector of strings storing the directions for this truck
-        vector<string*> directions;
+        string directions;
 
 };
 #endif //TRUCK_H

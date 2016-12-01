@@ -98,22 +98,24 @@
 	<vector>
 	<utility>
 
-1480475055 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
+1480554187 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/client_test.cpp
 	<iostream>
 	<iomanip>
 	"Client.h"
 	"Package.h"
+	"Utils.h"
+	"Genetic.h"
+	"Truck.h"
 	<unordered_map>
 	<functional>
 	<string>
 	<fstream>
 	<sstream>
 	<cmath>
-	"Utils.h"
-	"Genetic.h"
 	<future>
 	<random>
 	<algorithm>
+	<ctime>
 
 1479789919 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Utils.cpp
 	"Utils.h"
@@ -136,10 +138,10 @@
 	<functional>
 	"Utils.h"
 
-1480475530 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
+1480551575 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.cpp
 	"Genetic.h"
 
-1480474022 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
+1480551575 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Genetic.h
 	<string>
 	<vector>
 	<utility>
@@ -205,4 +207,19 @@
 	<random>
 	<algorithm>
 	<unordered_map>
+
+1480554400 source:/home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Truck.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	<algorithm>
+	"Truck.h"
+	"Package.h"
+	"Client.h"
+	"Utils.h"
+
+1480553453 /home/peanut/ownCloud-encfs/School/Robert/2016/Fall/CS 3528 Data Structure and Algorithms/CS3528_Project/Truck.h
+	<string>
+	<vector>
 

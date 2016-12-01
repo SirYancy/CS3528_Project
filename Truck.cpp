@@ -23,7 +23,7 @@ Truck::Truck(const double w)
 
 //! Gets this truck's ID number
 /*!
- * return int 
+ * return int
  */
 int Truck::getTruckID() const
 {
@@ -52,16 +52,28 @@ vector<Package*> Truck::getPackages() const
 /*!
  * \return vector<string*>
  */
-vector<string*> Truck::getDirections() const
+string Truck::getDirections() const
 {
     return directions;
+}
+
+void Truck::processPackages() {
+    directions = "";
+
+    for (auto iter = packages.begin(); iter != packages.end(); ++iter) {
+        directions += (*iter)->getReceiver()->getName() + "\r\n";
+        directions += (*iter)->getReceiver()->getAddress() + "\r\n";
+        directions += (*iter)->getReceiver()->getCity() + ", " + (*iter)->getReceiver()->getState() + " " + (*iter)->getReceiver()->getZip() + "\r\n\r\n";
+    }
+
+    directions += "WAREHOUSE\r\n";
 }
 
 //! Setter for directions vector
 /*!
  * \param direct pointer to directions vector
  */
-void Truck::setDirections(vector<string*> direct)
+void Truck::setDirections(string direct)
 {
     directions = direct;
 }
@@ -81,13 +93,17 @@ void Truck::addPackage(Package *pack)
     currentWeight += pack->getWeight();
 }
 
+void Truck::addPackageVector(vector<Package* >* packs) {
+    packages = *packs;
+}
+
 //! Delivers package
 /*!
  * sets delivered flag to true if this package is in the vector
  */
 void Truck::deliverPackage(Package *pack)
 {
-    if(pack->getDelivered())
+/*    if(pack->getDelivered())
     {
         throw invalid_argument("Package is already delivered.");
     }
@@ -101,6 +117,7 @@ void Truck::deliverPackage(Package *pack)
     {
         throw invalid_argument("That package is not on this truck and can't be delivered");
     }
+    */
 }
 
 //! To string
