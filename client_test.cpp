@@ -330,10 +330,10 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     // Here we call a wrapper, that creates it's own GA object and runs the simulation. Hence, every simulation should be
     // it's own unique snowflake.
     // We launch simulationIsolation which will return the entire population for mixing.
-    auto f1 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
-    auto f2 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
-    auto f3 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
-    auto f4 = std::async(std::launch::deferred, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
+    auto f1 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
+    auto f2 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
+    auto f3 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
+    auto f4 = std::async(std::launch::async, simulationIsolation, Packages, matrix, generations, population, shiftTime, weight);
 
     // Wait for threads to finish, then fetch the returned result with get()
     auto res1 = f1.get();

@@ -1,7 +1,4 @@
 #include "Genetic.h"
-//#include "Client.h"
-//#include "Package.h"
-
 
 // Seed nice random number generator.
 std::mt19937 rngGenetic(std::random_device{}());
@@ -19,13 +16,11 @@ Genetic::Genetic(std::vector<Package*> packs,
     Priority currentPriority;
 
     // Truncate population to multiples of four for threading.
-    //popNum = (population / 4) * 4;
     popNum = population;
 
     std::cout << "Population: " << popNum << " Generations: " << gens << std::endl;
 
     // Total for roulette selection of mutation.
-    //mutation.total = mutation.crossOver + mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
     mutation.total = mutation.deleteOld + mutation.insertNew + mutation.inversion + mutation.swapOut + mutation.swapWithin;
 
     // Create the best fitness info vector for later indexing.
@@ -66,50 +61,52 @@ size_t Genetic::hash(vector<Package* >* gene) const {
 
     return seed;
 }
+
 void Genetic::initPopulation() {
     // Package distribution
     std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);
 
+    // Individual we're creating randomly
     std::vector<Package* > individual;
 
-    std::vector<double> returnedFitness;
-
+    // Resize population to avoid push_backs
     genes.resize(popNum);
 
+    // Gene info for current genome
+    geneInfo currentGeneInfo;
+
+    // Totals to keep track of for route, don't overload the truck.
     float totalWeight = 0;
     unsigned int totalPackages = 0;
-    //unsigned int maxTries = 1000;
-    unsigned int tries = 0;
 
-
+    // Currently selected package
     Package* currentPackage;
+
+    // Random package index
     unsigned int randomPackage;
+
+    // Is package already present flag
     bool present = false;
 
+    // Create population of individuals.
     for (unsigned int i = 0; i < popNum; i++) {
-        //std::cout << "Individual " << i << std::endl;
 
         // Clear individual
         individual.clear();
+
+        // Don't overload the truck. Reset.
         totalWeight = 0;
         totalPackages = 0;
-        tries = 0;
-
-        geneInfo currentGeneInfo;
 
         // Loop while we still have packages to place, and we're under the limits.
         while (totalPackages < numOfPackages && totalPackages < packageLimit && totalWeight < weightLimit && (totalPackages * stopTime) < timeLimit / 2) {
 
-            tries++;
-
             // Random index to packages
             randomPackage = packageUniform(rngGenetic);
 
-            //std::cout << "Random package: " << to_string(randomPackage << std::endl;
             // Get the package pointer
             currentPackage = packages[randomPackage];
 
-            //std::cout << "Package ptr: " << std::to_string(currentPackage->getID()) << std::endl;
             // Assume not present in current individual
             present = false;
 
@@ -118,54 +115,45 @@ void Genetic::initPopulation() {
                 // Check duplicate
                 if (*iter == currentPackage) {
                     present = true;
-                    //std::cout << "Package already present: " << std::to_string((*iter)->getID()) << std::endl;
                     break;
                 }
             }
 
             // If not a duplicate
             if (present == false) {
-                // Over truck limit if added?
-                //if (currentPackage->getWeight() + totalWeight <= weightLimit) {
-                    // Add package to individual
-                    individual.push_back(currentPackage);
-                    //std::cout << "Adding package ptr: " << currentPackage << std::endl;
-                    totalPackages++;
-                    totalWeight += currentPackage->getWeight();
 
-                //}
-
+                // Add package to individual
+                individual.push_back(currentPackage);
+                totalPackages++;
+                totalWeight += currentPackage->getWeight();
             }
         }
 
-        //std::cout << "Current weight: " << totalWeight << endl;
-        //genes.push_back(std::make_pair(individual, 0));
+        // Optimize individual.
+        // Incredibly slow!
+        //individual = twoOpt(&individual);
+
+        // Get gene info
         currentGeneInfo.fitnessValue = fitness(&individual);
         currentGeneInfo.hashValue = hash(&individual);
         currentGeneInfo.sizeValue = individual.size();
 
+        // Add to gene pool
         genes[i] = std::make_pair(individual, currentGeneInfo);
-
-
-        //std::cout << "Adding package of length: " << individual.size() << std::endl;
-        //printGene(&individual);
-        //std::cout << std::endl;
-        //std::cout << "Hash: " << hash(&individual) << std::endl;
-
 
     }
 
-
+    // Create ranking array for selection
     initRanking(2);
 
 }
 
 void Genetic::initRanking(float exponent) {
-    // Resize the ranking vector to evolution.
+    // Resize the ranking vector used in selection to population.
     ranking.resize(genes.size());
     rankingSize = ranking.size();
 
-    // Load exponential ranking array. Always the same number to individuals, so same ranking
+    // Load exponential ranking array. Always the same number of indices to individuals, so same ranking
     for (unsigned int i = 0; i < rankingSize; ++i) {
         // Exponential ranking
         ranking[i] = pow(i+1, exponent);
@@ -223,21 +211,21 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
         generationRatio = 1.0;
     }
 
-    indFit = pow(2.0, static_cast<double>(priorities) / static_cast<double>(totalPriority));
-
-    std::cout << "P: " << priorities << "/" << totalPriority << " T: " << shiftTime << " Generation ratio: " << generationRatio << std::endl;
-    std::cout << "Indfit: " << indFit << " ";
+    indFit = pow(2.0, static_cast<double>(priorities) / static_cast<double>(totalPriority)) * pow(1.1, (static_cast<double>(individual->size() * stopTime) / static_cast<double>(shiftTime)));
+    //std::cout << "Initial Indfit: " << indFit << " P: " << priorities << "/" << totalPriority << " T: " << shiftTime << " Generation ratio: " << generationRatio << std::endl;
     if (shiftTime > timeLimit) {
         indFit -= (pow(2.0, 1.5 + (static_cast<double>(shiftTime) - static_cast<double>(timeLimit)) / static_cast<double>(timeLimit)) * generationRatio);
-        std::cout << " Over time limit: " << indFit << " " << std::endl;
-    } else {
-        std::cout << "Under time limit" << std::endl;
-        if (indFit < 0) {
-            indFit /= pow(2.0, (static_cast<double>(timeLimit) - static_cast<double>(shiftTime)) / static_cast<double>(timeLimit));
-        } else {
-            indFit *= pow(2.0, (static_cast<double>(timeLimit) - static_cast<double>(shiftTime)) / static_cast<double>(timeLimit));
-        }
-    }
+        //std::cout << " Over time limit: " << indFit << " " << std::endl;
+    } //else {
+        //std::cout << "Under time limit" << std::endl;
+        //if (indFit < 0) {
+            //std::cout << "Negative fitness" << std::endl;
+            //indFit /= pow(2.0, (static_cast<double>(timeLimit) - static_cast<double>(shiftTime)) / static_cast<double>(timeLimit));
+       // } //else {
+            //std::cout << "Positive fitness" << std::endl;
+            //indFit *= ;
+        //}
+    //}
 
     if (weight > weightLimit) {
         indFit -= pow(2.0, 1.5 + (static_cast<double>(weight) - static_cast<double>(weightLimit)) / static_cast<double>(weightLimit)) * generationRatio;
@@ -248,7 +236,8 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
     }
 
 
-    //indFit = pow(indFit, 3);
+    indFit = pow(indFit, 3.0);
+    //std::cout << "Indfit: " << indFit << std::endl;
 
     vector<double> fit {indFit, static_cast<double>(priorities), static_cast<double>(distance), static_cast<double>(shiftTime), static_cast<double>(weight)};
     return fit;
@@ -264,37 +253,28 @@ void Genetic::loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopu
 
     initRanking(1.5);
 
-/*
-    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
-        currentFitness = fitness((*iter).first);
-        (*iter).second = currentFitness[0];
-    }
-*/
-
-    // Recompute the fitness value
+    // Recompute the fitness values
     currentGeneration = 1;
 
     for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        //(*iter).first = twoOpt(&(*iter).first);
         (*iter).second.fitnessValue = fitness(&(*iter).first);
     }
 
-    //mergeSort(0, genes.size() - 1);
     std::sort(genes.begin(), genes.end(), [] (pair<vector<Package* >, Genetic::geneInfo> const& left, pair<vector<Package* >, Genetic::geneInfo> const& right) {return left.second.fitnessValue < right.second.fitnessValue;});
 
-/*
-    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
-        for (auto jitter = iter->first.begin(); jitter != iter->first.end(); ++jitter) {
-            std::cout << (*jitter)->getID() << " ";
-        }
-        std::cout << "   <- " << iter->second.fitnessValue << std::endl;
-    }
-*/
     return;
 
 }
 
 vector< pair<vector<Package* >, Genetic::geneInfo> > Genetic::evolve_threads() {
     evolve();
+
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        (*iter).first = twoOpt(&(*iter).first);
+        (*iter).second.fitnessValue = fitness(&(*iter).first);
+    }
+
     return genes;
 
 }
@@ -304,8 +284,6 @@ void Genetic::printGene(vector<Package* >* gene) const {
        for (auto iter = gene->begin(); iter != gene->end(); ++iter) {
             std::cout << (*iter)->getID() << " ";
        }
-
-       //std::cout << std::endl;
 }
 
 vector<Package* > Genetic::evolve() {
@@ -313,28 +291,69 @@ vector<Package* > Genetic::evolve() {
     vector<double> currentFitness (5, 0);
     vector<double> currentBest (5, 0);
 
+    vector<Package* > tempGene;
+    vector<double> tempInfo;
+
+    geneInfo currentInfo;
+
+    // Sadly, the use of NaN and -Inf are not guaranteed, so we'll use a dumb flag.
+    // Have we loaded a best fitness individual yet?
+    bool bestFoundYet = false;
+
     std::vector<std::pair<std::vector<Package* >, geneInfo> >::iterator row;
 
-    for (unsigned long i = 1; i <= generations + 1; ++i) {
+    for (unsigned long i = 0; i < generations; ++i) {
 
-        currentGeneration = i;
+        currentGeneration = i + 1;
 
         currentBest[0] = 0;
+
+        // Need to account for increasing generations multiplier in fitness changing the penalties.
+        // Get new best fitness, if we're not initialized.
+        /*if (bestFoundYet == true) {
+            std::cout << "Old best: " << bestGeneInfo.fitnessValue[0]; //bestFitInfo[0];
+            bestGeneInfo.fitnessValue = fitness(&bestFit);
+            std::cout << " New: " << bestFitInfo[0] << std::endl;
+        }*/
+
         for (row = genes.begin(); row != genes.end(); ++row) {
 
-                currentFitness = row->second.fitnessValue;
-                if (currentFitness[0] > currentBest[0] || currentBest[0] == 0) {
-                    currentBest = currentFitness;
-                }
+            //currentFitness = row->second.fitnessValue;
+            //currentInfo = row->second;
 
-                if (currentFitness[0] > bestFitInfo[0] || bestFitInfo[0] == 0) {
-                    bestFit = (*row).first;
-                    bestFitInfo = currentFitness;
-                }
+            // Check if this is our best gene. Update fitness if so.
+            if (row->second.hashValue == bestGeneInfo.hashValue) {
+                //std::cout << "Found old best " << row->second.hashValue << " as: " << row->second.fitnessValue[0];
+                row->second.fitnessValue = fitness(&(row->first));
+                bestGeneInfo = row->second;
+                //std::cout << " Updated new best " << bestGeneInfo.hashValue << " as: " << bestGeneInfo.fitnessValue[0] << std::endl;
+
+            }
+
+            //row->first = twoOpt(&(row->first));
+            //row->second.fitnessValue = fitness(&(row->first));
+            //row->second.hashValue = hash(&(row->first));
+
+            if (row->second.fitnessValue[0] > currentBest[0] || currentBest[0] == 0) {
+                currentBest = row->second.fitnessValue;
+            }
+
+            // Found a better individual, or is this the first individual?
+            if (bestFoundYet == false || row->second.fitnessValue[0] > bestGeneInfo.fitnessValue[0]) {
+                bestFit = (*row).first;
+                bestFitInfo = row->second.fitnessValue;
+                bestGeneInfo = row->second;
+                bestFoundYet = true;
+
+            }
         }
 
-        if (i % 1000 == 0) {
+        if (i % 100 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
+
+            //tempGene = twoOpt(&bestFit);
+            //tempInfo = fitness(&tempGene);
+            //std::cout << "         2-opt Best F: " << tempInfo[0] << " P: " << tempInfo[1] << "/" << totalPriority << " D: " << tempInfo[2] << " T: " << tempInfo[3] << "/" << timeLimit << " W: " << tempInfo[4] << "/" << weightLimit << " L: " << tempInfo.size() << std::endl;
         }
         mate();
     }
@@ -343,7 +362,7 @@ vector<Package* > Genetic::evolve() {
     bestFit = twoOpt(&bestFit);
     bestFitInfo = fitness(&bestFit);
 
-    std::cout << "Generation: " << currentGeneration << std::endl;
+    //std::cout << "Generation: " << currentGeneration << std::endl;
     std::cout << "2-opt Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << std::endl;
 
     return getBest();
@@ -447,10 +466,13 @@ vector<Package* > Genetic::twoOpt(vector<Package* >* gene) {
                     if (currentFitnessGene[0] > previousFitness[0]) {
                         // Had an improvement, flag it
                         improvement = true;
+
                         // Save best score.
                         previousFitness = currentFitnessGene;
+
                         // Save best gene.
                         previousBestGene = workingGene;
+
                         // Break out of inside loop.
                         break;
                     } else {
@@ -504,6 +526,10 @@ void Genetic::mate() {
 
             currentGeneInfo1.sizeValue = newIndividuals[0].size();
             currentGeneInfo2.sizeValue = newIndividuals[1].size();
+
+            // Incredibly slow!
+            //newIndividuals[0] = twoOpt(&newIndividuals[0]);
+            //newIndividuals[1] = twoOpt(&newIndividuals[1]);
             currentGeneInfo1.hashValue = hash(&newIndividuals[0]);
             currentGeneInfo2.hashValue = hash(&newIndividuals[1]);
 

@@ -210,6 +210,9 @@ class Genetic {
         //! Best route information for console output.
         vector<double> bestFitInfo;
 
+        //! Gene info of best genome found so far. Should be used instead of bestFit info.
+        geneInfo bestGeneInfo;
+
         //! Mutation probabilities
         mutation_enum mutation;
 
