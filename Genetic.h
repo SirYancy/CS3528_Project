@@ -73,6 +73,11 @@ class Genetic {
 
         size_t hash(vector<Package* >* gene) const;
 
+        //! Perform 2-opt (2-optimal inversion) on a gene, looping until no improvement is seen.
+        /*! \param gene A gene vector of packages \b not including the depot end-points.
+         *  \return A vector of two-optimized packages.
+         */
+        vector<Package* > twoOpt(vector<Package* >* gene);
 
     protected:
 

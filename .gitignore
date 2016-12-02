@@ -31,3 +31,10 @@
 # Documentation files
 **/Documentation/html/**
 **/Documentation/latex/**
+
+**/bin/**
+**/obj/**
+*.layout
+*.depend*
+*.bak
+*.cbp*

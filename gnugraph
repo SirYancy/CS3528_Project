@@ -3,8 +3,8 @@ set style line 2 lc rgb 'blue' lt 1 lw 2 pt 5 ps 1.5 # --- blue
 set style line 3 lc rgb 'red' lt 1 lw 2 pt 9 ps 1.5 # --- red
 set style line 4 lc rgb 'black' lt 1 lw 2 pt 15 ps 4 # --- black
 set style line 5 lc rgb 'orange' lt 1 lw 3 pt 1 ps 1.5 # --- orange
-set xrange [-55:51]
-set yrange [-58:53]
+set xrange [-31:33]
+set yrange [-31:34]
 set terminal pngcairo size 1920,1080
 set term 'pngcairo'
 set output 'route.png'
@@ -14,9 +14,9 @@ set grid mytics ytics ls 100, ls 101
 set grid mxtics xtics ls 100, ls 101
 set mxtics 10
 set mytics 10
-set label "Pop: 500, Gen: 5000, Fit: 2.19961"  at graph 0.8, 0.05
-set label "Pri: 72, T: 472/480, P: 30/100" at graph 0.8, graph 0.03
-set label "Date/Time: 30-11-2016 21:09:25"  at graph 0.05, 0.05
+set label "Pop: 2000, Gen: 20000, Fit: 8.00822"  at graph 0.8, 0.05
+set label "Pri: 4628, T: 2024/480, P: 198/200" at graph 0.8, graph 0.03
+set label "Date/Time: 12-02-2016 00:07:51"  at graph 0.05, 0.05
 plot 'route.gnu' index 4 with lines ls 5 title 'Route',\
 'route.gnu' index 0 with points ls 3 title 'Overnight',\
 'route.gnu' index 1 with points ls 2 title 'Two-day',\

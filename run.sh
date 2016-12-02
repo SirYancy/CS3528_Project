@@ -1,8 +1,8 @@
 #!/bin/bash
-for i in `seq 1 30`;
+for i in `seq 1 5`;
 do
-	nice -n 19 ./package_delivery $1.csv -pop $2 -g $3
+	nice -n 19 ./package_delivery $1.csv $2 -pop $3 -g $4 -t $5 -w $6
 	gnuplot gnugraph
-	mv route.png route-$1-$i.png
+	mv route.png route_$1_p$3-g$4-t$5-w$6_$i.png
 done
 
