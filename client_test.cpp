@@ -597,8 +597,8 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << "set grid mxtics xtics ls 100, ls 101" << std::endl;
     file << "set mxtics 10" << std::endl;
     file << "set mytics 10" << std::endl;
-    file << "set label \"Pop: " << population << ", Gen: " << generations << ", Fit: " << best->second[0] << "\"  at graph 0.8, 0.05" << std::endl;
-    file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << shiftTime << ", P: " << best->first.size() << "/" << Packages->size() << "W: " << best->second[4] << "/" << weight << "\" at graph 0.8, graph 0.03" << std::endl;
+    file << "set label \"Pop: " << population << ", Gen: " << generations << ", Fit: " << best->second[0] << " Pri: " << best->second[1] << "\"  at graph 0.8, 0.05" << std::endl;
+    file << "set label \"T: " << best->second[3] << "/" << shiftTime << ", P: " << best->first.size() << "/" << Packages->size() << " W: " << best->second[4] << "/" << weight << "\" at graph 0.8, graph 0.03" << std::endl;
     file << "set label \"Date/Time: " << std::put_time(&dateTime, "%m-%d-%Y %H:%M:%S") << "\"  at graph 0.05, 0.05" << std::endl;
     file << "plot \'route.gnu\' index " << std::to_string(routeIndex) << " with lines ls 5 title \'Route\',\\" << std::endl;
     if (overnightIndex != -1) {
@@ -649,6 +649,7 @@ int main(int argc, char *argv[]) {
 
     // Test if file exists
     ifstream file;
+    ofstream outFile;
     string inputFile;
     string temp;
 
@@ -841,14 +842,27 @@ int main(int argc, char *argv[]) {
 
     std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
-    Truck truck(16*2000);
+    Truck truck(best.second[4]);
 
     truck.addPackageVector(&best.first);
 
     truck.processPackages();
     string directions = truck.getDirections();
 
-    std::cout << std::endl << "Directions\r\n==========" << std::endl << directions;
+
+
+    std::cout << "Route Packages: " << best.first.size() << ", distance: " << best.second[2] << " blocks, weight: " <<  best.second[4] << " ounces." << std::endl;
+    std::cout << std::endl << "Directions\r\n==========" << std::endl << directions << std::endl;
+
+    // Output directions
+    outFile.open("direction.out");
+
+    if (outFile) {
+        outFile << "Route Packages: " << best.first.size() << ", distance: " << best.second[2] << " blocks, weight: " <<  best.second[4] << " ounces." << std::endl;
+        outFile << std::endl << "Directions\r\n==========" << std::endl << directions << std::endl;
+    }
+
+    outFile.close();
 
     createGraphFile(&Packages, &best, originPtr, population, generations, shiftTime, weight);
 

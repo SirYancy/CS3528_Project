@@ -279,7 +279,7 @@ vector< pair<vector<Package* >, Genetic::geneInfo> > Genetic::evolve_threads() {
 }
 
 void Genetic::twoOptPopulation() {
-    std::cout << "*** Optimizing population ***" << std::endl;
+    std::cout << "*** Optimizing population Generation " << currentGeneration << " ***" << std::endl;
 
     // Iterate over population and invert optimize the genomes.
     for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
@@ -316,8 +316,8 @@ vector<Package* > Genetic::evolve() {
 
         currentBest[0] = 0;
 
-        // Optimize the population occasionally.
-        if (currentGeneration % (generations / 4) == 0) {
+        // Optimize the population occasionally, but not the last generation, we do that on the way out.
+        if (currentGeneration % (generations / 4) == 0 && currentGeneration != generations) {
             twoOptPopulation();
         }
 
