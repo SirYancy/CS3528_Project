@@ -146,6 +146,8 @@ void Genetic::initPopulation() {
     // Create ranking array for selection
     initRanking(2);
 
+    twoOptPopulation();
+
 }
 
 void Genetic::initRanking(float exponent) {
@@ -211,7 +213,7 @@ vector<double> Genetic::fitness(vector<Package* >* individual) {
         generationRatio = 1.0;
     }
 
-    indFit = pow(2.0, static_cast<double>(priorities) / static_cast<double>(totalPriority)) * pow(1.1, (static_cast<double>(individual->size() * stopTime) / static_cast<double>(shiftTime)));
+    indFit = pow(2.0, static_cast<double>(priorities) / static_cast<double>(totalPriority)) * pow(1.05, (static_cast<double>(individual->size() * stopTime) / static_cast<double>(shiftTime)));
     //std::cout << "Initial Indfit: " << indFit << " P: " << priorities << "/" << totalPriority << " T: " << shiftTime << " Generation ratio: " << generationRatio << std::endl;
     if (shiftTime > timeLimit) {
         indFit -= (pow(2.0, 1.5 + (static_cast<double>(shiftTime) - static_cast<double>(timeLimit)) / static_cast<double>(timeLimit)) * generationRatio);
@@ -270,15 +272,21 @@ void Genetic::loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopu
 vector< pair<vector<Package* >, Genetic::geneInfo> > Genetic::evolve_threads() {
     evolve();
 
-    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
-        (*iter).first = twoOpt(&(*iter).first);
-        (*iter).second.fitnessValue = fitness(&(*iter).first);
-    }
+    twoOptPopulation();
 
     return genes;
 
 }
 
+void Genetic::twoOptPopulation() {
+    std::cout << "*** Optimizing population ***" << std::endl;
+
+    // Iterate over population and invert optimize the genomes.
+    for (auto iter = genes.begin(); iter != genes.end(); ++iter) {
+        (*iter).first = twoOpt(&(*iter).first);
+        (*iter).second.fitnessValue = fitness(&(*iter).first);
+    }
+}
 
 void Genetic::printGene(vector<Package* >* gene) const {
        for (auto iter = gene->begin(); iter != gene->end(); ++iter) {
@@ -308,18 +316,12 @@ vector<Package* > Genetic::evolve() {
 
         currentBest[0] = 0;
 
-        // Need to account for increasing generations multiplier in fitness changing the penalties.
-        // Get new best fitness, if we're not initialized.
-        /*if (bestFoundYet == true) {
-            std::cout << "Old best: " << bestGeneInfo.fitnessValue[0]; //bestFitInfo[0];
-            bestGeneInfo.fitnessValue = fitness(&bestFit);
-            std::cout << " New: " << bestFitInfo[0] << std::endl;
-        }*/
+        // Optimize the population occasionally.
+        if (currentGeneration % (generations / 4) == 0) {
+            twoOptPopulation();
+        }
 
         for (row = genes.begin(); row != genes.end(); ++row) {
-
-            //currentFitness = row->second.fitnessValue;
-            //currentInfo = row->second;
 
             // Check if this is our best gene. Update fitness if so.
             if (row->second.hashValue == bestGeneInfo.hashValue) {
@@ -330,6 +332,7 @@ vector<Package* > Genetic::evolve() {
 
             }
 
+            // SLOW!
             //row->first = twoOpt(&(row->first));
             //row->second.fitnessValue = fitness(&(row->first));
             //row->second.hashValue = hash(&(row->first));
@@ -348,7 +351,7 @@ vector<Package* > Genetic::evolve() {
             }
         }
 
-        if (i % 100 == 0) {
+        if (i % 500 == 0) {
             std::cout << "Generation " << i << " Best F: " << bestFitInfo[0] << " P: " << bestFitInfo[1] << "/" << totalPriority << " D: " << bestFitInfo[2] << " T: " << bestFitInfo[3] << "/" << timeLimit << " W: " << bestFitInfo[4] << "/" << weightLimit << " L: " << bestFit.size() << "/" << numOfPackages << " CO: " << avgIndividual << std::endl;//" F: " << genes[popNum - elitist - 2].second << " P: " << currentBest[1] << " D: " << currentBest[2] << " T: " << currentBest[3] << "/" << timeLimit << " W: " << currentBest[4] << "/" << weightLimit << std::endl;
 
             //tempGene = twoOpt(&bestFit);
@@ -445,11 +448,17 @@ vector<Package* > Genetic::twoOpt(vector<Package* >* gene) {
         bool improvement = true;
         int inversionSize;
 
+        //std::cout << "Incoming distance: " << previousFitness[2] << std::endl;
+
         while (improvement == true) {
+
+            // Assume we will have no improvement
             improvement = false;
 
-            // Loop through gene looking for improvement
+            // Loop through gene looking for improvement. Front index of inversion
             for (unsigned int frontIndex = 0; frontIndex < geneSize - 2; ++frontIndex) {
+
+                // Inner loop for end-point/back of inversion
                 for (unsigned int backIndex = frontIndex + 1; backIndex < geneSize - 1; ++backIndex) {
 
                     inversionSize = backIndex - frontIndex;
@@ -463,7 +472,10 @@ vector<Package* > Genetic::twoOpt(vector<Package* >* gene) {
                     // Check for improvement
                     currentFitnessGene = fitness(&workingGene);
 
-                    if (currentFitnessGene[0] > previousFitness[0]) {
+                    // Check if distance improved
+                    if (currentFitnessGene[2] < previousFitness[2]) {
+                        //std::cout << "New distance: " << currentFitnessGene[2] << std::endl;
+
                         // Had an improvement, flag it
                         improvement = true;
 
@@ -481,13 +493,12 @@ vector<Package* > Genetic::twoOpt(vector<Package* >* gene) {
                     }
                 }
 
+
                 if (improvement == true) {
                     // Break out of outer loop.
                     break;
                 }
             }
-
-
         }
     }
 
@@ -539,6 +550,7 @@ void Genetic::mate() {
                 currentGeneInfo2.fitnessValue = fitness(&newIndividuals[1]);
             }
 
+            /*
             if (different == false) {
                 std::cout << "Crossover identical" << std::endl;
                 printGene(&newIndividuals[0]);
@@ -546,6 +558,7 @@ void Genetic::mate() {
                 printGene(&newIndividuals[1]);
                 std::cout << std::endl;
             }
+            */
         }
 
         newPopulation[2 * i] = make_pair(newIndividuals[0], currentGeneInfo1);
@@ -903,7 +916,7 @@ void Genetic::mutateSwapWithin(vector<Package *>* gene, unsigned int location) {
 void Genetic::mutateSwapNew(vector<Package* >* gene, unsigned int location) {
     unsigned int geneSize = gene->size();
 
-    if (gene->size() < numOfPackages) {
+    if (geneSize < numOfPackages) {
 
         std::uniform_int_distribution<int> geneUniform(0, geneSize - 1);
         std::uniform_int_distribution<int> packageUniform(0, numOfPackages - 1);

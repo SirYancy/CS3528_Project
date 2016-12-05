@@ -83,6 +83,8 @@ class Genetic {
 
     private:
 
+        void twoOptPopulation();
+
         void initRanking(float exponent);
 
         //! Select and create new individuals for the next population.

@@ -30,8 +30,8 @@ std::mt19937 rng(std::random_device{}());
 
 struct {
     string name = "WAREHOUSE";
-    string address = "2240 21 ST NW";
-    string city = "BEMIDJI";
+    string address = "123 MAIN ST N";
+    string city = "Bemidji";
     string state = "MN";
     string zip = "56601";
 } warehouse;
@@ -304,7 +304,7 @@ pair<vector<Package* >, vector<double> > simulationCrossover(vector<Package* > P
     mutation.crossOver  = 0.90;
     mutation.deleteOld  = 0.001;
     mutation.insertNew  = 0.001;
-    mutation.inversion  = 0.02;
+    mutation.inversion  = 0.005;
     mutation.swapOut    = 0.001;
     mutation.swapWithin = 0.02;
     mutation.elite      = 0.01;
@@ -428,7 +428,7 @@ pair<vector<Package* >, vector<double> > runSimulationMixed(vector<Package* > Pa
     return selected;
 }
 
-void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector<double> >* best, Client* originPtr, unsigned int population, unsigned int generations) {
+void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector<double> >* best, Client* originPtr, unsigned int population, unsigned int generations, unsigned int shiftTime, float weight) {
     // Output file stream
     ofstream file;
 
@@ -598,7 +598,7 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file << "set mxtics 10" << std::endl;
     file << "set mytics 10" << std::endl;
     file << "set label \"Pop: " << population << ", Gen: " << generations << ", Fit: " << best->second[0] << "\"  at graph 0.8, 0.05" << std::endl;
-    file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << MAXTIME << ", P: " << best->first.size() - 2 << "/" << Packages->size() << "\" at graph 0.8, graph 0.03" << std::endl;
+    file << "set label \"Pri: " << best->second[1] << ", T: " << best->second[3] << "/" << shiftTime << ", P: " << best->first.size() << "/" << Packages->size() << "W: " << best->second[4] << "/" << weight << "\" at graph 0.8, graph 0.03" << std::endl;
     file << "set label \"Date/Time: " << std::put_time(&dateTime, "%m-%d-%Y %H:%M:%S") << "\"  at graph 0.05, 0.05" << std::endl;
     file << "plot \'route.gnu\' index " << std::to_string(routeIndex) << " with lines ls 5 title \'Route\',\\" << std::endl;
     if (overnightIndex != -1) {
@@ -619,15 +619,15 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
 }
 
 void printHelp(char *argv[]) {
-    std::cout << "Usage: " << argv[0] << " filename \"warehouse address\" [options]" << std::endl << std::endl;
+    std::cout << "Usage: " << argv[0] << " filename -warehouse \"warehouse address\" [options]" << std::endl << std::endl;
     std::cout << "Options" << std::endl;
     std::cout << "=======" << std::endl;
-    std::cout << "filename           CSV file of packages from delivery clients" << std::endl;
-    std::cout << "\"warehouse addr\" Address string of warehouse. eg \"123 Main St N\" (no valid street checking, yet)" << std::endl;
-    std::cout << "-pop #             Population size in GA to use" << std::endl;
-    std::cout << "-g #               Number of generations in GA" << std::endl;
-    std::cout << "-t #               Max minutes in shift (experimental)" << std::endl;
-    std::cout << "-w #               Max weight capacity in ounces (experimental)" << std::endl;
+    std::cout << "filename                        CSV file of packages from delivery clients" << std::endl;
+    std::cout << "-warehouse \"warehouse addr\"   Address string of warehouse. eg \"123 Main St N\" (no valid street checking, yet)" << std::endl;
+    std::cout << "-pop #                          Population size in GA to use" << std::endl;
+    std::cout << "-g #                            Number of generations in GA" << std::endl;
+    std::cout << "-t #                            Max minutes in shift (experimental)" << std::endl;
+    std::cout << "-w #                            Max weight capacity in ounces (experimental)" << std::endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -650,8 +650,9 @@ int main(int argc, char *argv[]) {
     // Test if file exists
     ifstream file;
     string inputFile;
+    string temp;
 
-    if (argc <= 2) {
+    if (argc <= 3) {
         printHelp(argv);
         return 1;
     } else {
@@ -686,17 +687,8 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-
-        // Parsing warehouse address
-        istringstream warehouseAddr(argv[2]);
-
-        if(!(warehouseAddr >> warehouse.address)) {
-            std::cout << "Invalid warehouse address!" << std::endl;
-            return 1;
-        }
-
         // Parse the rest of the options.
-        for (int i = 3; i < argc; ++i) {
+        for (int i = 2; i < argc; ++i) {
             istringstream cmdSwitch(argv[i]);
             string strSwitch;
 
@@ -723,6 +715,21 @@ int main(int argc, char *argv[]) {
                     std::cout << "Exception: " << e.what() << std::endl;
                     return 1;
                 }
+            } else if (strSwitch == "-warehouse") {
+                istringstream ss(argv[i+1]);
+                ss >> warehouse.address;
+                //for (int j = 2; j <= 4; ++j) {
+                while (ss >> temp) {
+                    // Clear any stringstream errors and conditions such as EOF.
+                    //ss.clear();
+                    //ss.str(argv[i + j]);
+                    //ss >> temp;
+                    //std::cout << temp << std::endl;
+                    warehouse.address += " " + temp;
+                }
+
+                //std::cout << warehouse.address << std::endl;
+
             } else if (strSwitch == "-g") {
                 try {
                     istringstream ss(argv[i+1]);
@@ -803,6 +810,7 @@ int main(int argc, char *argv[]) {
     }
     // Make warehouse the origin.
     Client* originPtr = new Client(warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.zip, 0);
+    std::cout << warehouse.address << " X: " << originPtr->getCoords().first << " Y: " << originPtr->getCoords().second << std::endl;
 
     ClientMap.emplace(warehouse.name + "," + warehouse.address + "," + warehouse.city + "," + warehouse.state + " " + warehouse.zip, originPtr);
 
@@ -842,7 +850,7 @@ int main(int argc, char *argv[]) {
 
     std::cout << std::endl << "Directions\r\n==========" << std::endl << directions;
 
-    createGraphFile(&Packages, &best, originPtr, population, generations);
+    createGraphFile(&Packages, &best, originPtr, population, generations, shiftTime, weight);
 
     return 0;
 }
