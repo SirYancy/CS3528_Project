@@ -620,6 +620,11 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
 
 void printHelp(char *argv[]) {
     std::cout << "Usage: " << argv[0] << " filename -warehouse \"warehouse address\" [options]" << std::endl << std::endl;
+    std::cout << std::endl;
+    std::cout << "This program calculates the most efficient route for a package delivery service" << std::endl;
+    std::cout << "given a CSV file of packages to be sent. It outputs a set of delivery addresses" << std::endl;
+    std::cout << "to the console and file \"directions.out\" Additionally, a gnuPlot file is output" << std::endl;
+    std::cout << "for visual reference and can be invoked via \"gnuplot gnugraph\" to output \"route.png\"" << std::endl << std::endl;
     std::cout << "Options" << std::endl;
     std::cout << "=======" << std::endl;
     std::cout << "filename                        CSV file of packages from delivery clients" << std::endl;
