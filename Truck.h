@@ -19,9 +19,9 @@ class Truck{
         static int truckCount;
         //! Truck constructor
         /*!
-         * \param weight Weight limit
+         * \param w Weight limit
          */
-        Truck(const double);
+        Truck(const double w);
 
         //! Getter for Truck ID Number
         /*!
@@ -43,15 +43,15 @@ class Truck{
 
         //! Getter for directions vector
         /*!
-         * \return the vector containing the truck's current list of directions
+         * \return A string containing the truck's current list of directions.
          */
         string getDirections() const;
 
         //! Setter for directions vector
         /*!
-         * \param directions a pointer to a vector contianing the truck's assigned directions
+         * \param direct A string of the truck's assigned directions
          */
-        void setDirections(string);
+        void setDirections(string direct);
 
         //! Adds a package to the truck
         /*!
@@ -60,6 +60,9 @@ class Truck{
          */
         void addPackage(Package*);
 
+        //! Add package route to truck
+        /*! \param packs Package route vector to add to truck.
+         */
         void addPackageVector(vector<Package* >* packs);
 
         //! Processes packages held by the truck into addresses.

@@ -14,8 +14,13 @@ class Package;
  * This client class defines a citizen of the town who can send and receive packages. Each person has a name, address, and vectors representing records of all packages sent and received.
  */
 class Client{
-    //! Insertion Operator override
-    friend std::ostream& operator<<(std::ostream&, const Client&);
+    //! Insertion Operator
+    /*!
+     *  \param output output stream
+     *  \param client client object to print
+     *  \return output stream
+     */
+    friend std::ostream& operator<<(ostream& output, const Client& client);
 
     public:
         Client();
@@ -28,6 +33,7 @@ class Client{
          * \param cit City of client
          * \param st State of client
          * \param z ZIP code of client. Note string usage for international packages.
+         * \param clientID ID to assign client object.
          */
         Client(const string &nam, const string &add, const string &cit, const string &st, const string &z, const int &clientID);
 
@@ -61,20 +67,34 @@ class Client{
         string getZip() const {return zip;};
 
         //! Add a sent package
+        /*!
+         *  \param pack pointer to package
+         */
         void sendPackage(Package *pack);
 
         //! Get sent packages
+        /*!
+         *  \return Vector of sent packages
+         */
         vector<Package*> getSentPackages() const;
 
+
         //! Add a received package
+        /*!
+         *  \param pack pointer to package
+         */
         void receivePackage(Package *pack);
 
         //! Get received packages
+        /*!
+         *  \return Vector of received packages
+         */
         vector<Package*> getReceivedPackages() const;
 
         //! To String
-        /*! Converts client information to string for debugging output.
-         * \return String containing client info for std::cout
+        /*!
+         *  Prints out client's name and address and also all packages associated with the client. Insertion operator only prints name and address.
+         *  \return string representation of client and all sent and received packages
          */
         string toString() const;
 
@@ -83,8 +103,10 @@ class Client{
          */
         pair<int, int> getCoords() {return coordinates;};
 
+        //! Returns pointer to this client object.
         Client* getPointer() {return this;};
 
+        //! Returns ID of this client.
         unsigned int getID() {return ID;};
 
     private:

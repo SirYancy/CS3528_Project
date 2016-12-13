@@ -1,0 +1,47 @@
+Already implemented
+===================
+Genetic algorithm from scratch, utilizing crossover, mutations, threading and 2-opt, hashing, unordered map
+ -Handles variable number of max packages (say as a volume amount?)
+ -Variable weight
+ -Variable shift-time
+ -Prioritizing packages
+
+ 
+2-opt algorithm
+
+Greedy algorithm
+
+Hashing
+
+Unordered maps
+
+Random package generator with normal distribution clusters
+
+Command-line arguments
+
+Route graph output through gnuplot
+
+Doxygen documentation
+
+String to_upper since there appears to be no such standard function
+
+String whitespace trimming as there appears to be no such standard function.
+
+Database integration with SQLite3
+
+
+Potential future extensions
+===========================
+Multi-route/truck through polar coordinates and k-mean clustering
+
+Package "aging" giving older packages more priority weight
+
+Delivery windows (too early, need to wait, too late no package "reward")
+
+
+
+Concerns
+========
+-Pieces work
+-No crashes
+-Readable code

@@ -19,11 +19,15 @@ class Client;
  * This Package class defines a package which was sent by a Client and received by a Client. Each package has a priority, a weight, and two clients (a sender and receiver).
  */
 class Package{
-    //! Insertion Operator Override
-    friend std::ostream& operator<<(std::ostream&, const Package&);
+    //! Insertion Operator
+    /*!
+     * \param output output stream
+     * \param pack package object to print
+     * \return output stream
+     */
+    friend std::ostream& operator<<(ostream& output, const Package& pack);
 
     public:
-
 
         //! Constructor
         /*! Creates a package object to track client info, such as address and coordinates. Also track
@@ -39,33 +43,68 @@ class Package{
         Package(Client* s, Client* r, const float w, const Priority p, unsigned int ID, int packAge);
 
         //! Sender setter
+        /*!
+         *  \param s pointer to sender client
+         */
         void setSender(Client*);
+
         //! Sender getter
+        /*!
+         *  \return pointer to sender client
+         */
         Client* getSender() const;
 
         //! Receiver setter
+        /*!
+          * \param r pointer to receiver client
+         */
         void setReceiver(Client*);
+
         //! Receiver getter
+        /*!
+         *  \return pointer to receiver client
+         */
         Client* getReceiver() const;
 
-        //! Weight setter
+        //! Package weight setter
+        /*!
+         *  Throws error on negative weight.
+         *  \param w Package weight
+         */
         void setWeight(const double);
-        //! Weight getter
+
+        //! Package Weight getter
+        /*!
+         *  \return Package weight
+         */
         float getWeight() const;
 
-        //! Priority setter
+        //! Package Priority setter
+        /*!
+         *  \param p Priority enum
+         */
         void setPriority(const Priority);
 
-        //! Priority getter
+        //! Package priority getter
+        /*!
+         *  \return Package priority
+         */
         Priority getPriority() const;
 
         //! Priority string getter
+        /*!
+         *  Priority is an enum and hence is actually an int. Here's a nice way to print the string value.
+         *  \return string of priority
+         */
         string getPriorityString() const;
 
+        //! Get this pointer to current package.
         Package* getPointer() {return this;};
 
+        //! Get ID of package.
         unsigned int getID() const {return ID;};
 
+        //! Set ID of package
         void setID(unsigned int id) {ID = id;};
 
     private:

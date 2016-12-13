@@ -5,13 +5,14 @@
 std::string strUpper(const std::string& s) {
     std::locale loc;
 
-    std::string value;
+    // Current uppercased value.
+    std::string uppered;
 
+    // Iterate over string and convert each character.
     for (unsigned int i = 0; i < s.length(); ++i) {
-        value += std::toupper(s.at(i), loc) ;
+        uppered += std::toupper(s.at(i), loc) ;
     }
 
-    //value += coords.first + "," + coords.second;
-    return value;
+    return uppered;
 }
 

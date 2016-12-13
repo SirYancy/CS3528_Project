@@ -44,44 +44,25 @@ void Client::setAddress(const string &add, const string &cit, const string &st, 
 
 }
 
-//! Add a sent package
-/*!
- \param pack pointer to package
- */
 void Client::sendPackage(Package *pack){
     //cout << "Sent: " << pack << endl;
     sentPackages.push_back(pack);
 }
-//! Get sent packages
-/*!
- \return Vector of sent packages
- */
+
 vector<Package*> Client::getSentPackages() const{
     return sentPackages;
 }
 
-//! Add a received package
-/*!
- \param pack pointer to package
- */
 void Client::receivePackage(Package *pack){
     //cout << "Received: " << pack << endl;
     receivedPackages.push_back(pack);
 }
-//! Get received packages
-/*!
- \return Vector of received packages
- */
+
 vector<Package*> Client::getReceivedPackages() const
 {
     return receivedPackages;
 }
 
-//! To String
-/*!
- * Prints out client's name and address and also all packages associated with the client. Insertion operator only prints name and address.
- \return string representation of client and all sent and received packages
- */
 string Client::toString() const{
     ostringstream output;
 
@@ -163,7 +144,7 @@ void Client::parseAddress() {
     parser >> output;
     output = strUpper(output);
 
-    if (output == "N") {
+    if (output == "N" || output == "NORTH") {
         coordinates.second = addressNum / 100;
 
         // Which side of the middle of the block are we?
@@ -171,7 +152,7 @@ void Client::parseAddress() {
             coordinates.second += 1;
         }
 
-    } else if (output == "NW") {
+    } else if (output == "NW" || output == "NORTHWEST") {
         // We have a Northern STREET
         if (aveStreet == 1) {
             // Positive Y
@@ -200,7 +181,7 @@ void Client::parseAddress() {
 
         }
 
-    } else if (output == "W") {
+    } else if (output == "W" || output == "WEST") {
         coordinates.first = addressNum / 100;
 
         // Which side of the middle of the block are we?
@@ -211,7 +192,7 @@ void Client::parseAddress() {
         // Negative X
         coordinates.first *= -1;
 
-    } else if (output == "SW") {
+    } else if (output == "SW" || output == "SOUTHWEST") {
         // We have a Southern STREET
         if (aveStreet == 1) {
             // Negative Y
@@ -243,7 +224,7 @@ void Client::parseAddress() {
 
         }
 
-    } else if (output == "S") {
+    } else if (output == "S" || output == "SOUTH") {
         coordinates.second = addressNum / 100;
 
         // Which side of the middle of the block are we?
@@ -254,7 +235,7 @@ void Client::parseAddress() {
         // Negative Y
         coordinates.second *= -1;
 
-    } else if (output == "SE") {
+    } else if (output == "SE" || output == "SOUTHEAST") {
         // We have a Southern STREET
         if (aveStreet == 1) {
             // Positive Y
@@ -284,7 +265,7 @@ void Client::parseAddress() {
 
         }
 
-    } else if (output == "E") {
+    } else if (output == "E" || output == "EAST") {
         coordinates.first = addressNum / 100;
 
         // Which side of the middle of the block are we?
@@ -292,7 +273,7 @@ void Client::parseAddress() {
             coordinates.first += 1;
         }
 
-    } else if (output == "NE") {
+    } else if (output == "NE" || output == "NORTHEAST") {
         // We have a Northern STREET
         if (aveStreet == 1) {
             // Positive Y
@@ -319,13 +300,6 @@ void Client::parseAddress() {
     }
 }
 
-
-//! Insertion Operator
-/*!
- \param output output stream
- \param client client object to print
- \return output stream
- */
 ostream& operator<<(ostream& output, const Client& client)
 {
     output << client.name << endl << client.address << endl << client.city << ", " << client.state << " " << client.zip << endl;

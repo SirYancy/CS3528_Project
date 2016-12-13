@@ -19,34 +19,51 @@
 #define REGULAR_WEIGHT    1
 
 //! Mutation structure to ease passing multiple values to genetic algorithm.
+/*! This structure holds multiple mutation probabilities. All mutation probabilities
+ *  (not including elite or crossover) are totaled. These mutation probabilities should add
+ *  up to less than 1 to allow gene to escape unaltered. Future additions will include
+ *  an "other" probability like the package_generator program.
+ */
 typedef struct {
-    float swapWithin;
-    float swapOut;
-    float crossOver;
-    float insertNew;
-    float deleteOld;
-    float inversion;
-    float elite;
-    float total;
+    float swapWithin;   //!< Probability to swap two genes within genome. Normally given as decimal percentage.
+    float swapOut;      //!< Probability to swap one gene with another "outside" gene not already in the genome.
+    float crossOver;    //!< Decimal percentage of total population that is randomly selected for crossover.
+    float insertNew;    //!< Probability of inserting a brand new, non-duplicate gene.
+    float deleteOld;    //!< Probability of deleting an existing gene.
+    float inversion;    //!< Probability of inverting between two random points within the genome.
+    float elite;        //!< Percentage of the fittest individuals that are saved to next generation.
+    float total;        //!< Total add up of certain probabilities.
 
-} mutation_enum;
+} mutation_struct;
 
 class Genetic {
     public:
 
+        //! Structure to hold genome information used by GA.
         typedef struct {
-            vector<double> fitnessValue;
-            size_t hashValue;
-            unsigned int sizeValue;
+            vector<double> fitnessValue;    //!< Fitness of this genome.
+            size_t hashValue;               //!< Hash of this genome.
+            unsigned int sizeValue;         //!< Size of this genome in number of packages. Speeds up by not consistently calling size() method.
         } geneInfo;
 
         //! Creates and initializes a genetic routing object.
+        /*! \param packs The package vector list of all eligible packages for a route.
+         *  \param matrix Manhattan distance adjacency matrix for packages passed into GA object. Indexed by client ID.
+         *  \param packLimit A max limit on the number of packages a truck, or the GA, can consider a genome to hold.
+         *  \param population The number of individuals within the GA to evolve. Greater individuals yield more diverse searching and better results.
+         *  \param stops The time a package delivery stop takes.
+         *  \param drive The time it takes the truck to travel one block.
+         *  \param shiftTime The maximum shift time allowable that the GA will attempt to be under.
+         *  \param gens The number of generations to run the GA before returning the most fit individual (or population.)
+         *  \param mut The desired mutation parameters. See mutation_struct.
+         *  \param weight The maximum allowable route weight.
+         */
         Genetic(std::vector<Package*> packs,
                  std::vector<vector<unsigned int> > matrix,
                  unsigned int weight,
                  unsigned int packLimit,
                  unsigned int population,
-                 float stops, float drive, float shiftTime, unsigned long gens, mutation_enum mut);
+                 float stops, float drive, float shiftTime, unsigned long gens, mutation_struct mut);
         virtual ~Genetic();
 
         //! Runs the simulation and "evolves" the best route.
@@ -54,8 +71,18 @@ class Genetic {
          */
         vector<Package* > evolve();
 
+        //! Returns best fit individual route found from previous evolution.
+        /*! \return Returns the vector of best fit route found from previous evolution.
+        */
         vector<Package* > getBest() {return bestFit;};
 
+        //! Similar to evolve. Evolves population to be used with a threading environment.
+        /*! This evolves a population for multiple threading implementations. In multi-threading
+         *  this method is called to evolve isolated (and therefore more diverse) population.
+         *  The returned population from this method can then be mixed with other populations
+         *  and fed back into loadPopulation and invoke evolve to better explore the search space.
+         *  \return Returns a complete population vector to be later fed back into loadPopulation.
+         */
         vector< pair<vector<Package* >, geneInfo> > evolve_threads();
 
         //! Calculates fitness of individual based on route.
@@ -64,13 +91,26 @@ class Genetic {
          */
         vector<double> fitness(vector<Package* >* individual);
 
-        //! Create initial route population.
+        //! Create random initial route population.
         void initPopulation();
 
+        //! Load a population of individuals to evolve.
+        /*! This method loads a population of individual routes from previous invocations
+         *  of evolve_threads. The method evolve or evolve_threads would then be called.
+         *  \param newPopulation A population to load into the genome vector for further evolving.
+         */
         void loadPopulation(vector< pair<vector<Package* >, geneInfo> > newPopulation);
 
+        //! Printing a genome for debugging or fun and profit.
+        /*! \param gene The genome of packages one wishes to print out.
+        */
         void printGene(vector<Package* >* gene) const;
 
+        //! Creates a hash of a genome.
+        /*! Hashes a genome of packages for internal use, or external use.
+         *  \param gene The genome to hash.
+         *  \return A size_t integer representing the hashed value.
+         */
         size_t hash(vector<Package* >* gene) const;
 
         //! Perform 2-opt (2-optimal inversion) on a gene, looping until no improvement is seen.
@@ -83,49 +123,67 @@ class Genetic {
 
     private:
 
+        //! 2-opt optimization of the entire population.
+        /*! Performs 2-opt optimization of the population in-place to reduce route lengths.
+         *  This is used to better the population more quickly to enable a higher
+         *  package count, reducing the GA's need to optimize the route will searching
+         *  for "good" packages.
+         */
         void twoOptPopulation();
 
+        //! Initiates the exponential ranking for individual selection.
+        /*! Initiates the ranking used in crossover selection. Ranking vector
+         *  needs to be sized to the population size.
+         *  \param exponent The exponential value to use in the exponential ranking.
+         */
         void initRanking(float exponent);
 
         //! Select and create new individuals for the next population.
         void mate();
 
         //! Handles mutation of current population based on probabilities passed during creation.
+        /*! /param choosen The genome to mutate.
+         */
         void mutate(vector<Package* >* choosen);
 
         //! Crosses over genes between two parents.
         /*! \param gene1 Gene sequence of parent 1.
          *  \param gene2 Gene sequence of parent 2.
-         * \return Two new individuals crossed over from parent inputs in a random crossover point. Genes may be shorter due to removal of duplicate packages.
+         *  \return Two new individuals crossed over from parent inputs in a random crossover point. Genes may be shorter due to removal of duplicate packages.
          */
         vector<vector<Package*> > crossOver(vector<Package* >* gene1, vector<Package* >* gene2);
 
         //! Mutates parent gene by randomly inserting a new package somewhere within the parent.
         /*! \param gene Gene to be mutated.
+         *  \param location Index to start or apply mutation.
          *  \return Gene that has been mutated.
          */
         void mutateInsert(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly deleting a gene within the parent.
         /*! \param gene Gene to be mutated.
+         *  \param location Index to start or apply mutation.
          *  \return Gene that has been mutated.
          */
         void mutateDelete(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping two genes somewhere within the parent.
         /*! \param gene Gene to be mutated.
+        *  \param location Index to start or apply mutation.
          *  \return Gene that has been mutated.
          */
         void mutateSwapWithin(vector<Package *>* gene, unsigned int location);
 
         //! Mutates parent gene by randomly swapping an existing gene within the parent with a new non-duplicate package.
         /*! \param gene Gene to be mutated.
+         *  \param location Index to start or apply mutation.
          *  \return Gene that has been mutated.
          */
         void mutateSwapNew(vector<Package* >* gene, unsigned int location);
 
         //! Mutates parent gene by randomly selecting a section of the gene, \f$i\dots\f$, and reversing the genes sequence.
         /*! \param gene Gene to be mutated.
+         *  \param location Index to start or apply mutation.
          *  \return Gene that has been mutated.
          */
         void mutateInversion(vector<Package* >* gene, unsigned int location);
@@ -145,6 +203,10 @@ class Genetic {
          */
         vector<vector<unsigned int> > adMatrix;
 
+        //! Choose crossover parents.
+        /*! Chooses unique parents for using in crossOver.
+         *  \return Returns an integer pair indices to which individuals to pass to crossOver.
+         */
         pair<int, int> chooseParents();
 
         //! Population size for evolution. Population size will be rounded down to multiples of 4 (threading.)
@@ -162,6 +224,7 @@ class Genetic {
 
         //! Stop time in minutes for package delivery
         float stopTime;
+
         //! Drive time in minutes for one block.
         /*! Used with the adjacency matrix to determine drive time based on output value of matrix.
          */
@@ -178,7 +241,7 @@ class Genetic {
          *  Each entry in the vector is a pair.
          *  The first item in the pair is the gene of the individual.
          *  This is a vector of the packages in that route.
-         *  The second item in the pair is that individual's fitness value.
+         *  The second item in the pair is that individual's geneInfo (fitness, hash, etc.)
          */
         vector< pair<vector<Package* >, geneInfo> > genes;
 
@@ -216,7 +279,7 @@ class Genetic {
         geneInfo bestGeneInfo;
 
         //! Mutation probabilities
-        mutation_enum mutation;
+        mutation_struct mutation;
 
         //! Number of high ranking, or elite, members of the population that survive into the next population instead of being replaced.
         unsigned int elitist;
