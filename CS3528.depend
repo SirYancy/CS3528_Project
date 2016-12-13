@@ -114,3 +114,200 @@
 	"Client.h"
 	"Package.h"
 
+1480403080 source:/home/chelsey/CS3528_Project/Client.cpp
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
+
+1480403080 /home/chelsey/CS3528_Project/Client.h
+	<string>
+	<vector>
+	<utility>
+
+1480403081 /home/chelsey/CS3528_Project/Package.h
+	<string>
+	<vector>
+
+1480403081 /home/chelsey/CS3528_Project/Utils.h
+	<string>
+
+1480403081 source:/home/chelsey/CS3528_Project/Package.cpp
+	<string>
+	<vector>
+	<sstream>
+	"Package.h"
+	"Client.h"
+	<iostream>
+
+1480403081 source:/home/chelsey/CS3528_Project/Utils.cpp
+	"Utils.h"
+	<string>
+	<locale>
+
+1480427900 source:/home/chelsey/CS3528_Project/Genetic.cpp
+	"Genetic.h"
+	<vector>
+	<iostream>
+	<cmath>
+	<future>
+
+1480403081 /home/chelsey/CS3528_Project/Genetic.h
+	<string>
+	<vector>
+	<utility>
+	"Client.h"
+	"Package.h"
+
+1481645033 source:/home/chelsey/CS3528_Project/client_test.cpp
+	<iostream>
+	<iomanip>
+	"Client.h"
+	"Package.h"
+	<unordered_map>
+	<functional>
+	<string>
+	<fstream>
+	<sstream>
+	<cmath>
+	"Utils.h"
+	"Genetic.h"
+	<future>
+	<random>
+	<algorithm>
+	"sqlite3.h"
+	"Database.h"
+
+1480403081 /home/chelsey/CS3528_Project/sqlite3.h
+	<stdarg.h>
+
+1480403081 source:/home/chelsey/CS3528_Project/sqlite3.c
+	<vxWorks.h>
+	<pthread.h>
+	"mingw.h"
+	"_mingw.h"
+	<stdarg.h>
+	"config.h"
+	<stdint.h>
+	<inttypes.h>
+	<intrin.h>
+	<cmnintrin.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<stddef.h>
+	<TargetConditionals.h>
+	<ctype.h>
+	<time.h>
+	<sys/sysctl.h>
+	<malloc/malloc.h>
+	<libkern/OSAtomic.h>
+	<malloc.h>
+	<pthread.h>
+	"windows.h"
+	<sys/cygwin.h>
+	<errno.h>
+	<process.h>
+	<math.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<unistd.h>
+	<sys/time.h>
+	<errno.h>
+	<sys/mman.h>
+	<sys/ioctl.h>
+	<sys/file.h>
+	<sys/param.h>
+	<semaphore.h>
+	<limits.h>
+	<sys/mount.h>
+	<utime.h>
+	<sys/dcmd_blk.h>
+	<sys/statvfs.h>
+	<dlfcn.h>
+	"sqlite_tcl.h"
+	"tcl.h"
+	"sqlite3rtree.h"
+	<unicode/utypes.h>
+	<unicode/uregex.h>
+	<unicode/ustring.h>
+	<unicode/ucol.h>
+	<unicode/ubrk.h>
+	<unicode/utf16.h>
+	<ctype.h>
+	<math.h>
+
+1481491616 source:/home/chelsey/CS3528_Project/src/Database.cpp
+	"Database.h"
+	"stdio.h"
+	"sqlite3.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	"Utils.h"
+
+1481412476 /home/chelsey/CS3528_Project/include/Database.h
+	<string>
+	<vector>
+	<utility>
+
+1480403081 /home/chelsey/CS3528_Project/src/sqlite3.h
+	<stdarg.h>
+
+1481645018 /home/chelsey/CS3528_Project/Database.h
+	<string>
+	<vector>
+	<utility>
+	<map>
+
+1481482770 /home/chelsey/CS3528_Project/src/Database.h
+	<string>
+	<vector>
+	<utility>
+
+1480403080 /home/chelsey/CS3528_Project/src/Client.h
+	<string>
+	<vector>
+	<utility>
+
+1480403081 /home/chelsey/CS3528_Project/src/Package.h
+	<string>
+	<vector>
+
+1480403081 /home/chelsey/CS3528_Project/src/Utils.h
+	<string>
+
+1481645018 source:/home/chelsey/CS3528_Project/Database (1).cpp
+	"Database.h"
+	"stdio.h"
+	"sqlite3.h"
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"Client.h"
+	"Package.h"
+	<algorithm>
+	<locale>
+	<cctype>
+	<functional>
+	<fstream>
+	<unordered_map>
+	"Utils.h"
+

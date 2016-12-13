@@ -13,6 +13,8 @@
 #include <future>
 #include <random>
 #include <algorithm>
+#include "sqlite3.h"
+#include "Database.h"
 
 #define GENERATIONS 10000
 #define POPULATION 10000
@@ -126,6 +128,13 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         // Create an iterator to look if client exists
         unordered_map<std::string, Client*>::iterator it = clientMap.find(clientStr);
 
+        // Check if database client exists.
+        //if (exists) {
+            // Do nothing
+        //} else {
+            //Add client to database.
+        //}
+
         // Check if client already exists.
         if (it != clientMap.end()) {
             // We found a client already, so grab the object pointer for package
@@ -149,12 +158,19 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         // Find if receiver exists
         it = clientMap.find(clientStr);
 
-        if (it != clientMap.end()) {
+        // Check if database client exists.
+        //if (clientMap == True) {
+            // Do nothing
+        //} else {
+            //Add client to database.
+          //  addClient();
+       // }
+        //if (it != clientMap.end()) {
             // We found a client already, so grab the object pointer.
             receiverPtr = it->second;
             //cout << receiverPtr << endl;
 
-        } else {
+        //} else {
             clientID++;
             // No client found, create a new one that is persistent and will not disappear off the stack.
             receiverPtr = new Client(csvLine[6] + " " + csvLine[7], csvLine[8], csvLine[9], csvLine[10], csvLine[11], clientID);
@@ -190,14 +206,26 @@ void readFile(string fileName, vector<Package*> &packageList, unordered_map<std:
         // Make new persistent package that won't disappear off the stack. Get pointer.
         Package* packagePtr = new Package(senderPtr, receiverPtr, weight, packagePriority, packageID, age);
 
+        // Database create package.
+
         packageID++;
 
         // Add to package list
         packageList.push_back(packagePtr);
 
     }
-}
+//}
 
+void getTodaysPackages(Database &db, vector<Package*> &packageList, unordered_map<std::string, Client*> &clientMap) {
+    // Grab all packages for today
+
+    // Read the sender
+    // Read the receiver
+    // Create client pointers
+    // Place into clientMap
+    // Create package in packageList
+
+}
 
 string parseStreet(unsigned int street, unsigned int addressNum) {
     // Seed nice random number generator.
@@ -944,7 +972,16 @@ void createGraphFile(vector<Package* >* Packages, pair<vector<Package* >, vector
     file.close();
 }
 
+/*static int callback(void *NotUsed, int argc, char **argv, char **azColName){
+   int i;
+   for(i=0; i<argc; i++){
+      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+   }
+   printf("\n");
+   return 0;
+}*/
 int main() {
+
 
     srand(time(0));
     //srand(201);
@@ -984,64 +1021,29 @@ int main() {
 
     matrix = makeMatrix(ClientMap, Packages);
 
+
+    Database one;
+
+
+    //std::cout << "Client name is" << one << std::endl;
+
+
+    //one.getName() = Client.name;
+    //one.getAddress() = Client.address;
+//    one.city();
+//    one.state();
+//    one.zip();
+
+
+
     //dumpClients(ClientMap, Packages);
 
-    /*
-    for (unsigned int i = 0; i < matrix.size(); i++) {
-        for (unsigned int j = 0; j < matrix[0].size(); j++) {
-            cout << matrix[i][j] << " ";
-        }
-        cout << endl;
-    }
-    */
 
     std::cout << "Evolving best route, please wait..." << std::endl;
 
+    //std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
 
-    best = runSimulationMixed(Packages, matrix);
-    /*
-    vector< pair<vector<Package* >, float> > result;
-    vector<float > fit;
-
-    mutation_enum mutation;
-    mutation.crossOver  = 60;
-    mutation.deleteOld  = 5;
-    mutation.insertNew  = 25;
-    mutation.inversion  = 20;
-    mutation.swapOut    = 25;
-    mutation.swapWithin = 25;
-    mutation.elite      = 0;
-
-    Genetic GA(Packages, matrix, MAXWEIGHT, 200, POPULATION, 5, 1, MAXTIME, GENERATIONS, mutation);
-    GA.initPopulation();
-    GA.evolve();
-*/
-    std::cout << std::endl << "Best OVERALL -> Fit: " << best.second[0] << " Pri: " << best.second[1] << " D: " << best.second[2] << " T: " << best.second[3] << "/" << MAXTIME << " W: " << best.second[4] << "/" << MAXWEIGHT << std::endl;
-
-    createGraphFile(&Packages, &best, originPtr);
-/*
-    cout << "This works?!?!" << endl;
-
-    Client c1{"Superman", "1587 Main Street E", "Bemidji", "MN", "56601"};
-
-    //cout << "X: " << c1.getCoords().first << " Y: " << c1.getCoords().second << endl;
-    Client c2{"Batman", "444 12th Ave. SE", "Bemidji", "MN", "56601"};
-
-    //Client* c1ptr = &c1;
-    //Client* c2ptr = &c2;
-
-    // We remove the intermediate step above.
-    // Conceptually easier, but a pointer might be what we use anyway.
-    Package p1{&c1, &c2, 10.2, Priority::TWO_DAY};
-    //Package p2{&c2, &c1, 22.2, Priority::OVERNIGHT};
-
-    c2.sendPackage(&p1);
-    c1.receivePackage(&p1);
-    //cout << p1 << endl;
-    cout << c1.toString();
-    cout << c2.toString();
-
-*/
+    //createGraphFile(&Packages, &best, originPtr);
 
     return 0;
 }

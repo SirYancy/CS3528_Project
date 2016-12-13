@@ -13,12 +13,12 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-std=c++11" />
-					<Add option="-pg" />
 					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pg" />
+					<Add option="-Wl,--no-as-needed" />
+					<Add option="-ldl" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,6 +39,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -54,6 +55,8 @@
 		</Linker>
 		<Unit filename="Client.cpp" />
 		<Unit filename="Client.h" />
+		<Unit filename="Database (1).cpp" />
+		<Unit filename="Database.h" />
 		<Unit filename="Genetic.cpp" />
 		<Unit filename="Genetic.h" />
 		<Unit filename="Package.cpp" />
@@ -61,6 +64,9 @@
 		<Unit filename="Utils.cpp" />
 		<Unit filename="Utils.h" />
 		<Unit filename="client_test.cpp" />
+		<Unit filename="sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
